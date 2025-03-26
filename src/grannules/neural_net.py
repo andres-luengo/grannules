@@ -8,6 +8,8 @@ from flax import linen as nn
 from flax.training import train_state
 from flax.serialization import to_state_dict, from_state_dict
 
+from orbax.checkpoint import PyTreeCheckpointer
+
 import jax 
 import jax.numpy as jnp
 
@@ -145,8 +147,8 @@ class NNPredictor():
             e_features      : list[str] | None          = None,
             targets         : list[str]                 = DEFAULT_TARGETS,
             e_targets       : list[str] | None          = None,
-            X_transformer                               = DefaultXTransformer(),
-            y_transformer                               = DefaultyTransformer(),
+            X_transformer                               = None,
+            y_transformer                               = None,
             state           : train_state.TrainState    = None,
             trial           : optuna.Trial              = None,
             params          : dict                      = None,
@@ -215,8 +217,8 @@ class NNPredictor():
             self.e_targets = ['e_' + target for target in targets]
         self.n_outputs = len(targets)
 
-        self.X_transformer = X_transformer
-        self.y_transformer = y_transformer
+        self.X_transformer = X_transformer or DefaultXTransformer()
+        self.y_transformer = y_transformer or DefaultyTransformer()
     
     def _train_net(self, trial):
         X_train = self.X_transformer.fit_transform(self.train_data[self.features])
@@ -368,41 +370,6 @@ class NNPredictor():
         optuna_kwargs : dict                      = {},
         **kwargs
     ) -> tuple['NNPredictor', optuna.study.Study]:
-        """
-        Trains a new `NNPredictor` using optuna.
-
-        ## Parameters
-        `study_or_path`: `optuna.study.Study` or `str`
-            An optuna study or a path to an optuna database.
-            If a path is given, the study is fetched from the database, so `study_name` must be set.
-            If the study or database does not exist, a new study is created.
-        `data`: `pd.DataFrame`
-            All of the data to train the model on. Split using neural_net.split_data().
-            Required if `train_data` and `test_data` are not set.
-        `train_data`: `pd.DataFrame`
-            The training data to train the model on. Required if `data` is not set.
-        `test_data`: `pd.DataFrame`
-            The testing data to train the model on. Required if `data` is not set.
-        `study_name`: `str`
-            The name of the study to load from the database. Required if `study_or_path` is a path.
-            Ignored if `study_or_path` is a study.
-        `load_study_if_exists`: `bool`
-            Whether to load the study if it already exists in the database.
-            Defaults to `True`.
-        `pruner`: `optuna.pruners.BasePruner`
-            The pruner to use for the study.
-            Defaults to `optuna.pruners.NopPruner()`.
-        `study_kwargs`: `dict`
-            Additional keyword arguments to pass to `optuna.create_study()`.
-            Defaults to `{}`.
-        `n_trials`: `int`
-            The number of trials to run.
-            Defaults to `100`.
-        `optuna_kwargs`: `dict`
-            Additional keyword arguments to pass to `study.optimize()`.
-        `**kwargs`
-            Additional keyword arguments to pass to the `NNPredictor` constructor.
-        """
 
         if isinstance(study_or_path, str):
             study = optuna.create_study(
@@ -502,6 +469,36 @@ class NNPredictor():
         )
         return predictor
     
+    # # i don't think i can do this without some big rewriting???
+    # @classmethod
+    # def from_orbax(cls, directory : str, n_outputs : int = None, **kwargs):
+    #     checkpoint = from_state_dict(PyTreeCheckpointer().restore(directory))
+    #     if n_outputs is None:
+    #         n_outputs = len(self.DEFAULT_TARGETS)
+
+    #     state = train_state.TrainState.create(
+    #         apply_fn = _model_from_trial(checkpoint['trial'], n_outputs),
+    #         params = checkpoint["state"]["params"],
+    #         tx = optax.adam(1e-3) # idk that's what i did over the summer
+    #     )
+    #     predictor = cls(
+    #         state = state,
+    #         trial = checkpoint['trial'],
+    #         **kwargs
+    #     )
+    
+    # def to_orbax(self, directory : str):
+    #     """Stores self.state into directory using an orbax PyTreeCheckpointer
+
+    #     Args:
+    #         directory (str): Directory passed to checkpointer.
+    #     """
+    #     checkpoint = {
+    #         "state" : self.state,
+    #         "trial" : self.trial # saves hyperparams
+    #     }
+    #     PyTreeCheckpointer().save(directory, checkpoint)
+    
     def to_pickle(self, path, keep_train_data = False, **kwargs):
         predictor = copy.deepcopy(self)
 
@@ -523,6 +520,20 @@ class NNPredictor():
         y = self.y_transformer.inverse_transform(y_)
         return y
 
+def predict(X: pd.DataFrame, predictor_path: str = None) -> np.ndarray:
+    """Uses a neural network to predict :math:`H,\, P,\, \tau,\, ` and 
+    :math:`\alpha` given other red giant parameters in X.
+
+    :param X: A pandas DataFrame with columns 'M', 'R', 'Teff', 'FeH', 
+    'KepMag', and 'phase'. M and R are the mass in solar masses, Teff is the
+    temperature in degrees Kelvin, FeH is the metallicity, KepMag 
+    :type X: pd.DataFrame
+    :return: _description_
+    :rtype: np.ndarray
+    """
+    if predictor_path is None:
+        predictor = NNPredictor.from_pickle(predictor_path)
+    predictor.predict(X)
 
 # # Alternate version that uses trial.params instead. I don't think we need it, but it's here just in case.
 # use_dropout_layer = trial.params['use_dropout_rate']

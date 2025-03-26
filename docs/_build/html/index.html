@@ -83,6 +83,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 </ul>
 </nav>
 </div>
@@ -109,7 +110,7 @@
 <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat"/>
 </a>
 </div><p>A package for predicting some light variability parameters of red giant stars.</p>
-<p>Red giant power spectra generally look like Figure 1 of Samadi et al. 2016 <a class="footnote-reference brackets" href="#id4" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>:</p>
+<p>Red giant power spectra generally look like Figure 1 of Samadi et al. 2016 <a class="footnote-reference brackets" href="#id6" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>:</p>
 <a class="reference internal image-reference" href="_images/deassisgraph.png"><img alt="Red giant power spectrum with model components overplotted." src="_images/deassisgraph.png" style="width: 400px;"/>
 </a>
 <p>The blue curve represents the component of the spectrum originating from the granulation of the star. In other words, the light variability caused by the appearance and disappearance of “granules,” or convection cells on the star’s photosphere. The red curve represents the component of the spectrum originating from stellar oscillations.</p>
@@ -120,18 +121,8 @@
 <p>and the overall shape of the oscillations component (ignoring the signal spikes) by a Gaussian function of the following form</p>
 <div class="math notranslate nohighlight">
 \[O(\nu) = H \exp \left[ \frac{- (\nu - \nu_\mathrm{max})^2}{\delta \nu_\mathrm{env}^2 / 4 \ln 2} \right]\]</div>
-<p><a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
-<aside class="footnote-list brackets">
-<aside class="footnote brackets" id="id3" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
-<p>Samadi, R., et al. 2016 idk how to do this</p>
-</aside>
-<aside class="footnote brackets" id="id4" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a href="#id1" role="doc-backlink">1</a>,<a href="#id2" role="doc-backlink">2</a>)</span>
-<p>de Assis Peralta, R., et al. 2018</p>
-</aside>
-</aside>
+<p>where <span class="math notranslate nohighlight">\(\tau\)</span> is the timescale of granulation, and <span class="math notranslate nohighlight">\(\delta \nu_\mathrm{env}\)</span> is the FWHM of the gaussian, which we take to be <span class="math notranslate nohighlight">\(\delta \nu_\mathrm{env} = 0.66 \nu_\mathrm{max}^{0.88}\)</span> <a class="footnote-reference brackets" href="#id6" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, <a class="footnote-reference brackets" href="#id7" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>. <span class="math notranslate nohighlight">\(H,\, P,\, \tau,\,\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span> are usually fitted parameters. There exist scaling relations for these values, but they are nowhere near accurate enough for practical use <a class="footnote-reference brackets" href="#id6" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
+<p>This is where <code class="docutils literal notranslate"><span class="pre">grannules</span></code> comes in. This Python package is essentially a wrapper around a neural network that, given a star’s mass, radius, temperature, luminosity, and evolutionary phase, can predict that star’s background parameters much more accurately than existing scaling relations.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -164,8 +155,34 @@
 <li class="toctree-l2"><a class="reference internal" href="history.html#id1">0.1.0 (2025-03-01)</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.DefaultXTransformer"><code class="docutils literal notranslate"><span class="pre">DefaultXTransformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.DefaultyTransformer"><code class="docutils literal notranslate"><span class="pre">DefaultyTransformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.NNPredictor"><code class="docutils literal notranslate"><span class="pre">NNPredictor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.PSD"><code class="docutils literal notranslate"><span class="pre">PSD()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.damping"><code class="docutils literal notranslate"><span class="pre">damping()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.excess"><code class="docutils literal notranslate"><span class="pre">excess()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.granulation"><code class="docutils literal notranslate"><span class="pre">granulation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.split_data"><code class="docutils literal notranslate"><span class="pre">split_data()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>Samadi, R., et al. 2016 idk how to do this</p>
+</aside>
+<aside class="footnote brackets" id="id6" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a href="#id1" role="doc-backlink">1</a>,<a href="#id2" role="doc-backlink">2</a>,<a href="#id4" role="doc-backlink">3</a>)</span>
+<p>de Assis Peralta, R., et al. 2018</p>
+</aside>
+<aside class="footnote brackets" id="id7" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a href="#id3" role="doc-backlink">3</a><span class="fn-bracket">]</span></span>
+<p>i think this is earl’s paper, need to find it</p>
+</aside>
+</aside>
 </section>
 </div></div>
 </main>
