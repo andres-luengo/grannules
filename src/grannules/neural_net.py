@@ -23,6 +23,8 @@ import dill
 
 from typing import Callable
 
+from importlib_resources import files
+
 quiet = False
 
 # # TODO: maybe possibly reconsider this?
@@ -468,6 +470,19 @@ class NNPredictor():
             tx=optax.adam(1e-3) # probably shouldn't train it, but...
         )
         return predictor
+
+    @staticmethod
+    def from_pickle2(path, **kwargs) -> 'NNPredictor':
+        import pickle
+        with open(path, 'rb') as f:
+            predictor : NNPredictor = pickle.load(f, **kwargs)
+        state_dict = from_state_dict(train_state.TrainState, predictor._state_dict)
+        predictor.state = train_state.TrainState.create(
+            apply_fn=_model_from_trial(predictor.trial, predictor.n_outputs).apply,
+            params=state_dict["params"],
+            tx=optax.adam(1e-3) # probably shouldn't train it, but...
+        )
+        return predictor
     
     # # i don't think i can do this without some big rewriting???
     # @classmethod
@@ -514,12 +529,45 @@ class NNPredictor():
         with open(path, 'wb') as f:
             dill.dump(predictor, f, **kwargs)
     
+    def to_pickle2(self, path, keep_train_data = False, **kwargs):
+        import pickle
+        predictor = copy.deepcopy(self)
+
+        if not keep_train_data:
+            if hasattr(predictor, "train_data"): del predictor.train_data
+            if hasattr(predictor, "test_data"): del predictor.test_data
+
+        predictor._state_dict = to_state_dict(predictor.state)
+        del predictor.state
+
+        print(vars(predictor).keys())
+
+        with open(path, 'wb') as f:
+            pickle.dump(predictor, f, **kwargs)
+    
     def predict(self, X : pd.DataFrame) -> np.ndarray:
         X_ = self.X_transformer.transform(X)
         y_ = self.state.apply_fn(self.state.params, X_, training=False)
         y = self.y_transformer.inverse_transform(y_)
         return y
 
+    @classmethod
+    def _default_from_serialize(cls):
+        # get trial from optuna db
+        model = _model_from_trial(trial, len(NNPredictor.DEFAULT_TARGETS))
+        blank_state = train_state.TrainState.create(
+            apply_fn=model.apply,
+            params=model.init(
+                jax.random.PRNGKey(0), 
+                jax.random.normal(jax.random.PRNGKey(self.random_state), (1, X_train.shape[1])), 
+                training=False), 
+        )
+        NNPredictor(
+            "default",
+            state = state
+        )
+
+predictor = None
 def predict(X: pd.DataFrame, predictor_path: str = None) -> np.ndarray:
     """Uses a neural network to predict :math:`H,\, P,\, \tau,\, ` and 
     :math:`\alpha` given other red giant parameters in X.
@@ -531,9 +579,13 @@ def predict(X: pd.DataFrame, predictor_path: str = None) -> np.ndarray:
     :return: _description_
     :rtype: np.ndarray
     """
-    if predictor_path is None:
+    global predictor
+    if predictor is None or predictor_path is not None:
+        if predictor_path is None:
+            predictor_path = files(__name__) / "nn.pkl"
         predictor = NNPredictor.from_pickle(predictor_path)
-    predictor.predict(X)
+    if X is None: print(predictor); return
+    return predictor.predict(X)
 
 # # Alternate version that uses trial.params instead. I don't think we need it, but it's here just in case.
 # use_dropout_layer = trial.params['use_dropout_rate']
