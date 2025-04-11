@@ -77,7 +77,8 @@
 <li class="toctree-l2"><a class="reference internal" href="preliminaries.html">Preliminaries</a></li>
 </ul>
 </li>
-<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="modules.html">grannules<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="simple" x-show="expanded">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="modules.html">grannules<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="grannules.html">grannules package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
@@ -135,7 +136,8 @@
 <li class="toctree-l2"><a class="reference internal" href="preliminaries.html">Preliminaries</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">grannules</a><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">grannules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="grannules.html">grannules package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -156,14 +158,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.DefaultXTransformer"><code class="docutils literal notranslate"><span class="pre">DefaultXTransformer</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.DefaultyTransformer"><code class="docutils literal notranslate"><span class="pre">DefaultyTransformer</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.NNPredictor"><code class="docutils literal notranslate"><span class="pre">NNPredictor</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.PSD"><code class="docutils literal notranslate"><span class="pre">PSD()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.damping"><code class="docutils literal notranslate"><span class="pre">damping()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.excess"><code class="docutils literal notranslate"><span class="pre">excess()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.granulation"><code class="docutils literal notranslate"><span class="pre">granulation()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.split_data"><code class="docutils literal notranslate"><span class="pre">split_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.predict"><code class="docutils literal notranslate"><span class="pre">predict()</span></code></a></li>
 </ul>
 </li>
 </ul>

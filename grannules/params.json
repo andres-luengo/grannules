@@ -1,0 +1,1 @@
+{"num_layers": 2, "use_dropout_rate": true, "dropout_rate": 0.003695362814423543, "warmup_epochs": 35, "base_learning_rate": 0.0002851048405206936, "min_learning_fraction": 0.02476434636991073, "num_cycles": 2, "layer_0_size": 155, "layer_0_type": "sigmoid", "layer_1_size": 373, "layer_1_type": "relu"}

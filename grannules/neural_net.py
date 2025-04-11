@@ -20,6 +20,8 @@ import copy
 
 # since the architecture is a class generated per trial i'll use dill instead of pickle
 import dill
+import pickle
+import json
 
 from typing import Callable
 
@@ -45,7 +47,7 @@ quiet = False
 #         df = pd.concat([df, extra_data])
 
 
-def split_data(df, random_state = None):
+def _split_data(df, random_state = None):
     # preprocessing
     df["log_P"] = np.log(df["P"])
     df["e_log_P"] = df["e_P"] / df["P"]
@@ -86,7 +88,40 @@ def _model_from_trial(trial, n_outputs):
                 return x
         return StellarModel()
 
+def _model_from_params(params, n_outputs):
+        """Returns a StellarModel with the architecture defined by `params`."""
+        num_layers = params['num_layers']
+
+        use_dropout_layer = params['use_dropout_rate']
+        if use_dropout_layer:
+            dropout_rate = params['dropout_rate']
+        class StellarModel(nn.Module):
+            @nn.compact
+            def __call__(self, x, training : bool):
+                for i in range(num_layers):
+                    layer_size = params[f'layer_{i}_size']
+                    x = nn.Dense(layer_size)(x)
+                    layer_type = params[f'layer_{i}_type']
+                    match layer_type:
+                        case 'relu':
+                            x = nn.relu(x)
+                        case 'sigmoid':
+                            x = nn.sigmoid(x)
+                        case 'tanh':
+                            x = nn.tanh(x)
+                    if use_dropout_layer:
+                        x = nn.Dropout(rate=dropout_rate)(x, deterministic=not training)
+
+                x = nn.Dense(n_outputs)(x)
+                return x
+        return StellarModel()
+
+
 class DefaultXTransformer():
+    def __init__(self, center, scale):
+        self.center_ = center
+        self.scale_ = scale
+        
     def fit_transform(self, X):
         X_ = X.copy().values
         X_[:, :3] = jnp.log(X_[:, :3])
@@ -112,6 +147,10 @@ class DefaultXTransformer():
         return X_
     
 class DefaultyTransformer():
+    def __init__(self, center, scale):
+        self.center_ = center
+        self.scale_ = scale
+
     def fit_transform(self, y):
         y_ = y.copy().values
         y_ = jnp.log(y_)
@@ -385,7 +424,7 @@ class NNPredictor():
             study = study_or_path
 
         if data is not None:
-            train_data, test_data = split_data(data, random_state=random_state)
+            train_data, test_data = _split_data(data, random_state=random_state)
         
         predictor = cls(
             train_data=train_data,
@@ -443,7 +482,7 @@ class NNPredictor():
             study = study_or_path
 
         if data is not None:
-            train_data, test_data = split_data(data, random_state=random_state)
+            train_data, test_data = _split_data(data, random_state=random_state)
 
         predictor = cls(
             train_data=train_data,
@@ -551,40 +590,93 @@ class NNPredictor():
         y = self.y_transformer.inverse_transform(y_)
         return y
 
+    def serialize(
+            self,
+            params_path = files(__name__) / "params.json",
+            state_path = files(__name__) / "state.pkl",
+            data_transform_path = files(__name__) / "transform.npy"
+    ):
+        with open(params_path, "w") as f:
+            json.dump(self.trial.params, f)
+        
+        with open(state_path, "wb") as f:
+            pickle.dump(to_state_dict(self.state), f)
+        
+        transform_dict = {
+            "X_scale" : self.X_transformer.scale_,
+            "X_center" : self.X_transformer.center_,
+            "y_scale" : self.y_transformer.scale_,
+            "y_center" : self.y_transformer.center_
+        }
+        with open(data_transform_path, "wb") as f:
+            jnp.save(f, transform_dict)
+
     @classmethod
-    def _default_from_serialize(cls):
+    def from_serialize(cls, params_path, state_path, transform_path):
+        
         # get trial from optuna db
-        model = _model_from_trial(trial, len(NNPredictor.DEFAULT_TARGETS))
+        # model = _model_from_trial(trial, len(NNPredictor.DEFAULT_TARGETS))
+        with open(params_path, "r") as f:
+            params = json.load(f)
+        model = _model_from_params(params, len(NNPredictor.DEFAULT_TARGETS))
         blank_state = train_state.TrainState.create(
             apply_fn=model.apply,
             params=model.init(
                 jax.random.PRNGKey(0), 
-                jax.random.normal(jax.random.PRNGKey(self.random_state), (1, X_train.shape[1])), 
+                jax.random.normal(jax.random.PRNGKey(42), (1, len(NNPredictor.DEFAULT_FEATURES))), 
                 training=False), 
+                tx = optax.adam(1e-3)
         )
-        NNPredictor(
-            "default",
-            state = state
+        with open(state_path, "rb") as f:
+            state_dict = pickle.load(f)
+
+        state = from_state_dict(blank_state, state_dict)
+
+        with open(transform_path, "rb") as f:
+            transform_dict = jnp.load(f, allow_pickle = True).item()
+        print(f"{transform_dict = !r}")
+        X_transformer = DefaultXTransformer(transform_dict["X_center"], transform_dict["X_scale"])
+        y_transformer = DefaultyTransformer(transform_dict["y_center"], transform_dict["y_scale"])
+
+        return NNPredictor(
+            model_name = "default",
+            state = state,
+            X_transformer = X_transformer,
+            y_transformer = y_transformer
         )
 
-predictor = None
-def predict(X: pd.DataFrame, predictor_path: str = None) -> np.ndarray:
-    """Uses a neural network to predict :math:`H,\, P,\, \tau,\, ` and 
+    @classmethod
+    def _default_from_serialize(
+            cls,
+            params_path = files(__name__) / "params.json",
+            state_path = files(__name__) / "state.pkl",
+            transform_path = files(__name__) / "transform.npy"
+    ):
+        return cls.from_serialize(params_path, state_path, transform_path)
+
+    default_predictor = None
+    @classmethod
+    def get_default_predictor(cls, *args, **kwargs):
+        """Gets pre-trained NNPredictor"""
+        if cls.default_predictor is None:
+            cls.default_predictor = cls._default_from_serialize(*args, **kwargs)
+
+        return cls.default_predictor
+
+def predict(X: pd.DataFrame, *args, **kwargs) -> np.ndarray:
+    r"""Uses a neural network to predict :math:`H,\, P,\, \tau,\, ` and 
     :math:`\alpha` given other red giant parameters in X.
 
     :param X: A pandas DataFrame with columns 'M', 'R', 'Teff', 'FeH', 
     'KepMag', and 'phase'. M and R are the mass in solar masses, Teff is the
-    temperature in degrees Kelvin, FeH is the metallicity, KepMag 
+    temperature in degrees Kelvin, FeH is the metallicity, and KepMag is the 
+    apparent magnitude of the star in Kp.
     :type X: pd.DataFrame
     :return: _description_
     :rtype: np.ndarray
     """
-    global predictor
-    if predictor is None or predictor_path is not None:
-        if predictor_path is None:
-            predictor_path = files(__name__) / "nn.pkl"
-        predictor = NNPredictor.from_pickle(predictor_path)
-    if X is None: print(predictor); return
+    # TODO: MAKE SURE THIS IS WHAT KEPMAG IS???
+    predictor = NNPredictor.get_default_predictor(*args, **kwargs)
     return predictor.predict(X)
 
 # # Alternate version that uses trial.params instead. I don't think we need it, but it's here just in case.
@@ -614,37 +706,4 @@ def predict(X: pd.DataFrame, predictor_path: str = None) -> np.ndarray:
 # model = StellarModel()
 # TODO: put these in a more relevant file
 
-NYQUIST = 283.2114
 
-
-# PSD model per deassis
-def damping(nu):
-    eta = np.sinc((1 / 2) * (nu / NYQUIST)) ** 2
-    return eta
-
-def PSD(nu, nu_max, H, P, tau, alpha, reshape = True):
-    if reshape:
-        nu = np.reshape(nu, (1, -1))
-        
-        nu_max = np.reshape(nu_max, (-1, 1))
-        H = np.reshape(H, (-1, 1))
-        P = np.reshape(P,(-1, 1))
-        tau = np.reshape(tau, (-1, 1))
-        alpha = np.reshape(alpha, (-1, 1))
-    
-    eta = damping(nu)
-    b = granulation(nu, P, tau, alpha)
-    g = excess(nu, nu_max, H)
-    # g = 0
-    return eta * (b + g)
-
-def excess(nu, nu_max, H):
-    FWHM = 0.66 * nu_max ** 0.88
-    G = H * np.exp(-(nu - nu_max)**2 / (FWHM ** 2 / (4 * np.log(2))))
-    return G
-
-def granulation(nu, P, tau, alpha):
-    granulation = (P / (1 + (2 * np.pi * tau * 1e-6 * nu) ** alpha))
-    if not np.isfinite(granulation).all():
-        return nu * np.inf
-    return granulation
