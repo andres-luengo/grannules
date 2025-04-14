@@ -1,4 +1,4 @@
-from datatransform import DefaultXTransformer, DefaultyTransformer
+from .utils.datatransform import DefaultXTransformer, DefaultyTransformer
 
 import numpy as np
 import pandas as pd
@@ -17,9 +17,11 @@ import optuna
 
 import functools
 import copy
+from pathlib import Path
+from shutil import rmtree
 
 # since the architecture is a class generated per trial i'll use dill instead of pickle
-import dill
+# import dill
 import pickle
 import json
 
@@ -442,30 +444,30 @@ class NNPredictor():
 
         return predictor
 
-    @staticmethod
-    def from_pickle(path, **kwargs) -> 'NNPredictor':
-        with open(path, 'rb') as f:
-            predictor : NNPredictor = dill.load(f, **kwargs)
-        state_dict = from_state_dict(train_state.TrainState, predictor._state_dict)
-        predictor.state = train_state.TrainState.create(
-            apply_fn=_model_from_trial(predictor.trial, predictor.n_outputs).apply,
-            params=state_dict["params"],
-            tx=optax.adam(1e-3) # probably shouldn't train it, but...
-        )
-        return predictor
+    # @staticmethod
+    # def from_pickle(path, **kwargs) -> 'NNPredictor':
+    #     with open(path, 'rb') as f:
+    #         predictor : NNPredictor = dill.load(f, **kwargs)
+    #     state_dict = from_state_dict(train_state.TrainState, predictor._state_dict)
+    #     predictor.state = train_state.TrainState.create(
+    #         apply_fn=_model_from_trial(predictor.trial, predictor.n_outputs).apply,
+    #         params=state_dict["params"],
+    #         tx=optax.adam(1e-3) # probably shouldn't train it, but...
+    #     )
+    #     return predictor
 
-    @staticmethod
-    def from_pickle2(path, **kwargs) -> 'NNPredictor':
-        import pickle
-        with open(path, 'rb') as f:
-            predictor : NNPredictor = pickle.load(f, **kwargs)
-        state_dict = from_state_dict(train_state.TrainState, predictor._state_dict)
-        predictor.state = train_state.TrainState.create(
-            apply_fn=_model_from_trial(predictor.trial, predictor.n_outputs).apply,
-            params=state_dict["params"],
-            tx=optax.adam(1e-3) # probably shouldn't train it, but...
-        )
-        return predictor
+    # @staticmethod
+    # def from_pickle2(path, **kwargs) -> 'NNPredictor':
+    #     import pickle
+    #     with open(path, 'rb') as f:
+    #         predictor : NNPredictor = pickle.load(f, **kwargs)
+    #     state_dict = from_state_dict(train_state.TrainState, predictor._state_dict)
+    #     predictor.state = train_state.TrainState.create(
+    #         apply_fn=_model_from_trial(predictor.trial, predictor.n_outputs).apply,
+    #         params=state_dict["params"],
+    #         tx=optax.adam(1e-3) # probably shouldn't train it, but...
+    #     )
+    #     return predictor
     
     # # i don't think i can do this without some big rewriting???
     # @classmethod
@@ -497,36 +499,36 @@ class NNPredictor():
     #     }
     #     PyTreeCheckpointer().save(directory, checkpoint)
     
-    def to_pickle(self, path, keep_train_data = False, **kwargs):
-        predictor = copy.deepcopy(self)
+    # def to_pickle(self, path, keep_train_data = False, **kwargs):
+    #     predictor = copy.deepcopy(self)
 
-        if not keep_train_data:
-            del predictor.train_data
-            del predictor.test_data
+    #     if not keep_train_data:
+    #         del predictor.train_data
+    #         del predictor.test_data
 
-        predictor._state_dict = to_state_dict(predictor.state)
-        del predictor.state
+    #     predictor._state_dict = to_state_dict(predictor.state)
+    #     del predictor.state
 
-        print(vars(predictor).keys())
+    #     print(vars(predictor).keys())
 
-        with open(path, 'wb') as f:
-            dill.dump(predictor, f, **kwargs)
+    #     with open(path, 'wb') as f:
+    #         dill.dump(predictor, f, **kwargs)
     
-    def to_pickle2(self, path, keep_train_data = False, **kwargs):
-        import pickle
-        predictor = copy.deepcopy(self)
+    # def to_pickle2(self, path, keep_train_data = False, **kwargs):
+    #     import pickle
+    #     predictor = copy.deepcopy(self)
 
-        if not keep_train_data:
-            if hasattr(predictor, "train_data"): del predictor.train_data
-            if hasattr(predictor, "test_data"): del predictor.test_data
+    #     if not keep_train_data:
+    #         if hasattr(predictor, "train_data"): del predictor.train_data
+    #         if hasattr(predictor, "test_data"): del predictor.test_data
 
-        predictor._state_dict = to_state_dict(predictor.state)
-        del predictor.state
+    #     predictor._state_dict = to_state_dict(predictor.state)
+    #     del predictor.state
 
-        print(vars(predictor).keys())
+    #     print(vars(predictor).keys())
 
-        with open(path, 'wb') as f:
-            pickle.dump(predictor, f, **kwargs)
+    #     with open(path, 'wb') as f:
+    #         pickle.dump(predictor, f, **kwargs)
     
     def predict(self, X : pd.DataFrame, to_df = False) -> np.ndarray:
         X_ = self.X_transformer.transform(X)
@@ -535,12 +537,22 @@ class NNPredictor():
         y_df = pd.DataFrame(y, columns = self.DEFAULT_TARGETS)
         return y_df if to_df else y
 
-    def serialize(
-            self,
-            params_path = files(__name__) / "params.json",
-            state_path = files(__name__) / "state.pkl",
-            data_transform_path = files(__name__) / "transform.npy"
-    ):
+    def serialize(self, path: str | Path = None, overwrite: bool = False):
+        if path is None: path = Path.cwd() / "grannules-net"
+        if path.exists():
+            if overwrite and path != Path("~") and path != Path("/"):
+                rmtree(path) # scary
+            else:
+                raise FileExistsError(
+                    f"{path} already exists. Set overwrite = True to replace "
+                    "this."
+                )
+        path.mkdir()
+
+        params_path = path / "params.json"
+        state_path = path / "state.pkl"
+        data_transform_path = path / "transform.npy"
+
         with open(params_path, "w") as f:
             json.dump(self.trial.params, f)
         
@@ -555,7 +567,7 @@ class NNPredictor():
         }
         with open(data_transform_path, "wb") as f:
             jnp.save(f, transform_dict)
-
+    
     @classmethod
     def from_serialize(cls, params_path, state_path, transform_path):
         
