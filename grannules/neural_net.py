@@ -366,44 +366,45 @@ class NNPredictor():
         either creating a new Optuna study or using an existing one. It 
         supports splitting data into training and testing sets, and optimizing
         the model's hyperparameters through Optuna's study framework.
+        
         :param study_or_path: Either an Optuna study object or a string path to
-        the study's storage.
+            the study's storage.
         :type study_or_path: optuna.study.Study | str
         :param data: The complete dataset to be split into training and testing
-        sets. If provided, `train_data` and `test_data` will be ignored.
+            sets. If provided, `train_data` and `test_data` will be ignored.
         :type data: pd.DataFrame | None
         :param train_data: Pre-split training data. Used if `data` is not 
-        provided.
+            provided.
         :type train_data: pd.DataFrame | None
         :param test_data: Pre-split testing data. Used if `data` is not
-        provided.
+            provided.
         :type test_data: pd.DataFrame | None
         :param study_name: Name of the Optuna study. Required if creating a new
-        study.
+            study.
         :type study_name: str | None
         :param random_state: Random seed for reproducibility in data splitting
-        and training.
+            and training.
         :type random_state: int | None
         :param load_study_if_exists: Whether to load an existing study if it
-        already exists.
+            already exists.
         :type load_study_if_exists: bool
         :param pruner: Optuna pruner to use for early stopping during
-        optimization.
+            optimization.
         :type pruner: optuna.pruners.BasePruner
         :param study_kwargs: Additional keyword arguments for creating the 
-        Optuna study.
+            Optuna study.
         :type study_kwargs: dict
         :param n_trials: Number of trials to run for hyperparameter 
-        optimization.
+            optimization.
         :type n_trials: int
         :param optuna_kwargs: Additional keyword arguments for the
-        `study.optimize` method.
+            `study.optimize` method.
         :type optuna_kwargs: dict
         :param kwargs: Additional keyword arguments for the neural network
-        predictor initialization.
+            predictor initialization.
         :type kwargs: dict
         :returns: A tuple containing the trained neural network predictor and
-        the Optuna study.
+            the Optuna study.
         :rtype: tuple['NNPredictor', optuna.study.Study]
         """
         if isinstance(study_or_path, str):
@@ -449,6 +450,7 @@ class NNPredictor():
     ) -> 'NNPredictor':
         """
         Creates an `NNPredictor` from the best trial in an Optuna study.
+
         :param study_or_path: Union[optuna.study.Study, str]
             An Optuna study or a path to an Optuna database.
             If a path is provided, the study is loaded from the database, and `study_name` must be specified.
@@ -631,9 +633,9 @@ class NNPredictor():
 
         :param path: Path to the directory containing the serialized model files. 
                  The directory should include:
-                 - "params.json": JSON file with model parameters.
-                 - "state.pkl": Pickle file with the model's state dictionary.
-                 - "transform.npy": Numpy file with transformation parameters 
+                 * "params.json": JSON file with model parameters.
+                 * "state.pkl": Pickle file with the model's state dictionary.
+                 * "transform.npy": Numpy file with transformation parameters 
                  for input and output scaling.
         :type path: str or Path
         :return: An instance of `NNPredictor` initialized with the deserialized 

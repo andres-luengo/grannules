@@ -2,5 +2,5 @@
 API
 ===
 
-.. automodule:: grannules.neural_net
+.. autoclass:: grannules.NNPredictor
     :members:

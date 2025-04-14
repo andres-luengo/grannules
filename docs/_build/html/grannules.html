@@ -163,10 +163,6 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">None</s
 <dt class="sig sig-object py" id="grannules.neural_net.NNPredictor.DEFAULT_TARGETS">
 <span class="sig-name descname"><span class="pre">DEFAULT_TARGETS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['H',</span> <span class="pre">'P',</span> <span class="pre">'tau',</span> <span class="pre">'alpha']</span></em><a class="headerlink" href="#grannules.neural_net.NNPredictor.DEFAULT_TARGETS" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.NNPredictor.DEFAULT_TARGETS'"><span>#</span></a></dt>
 <dd></dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="grannules.neural_net.NNPredictor.default_predictor">
-<span class="sig-name descname"><span class="pre">default_predictor</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#grannules.neural_net.NNPredictor.default_predictor" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.NNPredictor.default_predictor'"><span>#</span></a></dt>
-<dd></dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="grannules.neural_net.NNPredictor.deserialize">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grannules/neural_net.html#NNPredictor.deserialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.NNPredictor.deserialize" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.NNPredictor.deserialize'"><span>#</span></a></dt>
@@ -176,9 +172,9 @@ transformers from a directory.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> or </em><em>Path</em>) – Path to the directory containing the serialized model files. 
 The directory should include:
-- “params.json”: JSON file with model parameters.
-- “state.pkl”: Pickle file with the model’s state dictionary.
-- “transform.npy”: Numpy file with transformation parameters 
+* “params.json”: JSON file with model parameters.
+* “state.pkl”: Pickle file with the model’s state dictionary.
+* “transform.npy”: Numpy file with transformation parameters 
 for input and output scaling.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -191,15 +187,13 @@ for input and output scaling.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="grannules.neural_net.NNPredictor.from_study">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_or_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Study</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="#grannules.neural_net.NNPredictor" title="grannules.neural_net.NNPredictor"><span class="pre">NNPredictor</span></a></span></span><a class="reference internal" href="_modules/grannules/neural_net.html#NNPredictor.from_study"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.NNPredictor.from_study" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.NNPredictor.from_study'"><span>#</span></a></dt>
-<dd><p>Creates an <cite>NNPredictor</cite> from the best trial in an Optuna study.
-:param study_or_path: Union[optuna.study.Study, str]</p>
-<blockquote>
-<div><p>An Optuna study or a path to an Optuna database.
-If a path is provided, the study is loaded from the database, and <cite>study_name</cite> must be specified.</p>
-</div></blockquote>
+<dd><p>Creates an <cite>NNPredictor</cite> from the best trial in an Optuna study.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>study_or_path</strong> – Union[optuna.study.Study, str]
+An Optuna study or a path to an Optuna database.
+If a path is provided, the study is loaded from the database, and <cite>study_name</cite> must be specified.</p></li>
 <li><p><strong>data</strong> – Optional[pd.DataFrame]
 The complete dataset to train the model. It will be split using <cite>neural_net.split_data()</cite>.
 Required if <cite>train_data</cite> and <cite>test_data</cite> are not provided.</p></li>
@@ -237,7 +231,49 @@ An instance of <cite>NNPredictor</cite> initialized with the best trial from the
 <dl class="py method">
 <dt class="sig sig-object py" id="grannules.neural_net.NNPredictor.train_new">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">train_new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_or_path:</span> <span class="pre">~optuna.study.study.Study</span> <span class="pre">|</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~pandas.core.frame.DataFrame</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data:</span> <span class="pre">~pandas.core.frame.DataFrame</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data:</span> <span class="pre">~pandas.core.frame.DataFrame</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_name:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state:</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_study_if_exists:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pruner:</span> <span class="pre">~optuna.pruners._base.BasePruner</span> <span class="pre">=</span> <span class="pre">&lt;optuna.pruners._nop.NopPruner</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_kwargs:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trials:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optuna_kwargs:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#grannules.neural_net.NNPredictor" title="grannules.neural_net.NNPredictor"><span class="pre">NNPredictor</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Study</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/grannules/neural_net.html#NNPredictor.train_new"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.NNPredictor.train_new" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.NNPredictor.train_new'"><span>#</span></a></dt>
-<dd></dd></dl>
+<dd><p>Train a new neural network model using Optuna for hyperparameter 
+optimization. This method allows training a neural network model by
+either creating a new Optuna study or using an existing one. It 
+supports splitting data into training and testing sets, and optimizing
+the model’s hyperparameters through Optuna’s study framework.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_or_path</strong> (<em>optuna.study.Study</em><em> | </em><em>str</em>) – Either an Optuna study object or a string path to
+the study’s storage.</p></li>
+<li><p><strong>data</strong> (<em>pd.DataFrame</em><em> | </em><em>None</em>) – The complete dataset to be split into training and testing
+sets. If provided, <cite>train_data</cite> and <cite>test_data</cite> will be ignored.</p></li>
+<li><p><strong>train_data</strong> (<em>pd.DataFrame</em><em> | </em><em>None</em>) – Pre-split training data. Used if <cite>data</cite> is not 
+provided.</p></li>
+<li><p><strong>test_data</strong> (<em>pd.DataFrame</em><em> | </em><em>None</em>) – Pre-split testing data. Used if <cite>data</cite> is not
+provided.</p></li>
+<li><p><strong>study_name</strong> (<em>str</em><em> | </em><em>None</em>) – Name of the Optuna study. Required if creating a new
+study.</p></li>
+<li><p><strong>random_state</strong> (<em>int</em><em> | </em><em>None</em>) – Random seed for reproducibility in data splitting
+and training.</p></li>
+<li><p><strong>load_study_if_exists</strong> (<em>bool</em>) – Whether to load an existing study if it
+already exists.</p></li>
+<li><p><strong>pruner</strong> (<em>optuna.pruners.BasePruner</em>) – Optuna pruner to use for early stopping during
+optimization.</p></li>
+<li><p><strong>study_kwargs</strong> (<em>dict</em>) – Additional keyword arguments for creating the 
+Optuna study.</p></li>
+<li><p><strong>n_trials</strong> (<em>int</em>) – Number of trials to run for hyperparameter 
+optimization.</p></li>
+<li><p><strong>optuna_kwargs</strong> (<em>dict</em>) – Additional keyword arguments for the
+<cite>study.optimize</cite> method.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Additional keyword arguments for the neural network
+predictor initialization.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the trained neural network predictor and
+the Optuna study.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[‘NNPredictor’, optuna.study.Study]</p>
+</dd>
+</dl>
+</dd></dl>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="grannules.neural_net.model_from_trial">
@@ -275,9 +311,6 @@ If <cite>to_df</cite> is True, the result is a pandas DataFrame with columns
 </dl>
 </dd></dl>
 </section>
-<section id="grannules-test-serialize-module">
-<h2>grannules.test_serialize module<a class="headerlink" href="#grannules-test-serialize-module" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules-test-serialize-module'"><span>#</span></a></h2>
-</section>
 <section id="module-grannules">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-grannules" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#module-grannules'"><span>#</span></a></h2>
 </section>
@@ -290,7 +323,6 @@ If <cite>to_df</cite> is True, the result is a pandas DataFrame with columns
 <li><a :data-current="activeSection === '#grannules.neural_net.NNPredictor'" class="reference internal" href="#grannules.neural_net.NNPredictor"><code class="docutils literal notranslate"><span class="pre">NNPredictor</span></code></a><ul>
 <li><a :data-current="activeSection === '#grannules.neural_net.NNPredictor.DEFAULT_FEATURES'" class="reference internal" href="#grannules.neural_net.NNPredictor.DEFAULT_FEATURES"><code class="docutils literal notranslate"><span class="pre">NNPredictor.DEFAULT_FEATURES</span></code></a></li>
 <li><a :data-current="activeSection === '#grannules.neural_net.NNPredictor.DEFAULT_TARGETS'" class="reference internal" href="#grannules.neural_net.NNPredictor.DEFAULT_TARGETS"><code class="docutils literal notranslate"><span class="pre">NNPredictor.DEFAULT_TARGETS</span></code></a></li>
-<li><a :data-current="activeSection === '#grannules.neural_net.NNPredictor.default_predictor'" class="reference internal" href="#grannules.neural_net.NNPredictor.default_predictor"><code class="docutils literal notranslate"><span class="pre">NNPredictor.default_predictor</span></code></a></li>
 <li><a :data-current="activeSection === '#grannules.neural_net.NNPredictor.deserialize'" class="reference internal" href="#grannules.neural_net.NNPredictor.deserialize"><code class="docutils literal notranslate"><span class="pre">NNPredictor.deserialize()</span></code></a></li>
 <li><a :data-current="activeSection === '#grannules.neural_net.NNPredictor.from_study'" class="reference internal" href="#grannules.neural_net.NNPredictor.from_study"><code class="docutils literal notranslate"><span class="pre">NNPredictor.from_study()</span></code></a></li>
 <li><a :data-current="activeSection === '#grannules.neural_net.NNPredictor.get_default_predictor'" class="reference internal" href="#grannules.neural_net.NNPredictor.get_default_predictor"><code class="docutils literal notranslate"><span class="pre">NNPredictor.get_default_predictor()</span></code></a></li>
@@ -303,7 +335,6 @@ If <cite>to_df</cite> is True, the result is a pandas DataFrame with columns
 <li><a :data-current="activeSection === '#grannules.neural_net.predict'" class="reference internal" href="#grannules.neural_net.predict"><code class="docutils literal notranslate"><span class="pre">predict()</span></code></a></li>
 </ul>
 </li>
-<li><a :data-current="activeSection === '#grannules-test-serialize-module'" class="reference internal" href="#grannules-test-serialize-module">grannules.test_serialize module</a></li>
 <li><a :data-current="activeSection === '#module-grannules'" class="reference internal" href="#module-grannules">Module contents</a></li>
 </ul>
 </div>

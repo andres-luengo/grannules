@@ -5,7 +5,7 @@ Credits
 Development Lead
 ----------------
 
-* Earl Patrick Bellinger <earl.bellinger@yale.edu>
+* Andrés Eduardo Luengo Rodriguez <andres.luengo@yale.edu>
 
 Contributors
 ------------

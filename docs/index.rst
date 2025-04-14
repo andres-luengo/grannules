@@ -7,12 +7,11 @@ grannules
       <a href="https://pypi.python.org/pypi/grannules">
          <img src="https://img.shields.io/pypi/v/grannules.svg" alt="PyPI version" />
       </a>
-      <a href="https://grannules.readthedocs.io/en/latest/?version=latest">
-         <img src="https://readthedocs.org/projects/grannules/badge/?version=latest" alt="Documentation Status" />
-      </a>
+      <!--
       <a href="https://github.com/earlbellinger/grannules/blob/main/LICENSE">
          <img src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat" alt="MIT License" />
-      </a>
+      </a> 
+      -->
    </div>
 
 A package for predicting granulation light variability parameters of red giant stars.
@@ -45,15 +44,15 @@ This is where ``grannules`` comes in. This Python package is essentially a wrapp
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Contents
 
    installation
+   api
    usage
-   modules
    contributing
    authors
    history
-   api
+   .. modules
 
 .. [1] Samadi, R., et al. 2016 idk how to do this   
 
