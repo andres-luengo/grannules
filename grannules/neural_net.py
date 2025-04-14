@@ -360,7 +360,52 @@ class NNPredictor():
         optuna_kwargs : dict                      = {},
         **kwargs
     ) -> tuple['NNPredictor', optuna.study.Study]:
-
+        """
+        Train a new neural network model using Optuna for hyperparameter 
+        optimization. This method allows training a neural network model by
+        either creating a new Optuna study or using an existing one. It 
+        supports splitting data into training and testing sets, and optimizing
+        the model's hyperparameters through Optuna's study framework.
+        :param study_or_path: Either an Optuna study object or a string path to
+        the study's storage.
+        :type study_or_path: optuna.study.Study | str
+        :param data: The complete dataset to be split into training and testing
+        sets. If provided, `train_data` and `test_data` will be ignored.
+        :type data: pd.DataFrame | None
+        :param train_data: Pre-split training data. Used if `data` is not 
+        provided.
+        :type train_data: pd.DataFrame | None
+        :param test_data: Pre-split testing data. Used if `data` is not
+        provided.
+        :type test_data: pd.DataFrame | None
+        :param study_name: Name of the Optuna study. Required if creating a new
+        study.
+        :type study_name: str | None
+        :param random_state: Random seed for reproducibility in data splitting
+        and training.
+        :type random_state: int | None
+        :param load_study_if_exists: Whether to load an existing study if it
+        already exists.
+        :type load_study_if_exists: bool
+        :param pruner: Optuna pruner to use for early stopping during
+        optimization.
+        :type pruner: optuna.pruners.BasePruner
+        :param study_kwargs: Additional keyword arguments for creating the 
+        Optuna study.
+        :type study_kwargs: dict
+        :param n_trials: Number of trials to run for hyperparameter 
+        optimization.
+        :type n_trials: int
+        :param optuna_kwargs: Additional keyword arguments for the
+        `study.optimize` method.
+        :type optuna_kwargs: dict
+        :param kwargs: Additional keyword arguments for the neural network
+        predictor initialization.
+        :type kwargs: dict
+        :returns: A tuple containing the trained neural network predictor and
+        the Optuna study.
+        :rtype: tuple['NNPredictor', optuna.study.Study]
+        """
         if isinstance(study_or_path, str):
             study = optuna.create_study(
                 study_name=study_name, 
