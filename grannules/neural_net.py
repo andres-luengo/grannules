@@ -623,21 +623,30 @@ class NNPredictor():
 
         return cls.default_predictor
 
-def predict(X: pd.DataFrame, *args, **kwargs) -> np.ndarray:
-    r"""Uses a neural network to predict :math:`H,\, P,\, \tau,\,` and 
-    :math:`\alpha` given other red giant parameters in X.
+def predict(X: pd.DataFrame, to_df: bool, *args, **kwargs) -> np.ndarray:
+    r"""Predicts the parameters :math:`H,\, P,\, \tau,` and 
+    :math:`\alpha` for red giant stars using a pre-trained neural network.
 
     :param X: A pandas DataFrame with columns 'M', 'R', 'Teff', 'FeH', 
-    'KepMag', and 'phase'. M and R are the mass in solar masses, Teff is the
-    temperature in degrees Kelvin, FeH is the metallicity, and KepMag is the 
-    apparent magnitude of the star in Kp.
+        'KepMag', and 'phase'. 
+        - 'M': Mass of the star in solar masses.
+        - 'R': Radius of the star in solar radii.
+        - 'Teff': Effective temperature of the star in Kelvin.
+        - 'FeH': Metallicity of the star.
+        - 'KepMag': Apparent magnitude of the star in the Kepler band.
+        - 'phase': Phase of the star.
     :type X: pd.DataFrame
-    :return: _description_
-    :rtype: np.ndarray
+    :param to_df: If True, returns the predictions as a pandas DataFrame. 
+        Otherwise, returns a NumPy array.
+    :type to_df: bool
+    :return: Predicted values for :math:`H,\, P,\, \tau,\,` and :math:`\alpha`.
+        If `to_df` is True, the result is a pandas DataFrame with columns 
+        ['H', 'P', 'tau', 'alpha']. Otherwise, it is a NumPy array.
+    :rtype: pd.DataFrame or np.ndarray
     """
     # TODO: MAKE SURE THIS IS WHAT KEPMAG IS???
     predictor = NNPredictor.get_default_predictor(*args, **kwargs)
-    return predictor.predict(X)
+    return predictor.predict(X, to_df)
 
 # # Alternate version that uses trial.params instead. I don't think we need it, but it's here just in case.
 # use_dropout_layer = trial.params['use_dropout_rate']
