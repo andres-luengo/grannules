@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 
-from neural_net import NNPredictor
-from forward_model_lib import SRPredictor
+from ..neural_net import NNPredictor
+from .scalingrelations import SRPredictor
 
 
 NYQUIST = 283.2114
@@ -41,6 +41,9 @@ def granulation(nu, P, tau, alpha):
 
 def nu_max(M, R, Teff, nu_max_solar = 3090, Teff_solar = 5777):
     return nu_max_solar * M * (R **-2) * ((Teff / Teff_solar)**-0.5)
+
+def delta_nu(M, R, delta_nu_solar = 135.1):
+    return delta_nu_solar * (M ** 0.5) * (R ** -1.5)
 
 pd_cache = {}
 def compare_psd(

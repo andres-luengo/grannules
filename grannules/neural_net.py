@@ -454,27 +454,28 @@ class NNPredictor():
         **kwargs
     ) -> 'NNPredictor':
         """
-        Creates a `NNPredictor` from the best trial in a study.
-
-        ## Parameters
-        `study_or_path`: `optuna.study.Study` or `str`
-            An optuna study or a path to an optuna database.
-            If a path is given, the study is loaded from the database, so `study_name` must be set.
-        `data`: `pd.DataFrame`
-            All of the data to train the model on. Split using neural_net.split_data(). 
-            Required if `train_data` and `test_data` are not set.
-        `train_data`: `pd.DataFrame`
-            The training data to train the model on. Required if `data` is not set.
-        `test_data`: `pd.DataFrame`
-            The testing data to train the model on. Required if `data` is not set.
-        `study_name`: `str`
-            The name of the study to load from the database. Required if `study_or_path` is a path.
-            Ignored if `study_or_path` is a study.
-        `random_state`: `int`
-            The random state to use for splitting the data and training the net.
-        `**kwargs`
-            Additional keyword arguments to pass to the `NNPredictor` constructor.
+        Creates an `NNPredictor` from the best trial in an Optuna study.
+        :param study_or_path: Union[optuna.study.Study, str]
+            An Optuna study or a path to an Optuna database.
+            If a path is provided, the study is loaded from the database, and `study_name` must be specified.
+        :param data: Optional[pd.DataFrame]
+            The complete dataset to train the model. It will be split using `neural_net.split_data()`.
+            Required if `train_data` and `test_data` are not provided.
+        :param train_data: Optional[pd.DataFrame]
+            The training dataset. Required if `data` is not provided.
+        :param test_data: Optional[pd.DataFrame]
+            The testing dataset. Required if `data` is not provided.
+        :param study_name: Optional[str]
+            The name of the study to load from the database. This is required if `study_or_path` is a path.
+            Ignored if `study_or_path` is an Optuna study.
+        :param random_state: Optional[int]
+            The random state to use for splitting the data and training the neural network.
+        :param kwargs: dict
+        :return: NNPredictor
+            An instance of `NNPredictor` initialized with the best trial from the study.
         """
+
+        
         # TODO: add support for pathlib.Path (overkill)
         if isinstance(study_or_path, str):
             study = optuna.load_study(study_name=study_name, storage=f"sqlite:///{study_or_path}")
@@ -584,11 +585,12 @@ class NNPredictor():
         with open(path, 'wb') as f:
             pickle.dump(predictor, f, **kwargs)
     
-    def predict(self, X : pd.DataFrame) -> np.ndarray:
+    def predict(self, X : pd.DataFrame, to_df = False) -> np.ndarray:
         X_ = self.X_transformer.transform(X)
         y_ = self.state.apply_fn(self.state.params, X_, training=False)
         y = self.y_transformer.inverse_transform(y_)
-        return y
+        y_df = pd.DataFrame(y, columns = self.DEFAULT_TARGETS)
+        return y_df if to_df else y
 
     def serialize(
             self,
@@ -664,7 +666,7 @@ class NNPredictor():
         return cls.default_predictor
 
 def predict(X: pd.DataFrame, *args, **kwargs) -> np.ndarray:
-    r"""Uses a neural network to predict :math:`H,\, P,\, \tau,\, ` and 
+    r"""Uses a neural network to predict :math:`H,\, P,\, \tau,\,` and 
     :math:`\alpha` given other red giant parameters in X.
 
     :param X: A pandas DataFrame with columns 'M', 'R', 'Teff', 'FeH', 
