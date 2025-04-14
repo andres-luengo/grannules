@@ -21,7 +21,7 @@ from pathlib import Path
 from shutil import rmtree
 
 # since the architecture is a class generated per trial i'll use dill instead of pickle
-# import dill
+import dill
 import pickle
 import json
 
@@ -575,10 +575,7 @@ class NNPredictor():
             jnp.save(f, transform_dict)
     
     @classmethod
-    def from_serialize(cls, params_path, state_path, transform_path):
-        
-        # get trial from optuna db
-        # model = _model_from_trial(trial, len(NNPredictor.DEFAULT_TARGETS))
+    def deserialize(cls, params_path, state_path, transform_path):
         with open(params_path, "r") as f:
             params = json.load(f)
         model = _model_from_params(params, len(NNPredictor.DEFAULT_TARGETS))
@@ -615,7 +612,7 @@ class NNPredictor():
             state_path = files(__name__) / "state.pkl",
             transform_path = files(__name__) / "transform.npy"
     ):
-        return cls.from_serialize(params_path, state_path, transform_path)
+        return cls.deserialize(params_path, state_path, transform_path)
 
     default_predictor = None
     @classmethod
