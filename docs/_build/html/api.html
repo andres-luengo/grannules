@@ -109,27 +109,150 @@
 <div id="content" role="main">
 <section id="module-grannules.neural_net">
 <span id="api"></span><h1>API<a class="headerlink" href="#module-grannules.neural_net" title="Link to this heading"><span>#</span></a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="grannules.neural_net.predict">
-<span class="sig-prename descclassname"><span class="pre">grannules.neural_net.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/grannules/neural_net.html#predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.predict" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.predict'"><span>#</span></a></dt>
-<dd><p>Uses a neural network to predict <span class="math notranslate nohighlight">\(H,\, P,\, \tau,\,\)</span> and 
-<span class="math notranslate nohighlight">\(\alpha\)</span> given other red giant parameters in X.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="grannules.neural_net.NNPredictor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">grannules.neural_net.</span></span><span class="sig-name descname"><span class="pre">NNPredictor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['M',</span> <span class="pre">'R',</span> <span class="pre">'Teff',</span> <span class="pre">'FeH',</span> <span class="pre">'KepMag',</span> <span class="pre">'phase']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['H',</span> <span class="pre">'P',</span> <span class="pre">'tau',</span> <span class="pre">'alpha']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_targets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_transformer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_transformer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TrainState</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Trial</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grannules/neural_net.html#NNPredictor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.NNPredictor" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.NNPredictor'"><span>#</span></a></dt>
+<dd><p>Initializes a <cite>NNPredictor</cite>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The user shouldn’t call this directly, but rather use 
+<a class="reference internal" href="grannules.html#grannules.neural_net.NNPredictor.from_study" title="grannules.neural_net.NNPredictor.from_study"><code class="xref py py-meth docutils literal notranslate"><span class="pre">NNPredictor.from_study()</span></code></a> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">NNPredictor.from_pickle()</span></code>.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>X</strong> – A pandas DataFrame with columns ‘M’, ‘R’, ‘Teff’, ‘FeH’,</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>train_data</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em>) – The training data to train the model on in <cite>_train_net</cite>.
+Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>test_data</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em>) – The testing data to train the model on in <cite>_train_net</cite>.
+Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>features</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The features to train the model on. 
+Defaults to <a class="reference internal" href="grannules.html#grannules.neural_net.NNPredictor.DEFAULT_FEATURES" title="grannules.neural_net.NNPredictor.DEFAULT_FEATURES"><code class="xref py py-attr docutils literal notranslate"><span class="pre">NNPredictor.DEFAULT_FEATURES</span></code></a>.</p></li>
+<li><p><strong>e_features</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The uncertainties of the features. 
+Defaults to <code class="docutils literal notranslate"><span class="pre">features</span></code> with an <code class="docutils literal notranslate"><span class="pre">'e_'</span></code> prefix on each element.</p></li>
+<li><p><strong>targets</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The targets to train the model on. 
+Defaults to <a class="reference internal" href="grannules.html#grannules.neural_net.NNPredictor.DEFAULT_TARGETS" title="grannules.neural_net.NNPredictor.DEFAULT_TARGETS"><code class="xref py py-attr docutils literal notranslate"><span class="pre">NNPredictor.DEFAULT_TARGETS</span></code></a>.</p></li>
+<li><p><strong>e_targets</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The uncertainties of the targets. 
+Defaults to <code class="docutils literal notranslate"><span class="pre">targets</span></code> with an <code class="docutils literal notranslate"><span class="pre">'e_'</span></code> prefix on each element.</p></li>
+<li><p><strong>X_transformer</strong> (<em>object</em><em>, </em><em>optional</em>) – The transformer to use for the features. Calls 
+<code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> on the training data, and <code class="docutils literal notranslate"><span class="pre">transform</span></code> when using 
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">predictor.predict()</span></code>. Defaults to 
+<code class="xref py py-class docutils literal notranslate"><span class="pre">neural_net.DefaultXTransformer</span></code>.</p></li>
+<li><p><strong>y_transformer</strong> (<em>object</em><em>, </em><em>optional</em>) – The transformer to use for the targets. Calls 
+<code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> on the training data, <code class="docutils literal notranslate"><span class="pre">transform</span></code> when training, 
+and <code class="docutils literal notranslate"><span class="pre">inverse_transform</span></code> when predicting. Defaults to 
+<code class="xref py py-class docutils literal notranslate"><span class="pre">neural_net.DefaultyTransformer</span></code>.</p></li>
+<li><p><strong>nn_state</strong> (<em>train_state.TrainState</em><em>, </em><em>optional</em>) – The state of the neural network. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>random_state</strong> (<em>int</em><em>, </em><em>optional</em>) – The random state to use for training the net. 
+Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+</ul>
 </dd>
 </dl>
-<p>‘KepMag’, and ‘phase’. M and R are the mass in solar masses, Teff is the
-temperature in degrees Kelvin, FeH is the metallicity, and KepMag is the 
-apparent magnitude of the star in Kp.
-:type X: pd.DataFrame
-:return: _description_
-:rtype: np.ndarray</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="grannules.neural_net.NNPredictor.deserialize">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grannules/neural_net.html#NNPredictor.deserialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.NNPredictor.deserialize" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.NNPredictor.deserialize'"><span>#</span></a></dt>
+<dd><p>Deserialize a neural network model, its state, and associated 
+transformers from a directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> or </em><em>Path</em>) – Path to the directory containing the serialized model files. 
+The directory should include:
+- “params.json”: JSON file with model parameters.
+- “state.pkl”: Pickle file with the model’s state dictionary.
+- “transform.npy”: Numpy file with transformation parameters 
+for input and output scaling.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instance of <cite>NNPredictor</cite> initialized with the deserialized</p>
+</dd>
+</dl>
+<p>model, state, and transformers.
+:rtype: NNPredictor</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="grannules.neural_net.NNPredictor.from_study">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_or_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Study</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="grannules.html#grannules.neural_net.NNPredictor" title="grannules.neural_net.NNPredictor"><span class="pre">NNPredictor</span></a></span></span><a class="reference internal" href="_modules/grannules/neural_net.html#NNPredictor.from_study"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.NNPredictor.from_study" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.NNPredictor.from_study'"><span>#</span></a></dt>
+<dd><p>Creates an <cite>NNPredictor</cite> from the best trial in an Optuna study.
+:param study_or_path: Union[optuna.study.Study, str]</p>
+<blockquote>
+<div><p>An Optuna study or a path to an Optuna database.
+If a path is provided, the study is loaded from the database, and <cite>study_name</cite> must be specified.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Optional[pd.DataFrame]
+The complete dataset to train the model. It will be split using <cite>neural_net.split_data()</cite>.
+Required if <cite>train_data</cite> and <cite>test_data</cite> are not provided.</p></li>
+<li><p><strong>train_data</strong> – Optional[pd.DataFrame]
+The training dataset. Required if <cite>data</cite> is not provided.</p></li>
+<li><p><strong>test_data</strong> – Optional[pd.DataFrame]
+The testing dataset. Required if <cite>data</cite> is not provided.</p></li>
+<li><p><strong>study_name</strong> – Optional[str]
+The name of the study to load from the database. This is required if <cite>study_or_path</cite> is a path.
+Ignored if <cite>study_or_path</cite> is an Optuna study.</p></li>
+<li><p><strong>random_state</strong> – Optional[int]
+The random state to use for splitting the data and training the neural network.</p></li>
+<li><p><strong>kwargs</strong> – dict</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>NNPredictor
+An instance of <cite>NNPredictor</cite> initialized with the best trial from the study.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="grannules.neural_net.NNPredictor.get_default_predictor">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default_predictor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grannules/neural_net.html#NNPredictor.get_default_predictor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.NNPredictor.get_default_predictor" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.NNPredictor.get_default_predictor'"><span>#</span></a></dt>
+<dd><p>Gets pre-trained NNPredictor</p>
+</dd></dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="grannules.neural_net.model_from_trial">
+<span class="sig-prename descclassname"><span class="pre">grannules.neural_net.</span></span><span class="sig-name descname"><span class="pre">model_from_trial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_outputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grannules/neural_net.html#model_from_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.model_from_trial" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.model_from_trial'"><span>#</span></a></dt>
+<dd><p>Returns a StellarModel with the architecture defined by <cite>trial</cite>.</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="grannules.neural_net.predict">
+<span class="sig-prename descclassname"><span class="pre">grannules.neural_net.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/grannules/neural_net.html#predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.predict" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.predict'"><span>#</span></a></dt>
+<dd><p>Predicts the parameters <span class="math notranslate nohighlight">\(H,\, P,\, \tau,\)</span> and 
+<span class="math notranslate nohighlight">\(\alpha\)</span> for red giant stars using a pre-trained neural network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pd.DataFrame</em>) – A pandas DataFrame with columns ‘M’, ‘R’, ‘Teff’, ‘FeH’, 
+‘KepMag’, and ‘phase’. 
+- ‘M’: Mass of the star in solar masses.
+- ‘R’: Radius of the star in solar radii.
+- ‘Teff’: Effective temperature of the star in Kelvin.
+- ‘FeH’: Metallicity of the star.
+- ‘KepMag’: Apparent magnitude of the star in the Kepler band.
+- ‘phase’: Phase of the star.</p></li>
+<li><p><strong>to_df</strong> (<em>bool</em>) – If True, returns the predictions as a pandas DataFrame. 
+Otherwise, returns a NumPy array.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predicted values for <span class="math notranslate nohighlight">\(H,\, P,\, \tau,\,\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span>.
+If <cite>to_df</cite> is True, the result is a pandas DataFrame with columns 
+[‘H’, ‘P’, ‘tau’, ‘alpha’]. Otherwise, it is a NumPy array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame or np.ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 </section>
 </div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
 <div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
 <ul>
+<li><a :data-current="activeSection === '#grannules.neural_net.NNPredictor'" class="reference internal" href="#grannules.neural_net.NNPredictor"><code class="docutils literal notranslate"><span class="pre">NNPredictor</span></code></a><ul>
+<li><a :data-current="activeSection === '#grannules.neural_net.NNPredictor.deserialize'" class="reference internal" href="#grannules.neural_net.NNPredictor.deserialize"><code class="docutils literal notranslate"><span class="pre">NNPredictor.deserialize()</span></code></a></li>
+<li><a :data-current="activeSection === '#grannules.neural_net.NNPredictor.from_study'" class="reference internal" href="#grannules.neural_net.NNPredictor.from_study"><code class="docutils literal notranslate"><span class="pre">NNPredictor.from_study()</span></code></a></li>
+<li><a :data-current="activeSection === '#grannules.neural_net.NNPredictor.get_default_predictor'" class="reference internal" href="#grannules.neural_net.NNPredictor.get_default_predictor"><code class="docutils literal notranslate"><span class="pre">NNPredictor.get_default_predictor()</span></code></a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#grannules.neural_net.model_from_trial'" class="reference internal" href="#grannules.neural_net.model_from_trial"><code class="docutils literal notranslate"><span class="pre">model_from_trial()</span></code></a></li>
 <li><a :data-current="activeSection === '#grannules.neural_net.predict'" class="reference internal" href="#grannules.neural_net.predict"><code class="docutils literal notranslate"><span class="pre">predict()</span></code></a></li>
 </ul>
 </div>

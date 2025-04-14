@@ -110,7 +110,7 @@
 <a href="https://github.com/earlbellinger/grannules/blob/main/LICENSE">
 <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat"/>
 </a>
-</div><p>A package for predicting some light variability parameters of red giant stars.</p>
+</div><p>A package for predicting granulation light variability parameters of red giant stars.</p>
 <p>Red giant power spectra generally look like Figure 1 of Samadi et al. 2016 <a class="footnote-reference brackets" href="#id6" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>:</p>
 <a class="reference internal image-reference" href="_images/deassisgraph.png"><img alt="Red giant power spectrum with model components overplotted." src="_images/deassisgraph.png" style="width: 400px;"/>
 </a>
@@ -123,7 +123,7 @@
 <div class="math notranslate nohighlight">
 \[O(\nu) = H \exp \left[ \frac{- (\nu - \nu_\mathrm{max})^2}{\delta \nu_\mathrm{env}^2 / 4 \ln 2} \right]\]</div>
 <p>where <span class="math notranslate nohighlight">\(\tau\)</span> is the timescale of granulation, and <span class="math notranslate nohighlight">\(\delta \nu_\mathrm{env}\)</span> is the FWHM of the gaussian, which we take to be <span class="math notranslate nohighlight">\(\delta \nu_\mathrm{env} = 0.66 \nu_\mathrm{max}^{0.88}\)</span> <a class="footnote-reference brackets" href="#id6" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, <a class="footnote-reference brackets" href="#id7" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>. <span class="math notranslate nohighlight">\(H,\, P,\, \tau,\,\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span> are usually fitted parameters. There exist scaling relations for these values, but they are nowhere near accurate enough for practical use <a class="footnote-reference brackets" href="#id6" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
-<p>This is where <code class="docutils literal notranslate"><span class="pre">grannules</span></code> comes in. This Python package is essentially a wrapper around a neural network that, given a star’s mass, radius, temperature, luminosity, and evolutionary phase, can predict that star’s background parameters much more accurately than existing scaling relations.</p>
+<p>This is where <code class="docutils literal notranslate"><span class="pre">grannules</span></code> comes in. This Python package is essentially a wrapper around a neural network that, given a star’s mass, radius, temperature, luminosity, and evolutionary phase, can predict that star’s background parameters much more accurately than the existing scaling relations.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -158,6 +158,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.NNPredictor"><code class="docutils literal notranslate"><span class="pre">NNPredictor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.model_from_trial"><code class="docutils literal notranslate"><span class="pre">model_from_trial()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#grannules.neural_net.predict"><code class="docutils literal notranslate"><span class="pre">predict()</span></code></a></li>
 </ul>
 </li>

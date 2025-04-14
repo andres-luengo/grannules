@@ -15,7 +15,7 @@ grannules
       </a>
    </div>
 
-A package for predicting some light variability parameters of red giant stars.
+A package for predicting granulation light variability parameters of red giant stars.
 
 Red giant power spectra generally look like Figure 1 of Samadi et al. 2016 [2]_:
 
@@ -41,7 +41,7 @@ and the overall shape of the oscillations component (ignoring the signal spikes)
 
 where :math:`\tau` is the timescale of granulation, and :math:`\delta \nu_\mathrm{env}` is the FWHM of the gaussian, which we take to be :math:`\delta \nu_\mathrm{env} = 0.66 \nu_\mathrm{max}^{0.88}` [2]_, [3]_. :math:`H,\, P,\, \tau,\,` and :math:`\alpha` are usually fitted parameters. There exist scaling relations for these values, but they are nowhere near accurate enough for practical use [2]_. 
 
-This is where ``grannules`` comes in. This Python package is essentially a wrapper around a neural network that, given a star's mass, radius, temperature, luminosity, and evolutionary phase, can predict that star's background parameters much more accurately than existing scaling relations.
+This is where ``grannules`` comes in. This Python package is essentially a wrapper around a neural network that, given a star's mass, radius, temperature, luminosity, and evolutionary phase, can predict that star's background parameters much more accurately than the existing scaling relations.
 
 .. toctree::
    :maxdepth: 2

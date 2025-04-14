@@ -62,7 +62,7 @@ def _split_data(df, random_state = None):
 
     return df_train, df_test
 
-def _model_from_trial(trial, n_outputs):
+def model_from_trial(trial, n_outputs):
         """Returns a StellarModel with the architecture defined by `trial`."""
         num_layers = trial.suggest_int('num_layers', 1, 5)
 
@@ -120,7 +120,49 @@ def _model_from_params(params, n_outputs):
 
 # TODO: function that makes a net "from scratch" since right now you need to pass in a study
 # i.e. implement optuna.ipynb
-class NNPredictor():
+class NNPredictor():    
+    """
+    Initializes a `NNPredictor`.
+
+    .. note::
+        The user shouldn't call this directly, but rather use 
+        :meth:`NNPredictor.from_study` or :meth:`NNPredictor.from_pickle`.
+
+    :param train_data: The training data to train the model on in `_train_net`.
+        Defaults to ``None``.
+    :type train_data: pd.DataFrame, optional
+    :param test_data: The testing data to train the model on in `_train_net`.
+        Defaults to ``None``.
+    :type test_data: pd.DataFrame, optional
+    :param features: The features to train the model on. 
+        Defaults to :attr:`NNPredictor.DEFAULT_FEATURES`.
+    :type features: list[str], optional
+    :param e_features: The uncertainties of the features. 
+        Defaults to ``features`` with an ``'e_'`` prefix on each element.
+    :type e_features: list[str], optional
+    :param targets: The targets to train the model on. 
+        Defaults to :attr:`NNPredictor.DEFAULT_TARGETS`.
+    :type targets: list[str], optional
+    :param e_targets: The uncertainties of the targets. 
+        Defaults to ``targets`` with an ``'e_'`` prefix on each element.
+    :type e_targets: list[str], optional
+    :param X_transformer: The transformer to use for the features. Calls 
+        ``fit_transform`` on the training data, and ``transform`` when using 
+        :meth:`predictor.predict`. Defaults to 
+        :class:`neural_net.DefaultXTransformer`.
+    :type X_transformer: object, optional
+    :param y_transformer: The transformer to use for the targets. Calls 
+        ``fit_transform`` on the training data, ``transform`` when training, 
+        and ``inverse_transform`` when predicting. Defaults to 
+        :class:`neural_net.DefaultyTransformer`.
+    :type y_transformer: object, optional
+    :param nn_state: The state of the neural network. Defaults to ``None``.
+    :type nn_state: train_state.TrainState, optional
+    :param random_state: The random state to use for training the net. 
+        Defaults to ``None``.
+    :type random_state: int, optional
+    """
+
     DEFAULT_FEATURES = ['M', 'R', 'Teff', 'FeH', 'KepMag', 'phase']
     DEFAULT_TARGETS = ['H', 'P', 'tau', 'alpha']
 
@@ -140,44 +182,6 @@ class NNPredictor():
             params          : dict                      = None,
             random_state    : int                       = None
     ):
-        """
-        Initializes a `NNPredictor`. 
-        The user shouldn't call use this directly, but rather use `NNPredictor.from_study()` or `NNPredictor.from_pickle()`.
-        ## Parameters
-        `train_data`: `pd.DataFrame`
-            The training data to train the model on in `_train_net`.
-            Defaults to `None`.
-        `test_data`: `pd.DataFrame`
-            The testing data to train the model on in `_train_net`.
-            Defaults to `None`.
-        `features`: `list[str]`
-            The features to train the model on. 
-            Defaults to `NNPredictor.DEFAULT_FEATURES`.
-        `e_features`: `list[str]`
-            The uncertainties of the features. 
-            Defaults to `features` with an 'e_' prefix on each element.
-        `targets`: `list[str]`
-            The targets to train the model on. 
-            Defaults to `NNPredictor.DEFAULT_TARGETS`.
-        `e_targets`: `list[str]`
-            The uncertainties of the targets. 
-            Defaults to `targets` with an 'e_' prefix on each element.
-        `X_transformer`
-            The transformer to use for the features. Calls `fit_transform` on the training data, and
-            `transform` when using `predictor.predict()`. 
-            Defaults to `neural_net.DefaultXTransformer`.
-        `y_transformer`
-            The transformer to use for the targets. Calls `fit_transform` on the training data,
-            `transform` when training, and `inverse_transform` when predicting. 
-            Defaults to `neural_net.DefaultyTransformer`.
-        `nn_state`: `train_state.TrainState | None`
-            The state of the neural network.
-            Defaults to `None`.
-        `random_state`: `int | None`
-            The random state to use for training the net.
-            Defaults to `None`.
-        """
-
         self.model_name = model_name
 
         self.train_data = train_data
@@ -225,7 +229,7 @@ class NNPredictor():
         if not quiet:
             print("Training net with trial ", trial.number)
         
-        model = _model_from_trial(trial, self.n_outputs)
+        model = model_from_trial(trial, self.n_outputs)
         config = {
             'warmup_epochs': trial.suggest_int('warmup_epochs', 10, 300, log=True),
             'num_epochs': int(5e4)
@@ -614,9 +618,9 @@ class NNPredictor():
 
         state = from_state_dict(blank_state, state_dict)
 
-        with open(transform_path, "rb") as f:
+        with open(data_transform_path, "rb") as f:
             transform_dict = jnp.load(f, allow_pickle = True).item()
-        print(f"{transform_dict = !r}")
+        # print(f"{transform_dict = !r}")
         X_transformer = DefaultXTransformer(transform_dict["X_center"], transform_dict["X_scale"])
         y_transformer = DefaultyTransformer(transform_dict["y_center"], transform_dict["y_scale"])
 
@@ -630,20 +634,18 @@ class NNPredictor():
     @classmethod
     def _default_from_serialize(
             cls,
-            params_path = files(__name__) / "params.json",
-            state_path = files(__name__) / "state.pkl",
-            transform_path = files(__name__) / "transform.npy"
+            path = files(__name__)
     ):
-        return cls.deserialize(params_path, state_path, transform_path)
+        return cls.deserialize(path)
 
-    default_predictor = None
+    _default_predictor = None
     @classmethod
     def get_default_predictor(cls, *args, **kwargs):
         """Gets pre-trained NNPredictor"""
-        if cls.default_predictor is None:
-            cls.default_predictor = cls._default_from_serialize(*args, **kwargs)
+        if cls._default_predictor is None:
+            cls._default_predictor = cls._default_from_serialize(*args, **kwargs)
 
-        return cls.default_predictor
+        return cls._default_predictor
 
 def predict(X: pd.DataFrame, to_df: bool, *args, **kwargs) -> np.ndarray:
     r"""Predicts the parameters :math:`H,\, P,\, \tau,` and 
