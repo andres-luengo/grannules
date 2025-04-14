@@ -575,7 +575,29 @@ class NNPredictor():
             jnp.save(f, transform_dict)
     
     @classmethod
-    def deserialize(cls, params_path, state_path, transform_path):
+    def deserialize(cls, path: str | Path = None):
+        """
+        Deserialize a neural network model, its state, and associated 
+        transformers from a directory. 
+
+        :param path: Path to the directory containing the serialized model files. 
+                 The directory should include:
+                 - "params.json": JSON file with model parameters.
+                 - "state.pkl": Pickle file with the model's state dictionary.
+                 - "transform.npy": Numpy file with transformation parameters 
+                 for input and output scaling.
+        :type path: str or Path
+        :return: An instance of `NNPredictor` initialized with the deserialized 
+        model, state, and transformers.
+        :rtype: NNPredictor
+        """
+        if path is None: path = Path.cwd() / "grannules-predictor"
+        path = Path(path)
+        
+        params_path = path / "params.json"
+        state_path = path / "state.pkl"
+        data_transform_path = path / "transform.npy"
+
         with open(params_path, "r") as f:
             params = json.load(f)
         model = _model_from_params(params, len(NNPredictor.DEFAULT_TARGETS))
