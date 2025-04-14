@@ -538,10 +538,16 @@ class NNPredictor():
         return y_df if to_df else y
 
     def serialize(self, path: str | Path = None, overwrite: bool = False):
-        if path is None: path = Path.cwd() / "grannules-net"
+        if path is None: path = Path.cwd() / "grannules-predictor"
+        path = Path(path) # convert to Path if not already
         if path.exists():
-            if overwrite and path != Path("~") and path != Path("/"):
-                rmtree(path) # scary
+            if overwrite:
+                if path in {Path.cwd(), Path("/"), Path.home()}:
+                    raise RuntimeError(
+                        f"Refusing to overwrite {path}"
+                    )
+                else:
+                    rmtree(path) # scary
             else:
                 raise FileExistsError(
                     f"{path} already exists. Set overwrite = True to replace "
