@@ -10,8 +10,6 @@ from flax import linen as nn
 from flax.training import train_state
 from flax.serialization import to_state_dict, from_state_dict
 
-from orbax.checkpoint import PyTreeCheckpointer
-
 import jax 
 import jax.numpy as jnp
 
