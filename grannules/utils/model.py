@@ -1,23 +1,33 @@
+r"""
+Neural Network Models
+*********************
+
+Implements factories for the neural network architectures 
+(:type:`flax.nn.module` objects) used in the main module of this package.
+"""
+
 import flax.linen as nn
 
 def model_from_params(hyperparams, n_outputs):
-    """Creates a neural network model (:class:`flax.nn.Module`) using the hyperparameters in `hyperparams`.
+    """
+    Creates a neural network model (:type:`flax.nn.Module`) using the 
+    hyperparameters in `hyperparams`.
 
     :param hyperparams: A dictionary with the following entries:
 
                         * `'num_layers'`, `int`, the number of layers the model
-                        should have.
+                          should have.
                         * `'dropout_rate'`, `float`, the fraction of neurons to
-                        disable at random on any training run.
+                          disable at random on any training run.
                         * `'use_dropout_rate'`, `bool`, whether to use a dropout
-                        rate at all.
+                          rate at all.
                         * `'layer_[n]_size'`, `int`, the amount of neurons in
-                        the nth layer. There should be one of these arguments
-                        for every n in [0, num_layers).
+                          the nth layer. There should be one of these arguments
+                          for every n in [0, num_layers).
                         * `'layer_[n]_type'`, `str 'relu', 'sigmoid', or 'tanh'` the
-                        operation performed by neurons in this layer. There
-                        should be one of these entries for every n in [0,
-                        num_layers), like for `'layer_[n]_size'`.
+                          operation performed by neurons in this layer. There
+                          should be one of these entries for every n in [0,
+                          num_layers), like for `'layer_[n]_size'`.
     
     :type hyperparams: dict[str, int | float | str]
     :param n_outputs: The number of outputs this neural network should have.

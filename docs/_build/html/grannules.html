@@ -72,7 +72,8 @@
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="neural_net.html">Neural Net API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Submodules</a></li>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="usage.html">Usage<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="preliminaries.html">Preliminaries</a></li>
 </ul>
@@ -104,6 +105,66 @@
 <div id="content" role="main">
 <section id="grannules-package">
 <h1>grannules package<a class="headerlink" href="#grannules-package" title="Link to this heading"><span>#</span></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#subpackages'"><span>#</span></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grannules.utils.html">grannules.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="grannules.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grannules.utils.html#module-grannules.utils.datatransform">grannules.utils.datatransform module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#data-transformers">Data Transformers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DataTransformer"><code class="docutils literal notranslate"><span class="pre">DataTransformer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DataTransformer.fit"><code class="docutils literal notranslate"><span class="pre">DataTransformer.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DataTransformer.fit_transform"><code class="docutils literal notranslate"><span class="pre">DataTransformer.fit_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DataTransformer.inverse_transform"><code class="docutils literal notranslate"><span class="pre">DataTransformer.inverse_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DataTransformer.transform"><code class="docutils literal notranslate"><span class="pre">DataTransformer.transform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DefaultXTransformer"><code class="docutils literal notranslate"><span class="pre">DefaultXTransformer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DefaultXTransformer.fit_transform"><code class="docutils literal notranslate"><span class="pre">DefaultXTransformer.fit_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DefaultXTransformer.inverse_transform"><code class="docutils literal notranslate"><span class="pre">DefaultXTransformer.inverse_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DefaultXTransformer.transform"><code class="docutils literal notranslate"><span class="pre">DefaultXTransformer.transform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DefaultyTransformer"><code class="docutils literal notranslate"><span class="pre">DefaultyTransformer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DefaultyTransformer.fit_transform"><code class="docutils literal notranslate"><span class="pre">DefaultyTransformer.fit_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DefaultyTransformer.inverse_transform"><code class="docutils literal notranslate"><span class="pre">DefaultyTransformer.inverse_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="grannules.utils.html#grannules.utils.datatransform.DefaultyTransformer.transform"><code class="docutils literal notranslate"><span class="pre">DefaultyTransformer.transform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="grannules.utils.html#module-grannules.utils.model">grannules.utils.model module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#neural-network-models">Neural Network Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.model.model_from_params"><code class="docutils literal notranslate"><span class="pre">model_from_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.model.model_from_trial"><code class="docutils literal notranslate"><span class="pre">model_from_trial()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="grannules.utils.html#module-grannules.utils.psd">grannules.utils.psd module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#red-giant-power-spectrum-utilities">Red Giant Power Spectrum Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.psd.PSD"><code class="docutils literal notranslate"><span class="pre">PSD()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.psd.compare_psd"><code class="docutils literal notranslate"><span class="pre">compare_psd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.psd.damping"><code class="docutils literal notranslate"><span class="pre">damping()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.psd.delta_nu"><code class="docutils literal notranslate"><span class="pre">delta_nu()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.psd.excess"><code class="docutils literal notranslate"><span class="pre">excess()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.psd.granulation"><code class="docutils literal notranslate"><span class="pre">granulation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.psd.nu_max"><code class="docutils literal notranslate"><span class="pre">nu_max()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="grannules.utils.html#module-grannules.utils.scalingrelations">grannules.utils.scalingrelations module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.scalingrelations.SRPredictor"><code class="docutils literal notranslate"><span class="pre">SRPredictor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="grannules.utils.html#grannules.utils.scalingrelations.SRPredictor.predict"><code class="docutils literal notranslate"><span class="pre">SRPredictor.predict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="grannules.utils.html#grannules.utils.scalingrelations.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="grannules.utils.html#module-grannules.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#submodules'"><span>#</span></a></h2>
 </section>
@@ -113,11 +174,13 @@
 <dt class="sig sig-object py" id="grannules.neural_net.NNPredictor">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">grannules.neural_net.</span></span><span class="sig-name descname"><span class="pre">NNPredictor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['M',</span> <span class="pre">'R',</span> <span class="pre">'Teff',</span> <span class="pre">'FeH',</span> <span class="pre">'KepMag',</span> <span class="pre">'phase']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['H',</span> <span class="pre">'P',</span> <span class="pre">'tau',</span> <span class="pre">'alpha']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_targets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_transformer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_transformer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TrainState</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Trial</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grannules/neural_net.html#NNPredictor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.NNPredictor" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.NNPredictor'"><span>#</span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Initializes a <cite>NNPredictor</cite>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The user shouldn’t call this directly, but rather use 
-<a class="reference internal" href="#grannules.neural_net.NNPredictor.from_study" title="grannules.neural_net.NNPredictor.from_study"><code class="xref py py-meth docutils literal notranslate"><span class="pre">NNPredictor.from_study()</span></code></a> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">NNPredictor.from_pickle()</span></code>.</p>
+<p>Initializes a <a class="reference internal" href="#grannules.neural_net.NNPredictor" title="grannules.neural_net.NNPredictor"><code class="xref py py-type docutils literal notranslate"><span class="pre">NNPredictor</span></code></a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The user shouldn’t call this directly. See
+<a class="reference internal" href="#grannules.neural_net.NNPredictor.get_default_predictor" title="grannules.neural_net.NNPredictor.get_default_predictor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">NNPredictor.get_default_predictor()</span></code></a>, 
+<a class="reference internal" href="#grannules.neural_net.NNPredictor.train_new" title="grannules.neural_net.NNPredictor.train_new"><code class="xref py py-meth docutils literal notranslate"><span class="pre">NNPredictor.train_new()</span></code></a>, <a class="reference internal" href="#grannules.neural_net.NNPredictor.from_study" title="grannules.neural_net.NNPredictor.from_study"><code class="xref py py-meth docutils literal notranslate"><span class="pre">NNPredictor.from_study()</span></code></a>, or
+<a class="reference internal" href="#grannules.neural_net.NNPredictor.deserialize" title="grannules.neural_net.NNPredictor.deserialize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">NNPredictor.deserialize()</span></code></a>.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -336,7 +399,7 @@ the Optuna study.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="grannules.neural_net.predict">
-<span class="sig-prename descclassname"><span class="pre">grannules.neural_net.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/grannules/neural_net.html#predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.predict" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.predict'"><span>#</span></a></dt>
+<span class="sig-prename descclassname"><span class="pre">grannules.neural_net.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/grannules/neural_net.html#predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.neural_net.predict" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.neural_net.predict'"><span>#</span></a></dt>
 <dd><p>Predicts the parameters <span class="math notranslate nohighlight">\(H,\, P,\, \tau,\)</span> and 
 <span class="math notranslate nohighlight">\(\alpha\)</span> for red giant stars using a pre-trained neural network.</p>
 <dl class="field-list simple">
@@ -360,7 +423,7 @@ If <cite>to_df</cite> is True, the result is a pandas DataFrame with columns
 [‘H’, ‘P’, ‘tau’, ‘alpha’]. Otherwise, it is a NumPy array.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas.DataFrame or numpy.ndarray</p>
+<dd class="field-odd"><p>numpy.ndarray | pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -372,6 +435,7 @@ If <cite>to_df</cite> is True, the result is a pandas DataFrame with columns
 </div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
 <div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
 <ul>
+<li><a :data-current="activeSection === '#subpackages'" class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a :data-current="activeSection === '#submodules'" class="reference internal" href="#submodules">Submodules</a></li>
 <li><a :data-current="activeSection === '#module-grannules.neural_net'" class="reference internal" href="#module-grannules.neural_net">grannules.neural_net module</a><ul>
 <li><a :data-current="activeSection === '#grannules.neural_net.NNPredictor'" class="reference internal" href="#grannules.neural_net.NNPredictor"><code class="docutils literal notranslate"><span class="pre">NNPredictor</span></code></a><ul>
@@ -397,7 +461,7 @@ If <cite>to_df</cite> is True, the result is a pandas DataFrame with columns
 </div><footer class="py-6 border-t border-border md:py-0">
 <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
 <div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2025, Earl Patrick Bellinger Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 8.2.3</a></p>
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 8.2.3</a></p>
 </div>
 </div>
 </footer>

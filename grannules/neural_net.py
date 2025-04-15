@@ -67,11 +67,13 @@ def _split_data(df, random_state = None):
 # i.e. implement optuna.ipynb
 class NNPredictor():    
     """
-    Initializes a `NNPredictor`.
+    Initializes a :type:`NNPredictor`.
 
-    .. note::
-        The user shouldn't call this directly, but rather use 
-        :meth:`NNPredictor.from_study` or :meth:`NNPredictor.from_pickle`.
+    .. important::
+        The user shouldn't call this directly. See
+        :meth:`NNPredictor.get_default_predictor`, 
+        :meth:`NNPredictor.train_new`, :meth:`NNPredictor.from_study`, or
+        :meth:`NNPredictor.deserialize`.
 
     :param train_data: The training data to train the model on in `_train_net`.
         Defaults to ``None``.
@@ -155,6 +157,19 @@ class NNPredictor():
         self.X_transformer = X_transformer or DefaultXTransformer()
         self.y_transformer = y_transformer or DefaultyTransformer()
     
+    _default_predictor = None
+    @classmethod
+    def get_default_predictor(cls, *args, **kwargs):
+        """Loads a pre-trained NNPredictor singleton.
+
+        :return: A pre-trained NNPredictor
+        :rtype: NNPredictor
+        """
+        if cls._default_predictor is None:
+            cls._default_predictor = cls._default_from_serialize(*args, **kwargs)
+
+        return cls._default_predictor
+
     def _train_net(self, trial):
         X_train = self.X_transformer.fit_transform(self.train_data[self.features])
         X_test = self.X_transformer.transform(self.test_data[self.features])
@@ -675,19 +690,6 @@ class NNPredictor():
             path = files(__name__) / "../data/default-serialized"
     ):
         return cls.deserialize(path)
-
-    _default_predictor = None
-    @classmethod
-    def get_default_predictor(cls, *args, **kwargs):
-        """Loads a pre-trained NNPredictor singleton.
-
-        :return: A pre-trained NNPredictor
-        :rtype: NNPredictor
-        """
-        if cls._default_predictor is None:
-            cls._default_predictor = cls._default_from_serialize(*args, **kwargs)
-
-        return cls._default_predictor
 
 def predict(
         X: pd.DataFrame, to_df: bool = False, 

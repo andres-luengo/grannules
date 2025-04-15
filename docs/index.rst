@@ -47,7 +47,8 @@ This is where ``grannules`` comes in. This Python package is essentially a wrapp
    :caption: Contents
 
    installation
-   api
+   neural_net
+   utils
    usage
    contributing
    authors

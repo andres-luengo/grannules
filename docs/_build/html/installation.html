@@ -17,7 +17,7 @@
 <link href="_static/favicon.png" rel="icon"/>
 <link href="search.html" rel="search" title="Search"/>
 <link href="genindex.html" rel="index" title="Index"/>
-<link href="api.html" rel="next" title="API"/>
+<link href="neural_net.html" rel="next" title="Neural Net API"/>
 <link href="index.html" rel="prev" title="grannules"/>
 <script>
     <!-- Prevent Flash of wrong theme -->
@@ -74,7 +74,8 @@
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="neural_net.html">Neural Net API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Submodules</a></li>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="usage.html">Usage<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="preliminaries.html">Preliminaries</a></li>
 </ul>
@@ -118,13 +119,13 @@ you through the process.</p>
 </section>
 <section id="from-sources">
 <h2>From sources<a class="headerlink" href="#from-sources" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#from-sources'"><span>#</span></a></h2>
-<p>The sources for grannules can be downloaded from the <a class="reference external" href="https://github.com/earlbellinger/grannules">Github repo</a>.</p>
+<p>The sources for grannules can be downloaded from the <a class="reference external" href="https://github.com/andres-luengo/grannules">Github repo</a>.</p>
 <p>You can either clone the public repository:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>git://github.com/earlbellinger/grannules
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>git://github.com/andres-luengo/grannules
 </span></code></pre></div>
 </div>
-<p>Or download the <a class="reference external" href="https://github.com/earlbellinger/grannules/tarball/master">tarball</a>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="gp">$ </span>curl<span class="w"> </span>-OJL<span class="w"> </span>https://github.com/earlbellinger/grannules/tarball/master
+<p>Or download the <a class="reference external" href="https://github.com/andres-luengo/grannules/tarball/master">tarball</a>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="gp">$ </span>curl<span class="w"> </span>-OJL<span class="w"> </span>https://github.com/andres-luengo/grannules/tarball/master
 </span></code></pre></div>
 </div>
 <p>Once you have a copy of the source, you can install it with:</p>
@@ -146,7 +147,7 @@ you through the process.</p>
 </div><footer class="py-6 border-t border-border md:py-0">
 <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
 <div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2025, Earl Patrick Bellinger Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 8.2.3</a></p>
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 8.2.3</a></p>
 </div>
 </div>
 </footer>

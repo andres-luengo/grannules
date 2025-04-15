@@ -64,7 +64,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'grannules'
-# copyright = "2025, Earl Patrick Bellinger"
+# copyright = "2025, Andrés Eduardo Luengo Rodriguez"
 author = "Andrés Eduardo Luengo Rodriguez"
 
 # The version info for the project you're documenting, acts as replacement
@@ -152,7 +152,7 @@ latex_elements = {
 latex_documents = [
     (master_doc, 'grannules.tex',
      'grannules Documentation',
-     'Earl Patrick Bellinger', 'manual'),
+     'Andrés Eduardo Luengo Rodriguez', 'manual'),
 ]
 
 
