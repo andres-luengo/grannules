@@ -689,7 +689,10 @@ class NNPredictor():
 
         return cls._default_predictor
 
-def predict(X: pd.DataFrame, to_df: bool, *args, **kwargs) -> np.ndarray:
+def predict(
+        X: pd.DataFrame, to_df: bool = False, 
+        *args, **kwargs
+    ) -> np.ndarray | pd.DataFrame:
     r"""Predicts the parameters :math:`H,\, P,\, \tau,` and 
     :math:`\alpha` for red giant stars using a pre-trained neural network.
 
@@ -708,7 +711,7 @@ def predict(X: pd.DataFrame, to_df: bool, *args, **kwargs) -> np.ndarray:
     :return: Predicted values for :math:`H,\, P,\, \tau,\,` and :math:`\alpha`.
         If `to_df` is True, the result is a pandas DataFrame with columns 
         ['H', 'P', 'tau', 'alpha']. Otherwise, it is a NumPy array.
-    :rtype: pandas.DataFrame or numpy.ndarray
+    :rtype: numpy.ndarray | pandas.DataFrame
     """
     # TODO: MAKE SURE THIS IS WHAT KEPMAG IS???
     predictor = NNPredictor.get_default_predictor(*args, **kwargs)

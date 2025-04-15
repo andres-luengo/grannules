@@ -64,8 +64,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'grannules'
-copyright = "2025, Earl Patrick Bellinger"
-author = "Earl Patrick Bellinger"
+# copyright = "2025, Earl Patrick Bellinger"
+author = "Andrés Eduardo Luengo Rodriguez"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
