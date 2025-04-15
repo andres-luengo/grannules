@@ -17,7 +17,7 @@ import jax.numpy as jnp
 import optuna
 
 import functools
-import copy
+# import copy
 from pathlib import Path
 from shutil import rmtree
 

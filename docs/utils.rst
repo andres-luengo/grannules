@@ -16,3 +16,8 @@ Utility Submodules
     :members:
     :undoc-members:
     :member-order: bysource
+
+.. automodule:: grannules.utils.scalingrelations
+    :members:
+    :undoc-members:
+    :member-order: bysource

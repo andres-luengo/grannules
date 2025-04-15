@@ -37,8 +37,6 @@ This submodule also implements simple scaling relations for
 import numpy as np
 import pandas as pd
 
-from .scalingrelations import SRPredictor
-
 NYQUIST = 283.2114
 
 def PSD(nu, nu_max, H, P, tau, alpha, reshape = True):

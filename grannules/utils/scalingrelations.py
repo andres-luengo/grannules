@@ -2,18 +2,55 @@ r"""
 Scaling Relations Predictor
 ***************************
 
+Provides the :class:`SRPredictor` class, which allows the user to predict
+:math:`H,\,P,\,` and :math:`\tau` using the :math:`\nu_\mathrm{max}`
+scaling relations in `de Assis Peralta et al. 2018`_, complemented with my own
+fit for :math:`\alpha` using the data from the same study.
 
+.. _de Assis Peralta et al. 2018: https://doi.org/10.48550/arXiv.1805.04296
 """
 
 import numpy as np
 import pandas as pd
 
+from ..neural_net import NNPredictor
+from .psd import PSD, nu_max
+
 class SRPredictor():
+    r"""
+    Uses :math:`\nu_\mathrm{max}` scaling relations to predict red giant 
+    granulation parameters. 
     
+    Defaults to using the relations for :math:`H,\, P,\,`
+    and :math:`\tau` found in `de Assis Peralta et al. 2018`_ Table B5, and
+    a provided fit for :math:`\alpha`.
+
+    :param relations: If `use_phase` is False, overrides the "all" fits in the
+        default relations with entries in this dict. Use keys "H", "P", "tau"
+        and "alpha" to replace the respective scaling relations. The values
+        should be tuples of float of length 2, where the first item is the
+        coefficient of :math:`\nu_\mathrm{max}`, and the second is the exponent.
+        Defaults to an empty dictionary (no overrides).
+    :type relations:  dict[str, tuple[float, float]]
+    :param relations_with_phase: This parameter is a tuple of length 3, where
+        each element is a dict just like `relations`. Each dict corresponds to
+        the scaling relations for the following stellar evolution phases:
+
+        * 0: Unclassified/All
+        * 1: Red Giant Branch
+        * 2: Red Clump/Helium Burning
+
+        If `use_phase` is True, each dict will override the default scaling
+        relation of its respective phase, as with the `relations` parameter.
+    :type relations_with_phase: tuple[dict[str, tuple[float, float]]]
+    :param use_phase: Whether to use different scaling relations based on the 
+        phase of the input star.
+    :type use_phase: bool
+    """
     def __init__(
             self, 
             relations : dict[str, tuple[float, float]] = {},
-            relations_with_phase : list[dict[str, tuple[float, float]]] = [{}, {}, {}],
+            relations_with_phase : tuple[dict[str, tuple[float, float]]] = ({}, {}, {}),
             use_phase = True
         ):
         self.use_phase = use_phase
@@ -40,7 +77,7 @@ class SRPredictor():
                     "H" : (8.0e8, -2.921),
                     "P" : (9.10e7, -2.496),
                     "tau" : (2.20e4, -0.306),
-                    "alpha" : (14.60572466, -0.42630839) # N/A using the mean of alpha
+                    "alpha" : (14.60572466, -0.42630839) # my fit :)
                 }
             ]
             for phase in range(3):
@@ -84,7 +121,7 @@ class SRPredictor():
             pred.loc[:, :] = self._coefficients * nu_max_rows ** self._powers
         return pred
 
-pd_cache = {}
+_pd_cache = {}
 def compare_psd(
                 M: float | None = None,
                 R: float | None = None,
@@ -96,7 +133,60 @@ def compare_psd(
                 *,
                 x: pd.Series | None = None
 ):
-    import lightkurve as lk
+
+    """
+    Compare the power spectral density (PSD) of a red giant derived from the
+    default NNPredictor model and the scaling relations. Has functionality to
+    optionally fetch observed PSD using lightkurve.
+
+    .. important::
+        This method requires :mod:`holoviews` to be installed. 
+        
+        To fetch Kepler lightcurves (i.e. running with :code:`KIC is not None`),
+        :mod:`lightkurve` is also required.
+
+    :param M: Stellar mass in solar units. Default is None.
+    :type M: float, optional
+    :param R: Stellar radius in solar units. Default is None.
+    :type R: float, optional
+    :param Teff: Effective temperature of the star in Kelvin. Default is None.
+    :type Teff: float, optional
+    :param FeH: Metallicity of the star ([Fe/H]). Default is None.
+    :type FeH: float, optional
+    :param phase: Evolutionary phase of the star. Default is None.
+    :type phase: float, optional
+    :param KepMag: Kepler magnitude of the star. Default is None.
+    :type KepMag: float, optional
+    :param KIC: Kepler Input Catalog (KIC) identifier for the star. Default is
+        None.
+    :type KIC: int, optional
+    :param x: A pandas Series containing the stellar parameters (M, R, Teff,
+        FeH, phase, KepMag). If provided, individual parameters should not be
+        passed. Default is None.
+    :type x: pd.Series, optional
+
+    :return: A Holoviews Overlay object containing the PSD plots for the star, 
+        including:
+
+        * The true PSD (if KIC is provided).
+        * The binned PSD (if KIC is provided).
+        * PSD predicted using scaling relations.
+        * PSD predicted using a neural network.
+        * A vertical line indicating the predicted nu_max value.
+
+    :rtype: :type:`holoviews.Overlay`
+
+    :raises ValueError: If neither a pandas Series (`x`) nor individual stellar 
+        parameters are provided.
+
+    .. note::
+        * The function uses Lightkurve to search, download, and process the 
+          light curve data for the given KIC.
+        * The PSD is computed and compared against predictions from scaling 
+          relations and a neural network.
+        * The function caches the PSD for a given KIC to avoid redundant 
+          computations.
+    """
     import holoviews as hv
     hv.extension("bokeh")
 
@@ -113,43 +203,47 @@ def compare_psd(
             "individual parameters."
         )
 
-    if KIC in pd_cache:
+    if KIC in _pd_cache:
         print("Reading from cache...")
-        pd = pd_cache[KIC]
-    else:
+        psd = _pd_cache[KIC]
+    elif KIC is not None:
+        import lightkurve as lk
         print("Searching...")
         search_result = lk.search_lightcurve(f"KIC {KIC}")
         print("Downloading...")
         lc = search_result.download_all()
         print("Processing lightcurve...")
         lc = lc.stitch(lambda x : x.normalize('ppm')) # WHY
-        pd = lc.to_periodogram(normalization='psd')
-        pd_cache[KIC] = pd
+        psd = lc.to_periodogram(normalization='psd')
+        _pd_cache[KIC] = psd
+    
     # pd.power *= 2
-    dpd = pd.to_table().to_pandas() # lol
     # dpd["power"] /= 2
     plots = []
-    plots.append(
-        hv.Curve(
-            (dpd["frequency"], dpd["power"]),
-            label='True'
-        ).opts(
-            line_width=1.5,
-            color='gray',
+
+    if KIC is not None:
+        dpd = psd.to_table().to_pandas() # lol
+        plots.append(
+            hv.Curve(
+                (dpd["frequency"], dpd["power"]),
+                label='True'
+            ).opts(
+                line_width=1.5,
+                color='gray',
+            )
         )
-    )
-    elements_per_bin = 50
-    spd = pd.bin(elements_per_bin).to_table().to_pandas()
-    # spd["power"] /= 2
-    plots.append(
-        hv.Curve(
-            (spd["frequency"], spd["power"]),
-            label='True, Binned'
-        ).opts(
-            line_width=1.5,
-            color='black',
+        elements_per_bin = 50
+        spd = psd.bin(elements_per_bin).to_table().to_pandas()
+        # spd["power"] /= 2
+        plots.append(
+            hv.Curve(
+                (spd["frequency"], spd["power"]),
+                label='True, Binned'
+            ).opts(
+                line_width=1.5,
+                color='black',
+            )
         )
-    )
 
     # # deassis-ish fit
     # da_params = df.loc[KIC, ["H", "P", "tau", "alpha"]]
