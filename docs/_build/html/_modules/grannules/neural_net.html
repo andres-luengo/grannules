@@ -102,21 +102,17 @@
 
     <div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
       <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
-  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+  <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../preliminaries.html">Preliminaries</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">grannules</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../grannules.html">grannules package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
 </ul>
 
 </nav>
@@ -296,10 +292,10 @@
 </span><span id="line-130">
 </span><span id="line-131"><span class="sd">    :param train_data: The training data to train the model on in `_train_net`.</span>
 </span><span id="line-132"><span class="sd">        Defaults to ``None``.</span>
-</span><span id="line-133"><span class="sd">    :type train_data: pd.DataFrame, optional</span>
+</span><span id="line-133"><span class="sd">    :type train_data: pandas.DataFrame, optional</span>
 </span><span id="line-134"><span class="sd">    :param test_data: The testing data to train the model on in `_train_net`.</span>
 </span><span id="line-135"><span class="sd">        Defaults to ``None``.</span>
-</span><span id="line-136"><span class="sd">    :type test_data: pd.DataFrame, optional</span>
+</span><span id="line-136"><span class="sd">    :type test_data: pandas.DataFrame, optional</span>
 </span><span id="line-137"><span class="sd">    :param features: The features to train the model on. </span>
 </span><span id="line-138"><span class="sd">        Defaults to :attr:`NNPredictor.DEFAULT_FEATURES`.</span>
 </span><span id="line-139"><span class="sd">    :type features: list[str], optional</span>
@@ -540,13 +536,13 @@
 </span><span id="line-372"><span class="sd">        :type study_or_path: optuna.study.Study | str</span>
 </span><span id="line-373"><span class="sd">        :param data: The complete dataset to be split into training and testing</span>
 </span><span id="line-374"><span class="sd">            sets. If provided, `train_data` and `test_data` will be ignored.</span>
-</span><span id="line-375"><span class="sd">        :type data: pd.DataFrame | None</span>
+</span><span id="line-375"><span class="sd">        :type data: pandas.DataFrame | None</span>
 </span><span id="line-376"><span class="sd">        :param train_data: Pre-split training data. Used if `data` is not </span>
 </span><span id="line-377"><span class="sd">            provided.</span>
-</span><span id="line-378"><span class="sd">        :type train_data: pd.DataFrame | None</span>
+</span><span id="line-378"><span class="sd">        :type train_data: pandas.DataFrame | None</span>
 </span><span id="line-379"><span class="sd">        :param test_data: Pre-split testing data. Used if `data` is not</span>
 </span><span id="line-380"><span class="sd">            provided.</span>
-</span><span id="line-381"><span class="sd">        :type test_data: pd.DataFrame | None</span>
+</span><span id="line-381"><span class="sd">        :type test_data: pandas.DataFrame | None</span>
 </span><span id="line-382"><span class="sd">        :param study_name: Name of the Optuna study. Required if creating a new</span>
 </span><span id="line-383"><span class="sd">            study.</span>
 </span><span id="line-384"><span class="sd">        :type study_name: str | None</span>
@@ -625,12 +621,12 @@
 </span><span id="line-454"><span class="sd">        :param study_or_path: Union[optuna.study.Study, str]</span>
 </span><span id="line-455"><span class="sd">            An Optuna study or a path to an Optuna database.</span>
 </span><span id="line-456"><span class="sd">            If a path is provided, the study is loaded from the database, and `study_name` must be specified.</span>
-</span><span id="line-457"><span class="sd">        :param data: Optional[pd.DataFrame]</span>
+</span><span id="line-457"><span class="sd">        :param data: Optional[pandas.DataFrame]</span>
 </span><span id="line-458"><span class="sd">            The complete dataset to train the model. It will be split using `neural_net.split_data()`.</span>
 </span><span id="line-459"><span class="sd">            Required if `train_data` and `test_data` are not provided.</span>
-</span><span id="line-460"><span class="sd">        :param train_data: Optional[pd.DataFrame]</span>
+</span><span id="line-460"><span class="sd">        :param train_data: Optional[pandas.DataFrame]</span>
 </span><span id="line-461"><span class="sd">            The training dataset. Required if `data` is not provided.</span>
-</span><span id="line-462"><span class="sd">        :param test_data: Optional[pd.DataFrame]</span>
+</span><span id="line-462"><span class="sd">        :param test_data: Optional[pandas.DataFrame]</span>
 </span><span id="line-463"><span class="sd">            The testing dataset. Required if `data` is not provided.</span>
 </span><span id="line-464"><span class="sd">        :param study_name: Optional[str]</span>
 </span><span id="line-465"><span class="sd">            The name of the study to load from the database. This is required if `study_or_path` is a path.</span>
@@ -756,185 +752,234 @@
 <div class="viewcode-block" id="NNPredictor.predict">
 <a class="viewcode-back" href="../../grannules.html#grannules.NNPredictor.predict">[docs]</a>
 </span><span id="line-584">    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span> <span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">to_df</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-</span><span id="line-585">        <span class="n">X_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-</span><span id="line-586">        <span class="n">y_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">apply_fn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">X_</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</span><span id="line-587">        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_transformer</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_</span><span class="p">)</span>
-</span><span id="line-588">        <span class="n">y_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_TARGETS</span><span class="p">)</span>
-</span><span id="line-589">        <span class="k">return</span> <span class="n">y_df</span> <span class="k">if</span> <span class="n">to_df</span> <span class="k">else</span> <span class="n">y</span></div>
-
+</span><span id="line-585"><span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Predicts the parameters :math:`H,\, P,\, \tau,` and </span>
+</span><span id="line-586"><span class="sd">        :math:`\alpha` for red giant stars using a pre-trained neural network.</span>
+</span><span id="line-587">
+</span><span id="line-588"><span class="sd">        :param X: A pandas DataFrame with columns &#39;M&#39;, &#39;R&#39;, &#39;Teff&#39;, &#39;FeH&#39;, </span>
+</span><span id="line-589"><span class="sd">            &#39;KepMag&#39;, and &#39;phase&#39;. </span>
 </span><span id="line-590">
+</span><span id="line-591"><span class="sd">            * &#39;M&#39;: Mass of the star in solar masses.</span>
+</span><span id="line-592"><span class="sd">            * &#39;R&#39;: Radius of the star in solar radii.</span>
+</span><span id="line-593"><span class="sd">            * &#39;Teff&#39;: Effective temperature of the star in Kelvin.</span>
+</span><span id="line-594"><span class="sd">            * &#39;FeH&#39;: Metallicity of the star.</span>
+</span><span id="line-595"><span class="sd">            * &#39;KepMag&#39;: Apparent magnitude of the star in the Kepler band.</span>
+</span><span id="line-596"><span class="sd">            * &#39;phase&#39;: Phase of the star.</span>
+</span><span id="line-597">
+</span><span id="line-598"><span class="sd">        :type X: pandas.DataFrame</span>
+</span><span id="line-599"><span class="sd">        :param to_df: If True, returns the predictions as a pandas DataFrame. </span>
+</span><span id="line-600"><span class="sd">            Otherwise, returns a NumPy array.</span>
+</span><span id="line-601"><span class="sd">        :type to_df: bool</span>
+</span><span id="line-602"><span class="sd">        :return: Predicted values for :math:`H,\, P,\, \tau,\,` and :math:`\alpha`.</span>
+</span><span id="line-603"><span class="sd">            If `to_df` is True, the result is a pandas DataFrame with columns </span>
+</span><span id="line-604"><span class="sd">            [&#39;H&#39;, &#39;P&#39;, &#39;tau&#39;, &#39;alpha&#39;]. Otherwise, it is a NumPy array.</span>
+</span><span id="line-605"><span class="sd">        :rtype: pandas.DataFrame or numpy.ndarray</span>
+</span><span id="line-606"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="line-607">        <span class="n">X_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="line-608">        <span class="n">y_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">apply_fn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">X_</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="line-609">        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_transformer</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_</span><span class="p">)</span>
+</span><span id="line-610">        <span class="n">y_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_TARGETS</span><span class="p">)</span>
+</span><span id="line-611">        <span class="k">return</span> <span class="n">y_df</span> <span class="k">if</span> <span class="n">to_df</span> <span class="k">else</span> <span class="n">y</span></div>
+
+</span><span id="line-612">
 <div class="viewcode-block" id="NNPredictor.serialize">
 <a class="viewcode-back" href="../../grannules.html#grannules.NNPredictor.serialize">[docs]</a>
-</span><span id="line-591">    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-</span><span id="line-592">        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;grannules-predictor&quot;</span>
-</span><span id="line-593">        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># convert to Path if not already</span>
-</span><span id="line-594">        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-</span><span id="line-595">            <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
-</span><span id="line-596">                <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="p">{</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">(),</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">),</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()}:</span>
-</span><span id="line-597">                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-</span><span id="line-598">                        <span class="sa">f</span><span class="s2">&quot;Refusing to overwrite </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="line-599">                    <span class="p">)</span>
-</span><span id="line-600">                <span class="k">else</span><span class="p">:</span>
-</span><span id="line-601">                    <span class="n">rmtree</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># scary</span>
-</span><span id="line-602">            <span class="k">else</span><span class="p">:</span>
-</span><span id="line-603">                <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span>
-</span><span id="line-604">                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> already exists. Set overwrite = True to replace &quot;</span>
-</span><span id="line-605">                    <span class="s2">&quot;this.&quot;</span>
-</span><span id="line-606">                <span class="p">)</span>
-</span><span id="line-607">        <span class="n">path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
-</span><span id="line-608">
-</span><span id="line-609">        <span class="n">params_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;params.json&quot;</span>
-</span><span id="line-610">        <span class="n">state_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;state.pkl&quot;</span>
-</span><span id="line-611">        <span class="n">data_transform_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;transform.npy&quot;</span>
-</span><span id="line-612">
-</span><span id="line-613">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span id="line-614">            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-</span><span id="line-615">        
-</span><span id="line-616">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">state_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span id="line-617">            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">to_state_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span>
-</span><span id="line-618">        
-</span><span id="line-619">        <span class="n">transform_dict</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="line-620">            <span class="s2">&quot;X_scale&quot;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_transformer</span><span class="o">.</span><span class="n">scale_</span><span class="p">,</span>
-</span><span id="line-621">            <span class="s2">&quot;X_center&quot;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_transformer</span><span class="o">.</span><span class="n">center_</span><span class="p">,</span>
-</span><span id="line-622">            <span class="s2">&quot;y_scale&quot;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_transformer</span><span class="o">.</span><span class="n">scale_</span><span class="p">,</span>
-</span><span id="line-623">            <span class="s2">&quot;y_center&quot;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_transformer</span><span class="o">.</span><span class="n">center_</span>
-</span><span id="line-624">        <span class="p">}</span>
-</span><span id="line-625">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_transform_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span id="line-626">            <span class="n">jnp</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">transform_dict</span><span class="p">)</span></div>
+</span><span id="line-613">    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+</span><span id="line-614"><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="line-615"><span class="sd">        Serialize the neural network model, its parameters, and data transformations </span>
+</span><span id="line-616"><span class="sd">        to the specified directory.</span>
+</span><span id="line-617"><span class="sd">        </span>
+</span><span id="line-618"><span class="sd">        This method saves the model&#39;s parameters, state, and data transformation </span>
+</span><span id="line-619"><span class="sd">        details into a directory for later use. If the directory already exists, </span>
+</span><span id="line-620"><span class="sd">        it can optionally overwrite it.</span>
+</span><span id="line-621">
+</span><span id="line-622"><span class="sd">        :param path: The directory path where the model will be serialized. </span>
+</span><span id="line-623"><span class="sd">                     Defaults to the current working directory with the name </span>
+</span><span id="line-624"><span class="sd">                     &quot;grannules-predictor&quot;.</span>
+</span><span id="line-625"><span class="sd">        :type path: str | pathlib.Path, optional</span>
+</span><span id="line-626"><span class="sd">        :param overwrite: Whether to overwrite the directory if it already exists. </span>
+</span><span id="line-627"><span class="sd">                          Defaults to False.</span>
+</span><span id="line-628"><span class="sd">        :type overwrite: bool</span>
+</span><span id="line-629"><span class="sd">        :raises RuntimeError: If attempting to overwrite the current working </span>
+</span><span id="line-630"><span class="sd">                              directory, root, or home.</span>
+</span><span id="line-631"><span class="sd">        :raises FileExistsError: If the directory already exists and `overwrite` </span>
+</span><span id="line-632"><span class="sd">                                 is set to False.</span>
+</span><span id="line-633"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="line-634">        
+</span><span id="line-635">        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;grannules-predictor&quot;</span>
+</span><span id="line-636">        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># convert to Path if not already</span>
+</span><span id="line-637">        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+</span><span id="line-638">            <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+</span><span id="line-639">                <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="p">{</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">(),</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">),</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()}:</span>
+</span><span id="line-640">                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+</span><span id="line-641">                        <span class="sa">f</span><span class="s2">&quot;Refusing to overwrite </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="line-642">                    <span class="p">)</span>
+</span><span id="line-643">                <span class="k">else</span><span class="p">:</span>
+</span><span id="line-644">                    <span class="n">rmtree</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># scary</span>
+</span><span id="line-645">            <span class="k">else</span><span class="p">:</span>
+</span><span id="line-646">                <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span>
+</span><span id="line-647">                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> already exists. Set overwrite = True to replace &quot;</span>
+</span><span id="line-648">                    <span class="s2">&quot;this.&quot;</span>
+</span><span id="line-649">                <span class="p">)</span>
+</span><span id="line-650">        <span class="n">path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
+</span><span id="line-651">
+</span><span id="line-652">        <span class="n">params_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;params.json&quot;</span>
+</span><span id="line-653">        <span class="n">state_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;state.pkl&quot;</span>
+</span><span id="line-654">        <span class="n">data_transform_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;transform.npy&quot;</span>
+</span><span id="line-655">
+</span><span id="line-656">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="line-657">            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</span><span id="line-658">        
+</span><span id="line-659">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">state_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="line-660">            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">to_state_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span>
+</span><span id="line-661">        
+</span><span id="line-662">        <span class="n">transform_dict</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="line-663">            <span class="s2">&quot;X_scale&quot;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_transformer</span><span class="o">.</span><span class="n">scale_</span><span class="p">,</span>
+</span><span id="line-664">            <span class="s2">&quot;X_center&quot;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_transformer</span><span class="o">.</span><span class="n">center_</span><span class="p">,</span>
+</span><span id="line-665">            <span class="s2">&quot;y_scale&quot;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_transformer</span><span class="o">.</span><span class="n">scale_</span><span class="p">,</span>
+</span><span id="line-666">            <span class="s2">&quot;y_center&quot;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_transformer</span><span class="o">.</span><span class="n">center_</span>
+</span><span id="line-667">        <span class="p">}</span>
+</span><span id="line-668">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_transform_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="line-669">            <span class="n">jnp</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">transform_dict</span><span class="p">)</span></div>
 
-</span><span id="line-627">    
+</span><span id="line-670">    
 <div class="viewcode-block" id="NNPredictor.deserialize">
 <a class="viewcode-back" href="../../grannules.html#grannules.NNPredictor.deserialize">[docs]</a>
-</span><span id="line-628">    <span class="nd">@classmethod</span>
-</span><span id="line-629">    <span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-</span><span id="line-630"><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="line-631"><span class="sd">        Deserialize a neural network model, its state, and associated </span>
-</span><span id="line-632"><span class="sd">        transformers from a directory. </span>
-</span><span id="line-633">
-</span><span id="line-634"><span class="sd">        :param path: Path to the directory containing the serialized model files. </span>
-</span><span id="line-635"><span class="sd">                 The directory should include:</span>
-</span><span id="line-636"><span class="sd">                 * &quot;params.json&quot;: JSON file with model parameters.</span>
-</span><span id="line-637"><span class="sd">                 * &quot;state.pkl&quot;: Pickle file with the model&#39;s state dictionary.</span>
-</span><span id="line-638"><span class="sd">                 * &quot;transform.npy&quot;: Numpy file with transformation parameters </span>
-</span><span id="line-639"><span class="sd">                 for input and output scaling.</span>
-</span><span id="line-640"><span class="sd">        :type path: str or Path</span>
-</span><span id="line-641"><span class="sd">        :return: An instance of `NNPredictor` initialized with the deserialized </span>
-</span><span id="line-642"><span class="sd">        model, state, and transformers.</span>
-</span><span id="line-643"><span class="sd">        :rtype: NNPredictor</span>
-</span><span id="line-644"><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="line-645">        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;grannules-predictor&quot;</span>
-</span><span id="line-646">        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-</span><span id="line-647">        
-</span><span id="line-648">        <span class="n">params_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;params.json&quot;</span>
-</span><span id="line-649">        <span class="n">state_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;state.pkl&quot;</span>
-</span><span id="line-650">        <span class="n">data_transform_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;transform.npy&quot;</span>
-</span><span id="line-651">
-</span><span id="line-652">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span id="line-653">            <span class="n">params</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</span><span id="line-654">        <span class="n">model</span> <span class="o">=</span> <span class="n">_model_from_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">NNPredictor</span><span class="o">.</span><span class="n">DEFAULT_TARGETS</span><span class="p">))</span>
-</span><span id="line-655">        <span class="n">blank_state</span> <span class="o">=</span> <span class="n">train_state</span><span class="o">.</span><span class="n">TrainState</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-</span><span id="line-656">            <span class="n">apply_fn</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">apply</span><span class="p">,</span>
-</span><span id="line-657">            <span class="n">params</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">init</span><span class="p">(</span>
-</span><span id="line-658">                <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> 
-</span><span id="line-659">                <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">42</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">NNPredictor</span><span class="o">.</span><span class="n">DEFAULT_FEATURES</span><span class="p">))),</span> 
-</span><span id="line-660">                <span class="n">training</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> 
-</span><span id="line-661">                <span class="n">tx</span> <span class="o">=</span> <span class="n">optax</span><span class="o">.</span><span class="n">adam</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">)</span>
-</span><span id="line-662">        <span class="p">)</span>
-</span><span id="line-663">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">state_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span id="line-664">            <span class="n">state_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</span><span id="line-665">
-</span><span id="line-666">        <span class="n">state</span> <span class="o">=</span> <span class="n">from_state_dict</span><span class="p">(</span><span class="n">blank_state</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">)</span>
-</span><span id="line-667">
-</span><span id="line-668">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_transform_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span id="line-669">            <span class="n">transform_dict</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">allow_pickle</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-</span><span id="line-670">        <span class="c1"># print(f&quot;{transform_dict = !r}&quot;)</span>
-</span><span id="line-671">        <span class="n">X_transformer</span> <span class="o">=</span> <span class="n">DefaultXTransformer</span><span class="p">(</span><span class="n">transform_dict</span><span class="p">[</span><span class="s2">&quot;X_center&quot;</span><span class="p">],</span> <span class="n">transform_dict</span><span class="p">[</span><span class="s2">&quot;X_scale&quot;</span><span class="p">])</span>
-</span><span id="line-672">        <span class="n">y_transformer</span> <span class="o">=</span> <span class="n">DefaultyTransformer</span><span class="p">(</span><span class="n">transform_dict</span><span class="p">[</span><span class="s2">&quot;y_center&quot;</span><span class="p">],</span> <span class="n">transform_dict</span><span class="p">[</span><span class="s2">&quot;y_scale&quot;</span><span class="p">])</span>
-</span><span id="line-673">
-</span><span id="line-674">        <span class="k">return</span> <span class="n">NNPredictor</span><span class="p">(</span>
-</span><span id="line-675">            <span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
-</span><span id="line-676">            <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="p">,</span>
-</span><span id="line-677">            <span class="n">X_transformer</span> <span class="o">=</span> <span class="n">X_transformer</span><span class="p">,</span>
-</span><span id="line-678">            <span class="n">y_transformer</span> <span class="o">=</span> <span class="n">y_transformer</span>
-</span><span id="line-679">        <span class="p">)</span></div>
+</span><span id="line-671">    <span class="nd">@classmethod</span>
+</span><span id="line-672">    <span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+</span><span id="line-673"><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="line-674"><span class="sd">        Deserialize a neural network model, its state, and associated </span>
+</span><span id="line-675"><span class="sd">        transformers from a directory. </span>
+</span><span id="line-676">
+</span><span id="line-677"><span class="sd">        :param path: Path to the directory containing the serialized model files. </span>
+</span><span id="line-678"><span class="sd">                 The directory should include:</span>
+</span><span id="line-679">
+</span><span id="line-680"><span class="sd">                 * &quot;params.json&quot;: JSON file with model parameters.</span>
+</span><span id="line-681"><span class="sd">                 * &quot;state.pkl&quot;: Pickle file with the model&#39;s state dictionary.</span>
+</span><span id="line-682"><span class="sd">                 * &quot;transform.npy&quot;: Numpy file with transformation parameters </span>
+</span><span id="line-683"><span class="sd">                 for input and output scaling.</span>
+</span><span id="line-684"><span class="sd">                 </span>
+</span><span id="line-685"><span class="sd">        :type path: str or Path</span>
+</span><span id="line-686"><span class="sd">        :return: An instance of `NNPredictor` initialized with the deserialized </span>
+</span><span id="line-687"><span class="sd">            model, state, and transformers.</span>
+</span><span id="line-688"><span class="sd">        :rtype: NNPredictor</span>
+</span><span id="line-689"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="line-690">        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;grannules-predictor&quot;</span>
+</span><span id="line-691">        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</span><span id="line-692">        
+</span><span id="line-693">        <span class="n">params_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;params.json&quot;</span>
+</span><span id="line-694">        <span class="n">state_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;state.pkl&quot;</span>
+</span><span id="line-695">        <span class="n">data_transform_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;transform.npy&quot;</span>
+</span><span id="line-696">
+</span><span id="line-697">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="line-698">            <span class="n">params</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</span><span id="line-699">        <span class="n">model</span> <span class="o">=</span> <span class="n">_model_from_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">NNPredictor</span><span class="o">.</span><span class="n">DEFAULT_TARGETS</span><span class="p">))</span>
+</span><span id="line-700">        <span class="n">blank_state</span> <span class="o">=</span> <span class="n">train_state</span><span class="o">.</span><span class="n">TrainState</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="line-701">            <span class="n">apply_fn</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">apply</span><span class="p">,</span>
+</span><span id="line-702">            <span class="n">params</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">init</span><span class="p">(</span>
+</span><span id="line-703">                <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> 
+</span><span id="line-704">                <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">42</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">NNPredictor</span><span class="o">.</span><span class="n">DEFAULT_FEATURES</span><span class="p">))),</span> 
+</span><span id="line-705">                <span class="n">training</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> 
+</span><span id="line-706">                <span class="n">tx</span> <span class="o">=</span> <span class="n">optax</span><span class="o">.</span><span class="n">adam</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">)</span>
+</span><span id="line-707">        <span class="p">)</span>
+</span><span id="line-708">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">state_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="line-709">            <span class="n">state_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</span><span id="line-710">
+</span><span id="line-711">        <span class="n">state</span> <span class="o">=</span> <span class="n">from_state_dict</span><span class="p">(</span><span class="n">blank_state</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">)</span>
+</span><span id="line-712">
+</span><span id="line-713">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_transform_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="line-714">            <span class="n">transform_dict</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">allow_pickle</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</span><span id="line-715">        <span class="c1"># print(f&quot;{transform_dict = !r}&quot;)</span>
+</span><span id="line-716">        <span class="n">X_transformer</span> <span class="o">=</span> <span class="n">DefaultXTransformer</span><span class="p">(</span><span class="n">transform_dict</span><span class="p">[</span><span class="s2">&quot;X_center&quot;</span><span class="p">],</span> <span class="n">transform_dict</span><span class="p">[</span><span class="s2">&quot;X_scale&quot;</span><span class="p">])</span>
+</span><span id="line-717">        <span class="n">y_transformer</span> <span class="o">=</span> <span class="n">DefaultyTransformer</span><span class="p">(</span><span class="n">transform_dict</span><span class="p">[</span><span class="s2">&quot;y_center&quot;</span><span class="p">],</span> <span class="n">transform_dict</span><span class="p">[</span><span class="s2">&quot;y_scale&quot;</span><span class="p">])</span>
+</span><span id="line-718">
+</span><span id="line-719">        <span class="k">return</span> <span class="n">NNPredictor</span><span class="p">(</span>
+</span><span id="line-720">            <span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+</span><span id="line-721">            <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="p">,</span>
+</span><span id="line-722">            <span class="n">X_transformer</span> <span class="o">=</span> <span class="n">X_transformer</span><span class="p">,</span>
+</span><span id="line-723">            <span class="n">y_transformer</span> <span class="o">=</span> <span class="n">y_transformer</span>
+</span><span id="line-724">        <span class="p">)</span></div>
 
-</span><span id="line-680">
-</span><span id="line-681">    <span class="nd">@classmethod</span>
-</span><span id="line-682">    <span class="k">def</span> <span class="nf">_default_from_serialize</span><span class="p">(</span>
-</span><span id="line-683">            <span class="bp">cls</span><span class="p">,</span>
-</span><span id="line-684">            <span class="n">path</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-</span><span id="line-685">    <span class="p">):</span>
-</span><span id="line-686">        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-</span><span id="line-687">
-</span><span id="line-688">    <span class="n">_default_predictor</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="line-725">
+</span><span id="line-726">    <span class="nd">@classmethod</span>
+</span><span id="line-727">    <span class="k">def</span> <span class="nf">_default_from_serialize</span><span class="p">(</span>
+</span><span id="line-728">            <span class="bp">cls</span><span class="p">,</span>
+</span><span id="line-729">            <span class="n">path</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;../data/default-serialized&quot;</span>
+</span><span id="line-730">    <span class="p">):</span>
+</span><span id="line-731">        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</span><span id="line-732">
+</span><span id="line-733">    <span class="n">_default_predictor</span> <span class="o">=</span> <span class="kc">None</span>
 <div class="viewcode-block" id="NNPredictor.get_default_predictor">
 <a class="viewcode-back" href="../../grannules.html#grannules.NNPredictor.get_default_predictor">[docs]</a>
-</span><span id="line-689">    <span class="nd">@classmethod</span>
-</span><span id="line-690">    <span class="k">def</span> <span class="nf">get_default_predictor</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-</span><span id="line-691"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets pre-trained NNPredictor&quot;&quot;&quot;</span>
-</span><span id="line-692">        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_default_predictor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="line-693">            <span class="bp">cls</span><span class="o">.</span><span class="n">_default_predictor</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_default_from_serialize</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</span><span id="line-694">
-</span><span id="line-695">        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_default_predictor</span></div>
+</span><span id="line-734">    <span class="nd">@classmethod</span>
+</span><span id="line-735">    <span class="k">def</span> <span class="nf">get_default_predictor</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span id="line-736"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a pre-trained NNPredictor singleton.</span>
+</span><span id="line-737">
+</span><span id="line-738"><span class="sd">        :return: A pre-trained NNPredictor</span>
+</span><span id="line-739"><span class="sd">        :rtype: NNPredictor</span>
+</span><span id="line-740"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="line-741">        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_default_predictor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="line-742">            <span class="bp">cls</span><span class="o">.</span><span class="n">_default_predictor</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_default_from_serialize</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="line-743">
+</span><span id="line-744">        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_default_predictor</span></div>
 </div>
 
-</span><span id="line-696">
+</span><span id="line-745">
 <div class="viewcode-block" id="predict">
 <a class="viewcode-back" href="../../grannules.html#grannules.predict">[docs]</a>
-</span><span id="line-697"><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">to_df</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-</span><span id="line-698"><span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Predicts the parameters :math:`H,\, P,\, \tau,` and </span>
-</span><span id="line-699"><span class="sd">    :math:`\alpha` for red giant stars using a pre-trained neural network.</span>
-</span><span id="line-700">
-</span><span id="line-701"><span class="sd">    :param X: A pandas DataFrame with columns &#39;M&#39;, &#39;R&#39;, &#39;Teff&#39;, &#39;FeH&#39;, </span>
-</span><span id="line-702"><span class="sd">        &#39;KepMag&#39;, and &#39;phase&#39;. </span>
-</span><span id="line-703"><span class="sd">        - &#39;M&#39;: Mass of the star in solar masses.</span>
-</span><span id="line-704"><span class="sd">        - &#39;R&#39;: Radius of the star in solar radii.</span>
-</span><span id="line-705"><span class="sd">        - &#39;Teff&#39;: Effective temperature of the star in Kelvin.</span>
-</span><span id="line-706"><span class="sd">        - &#39;FeH&#39;: Metallicity of the star.</span>
-</span><span id="line-707"><span class="sd">        - &#39;KepMag&#39;: Apparent magnitude of the star in the Kepler band.</span>
-</span><span id="line-708"><span class="sd">        - &#39;phase&#39;: Phase of the star.</span>
-</span><span id="line-709"><span class="sd">    :type X: pd.DataFrame</span>
-</span><span id="line-710"><span class="sd">    :param to_df: If True, returns the predictions as a pandas DataFrame. </span>
-</span><span id="line-711"><span class="sd">        Otherwise, returns a NumPy array.</span>
-</span><span id="line-712"><span class="sd">    :type to_df: bool</span>
-</span><span id="line-713"><span class="sd">    :return: Predicted values for :math:`H,\, P,\, \tau,\,` and :math:`\alpha`.</span>
-</span><span id="line-714"><span class="sd">        If `to_df` is True, the result is a pandas DataFrame with columns </span>
-</span><span id="line-715"><span class="sd">        [&#39;H&#39;, &#39;P&#39;, &#39;tau&#39;, &#39;alpha&#39;]. Otherwise, it is a NumPy array.</span>
-</span><span id="line-716"><span class="sd">    :rtype: pd.DataFrame or np.ndarray</span>
-</span><span id="line-717"><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="line-718">    <span class="c1"># TODO: MAKE SURE THIS IS WHAT KEPMAG IS???</span>
-</span><span id="line-719">    <span class="n">predictor</span> <span class="o">=</span> <span class="n">NNPredictor</span><span class="o">.</span><span class="n">get_default_predictor</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</span><span id="line-720">    <span class="k">return</span> <span class="n">predictor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">to_df</span><span class="p">)</span></div>
-
-</span><span id="line-721">
-</span><span id="line-722"><span class="c1"># # Alternate version that uses trial.params instead. I don&#39;t think we need it, but it&#39;s here just in case.</span>
-</span><span id="line-723"><span class="c1"># use_dropout_layer = trial.params[&#39;use_dropout_rate&#39;]</span>
-</span><span id="line-724"><span class="c1"># if use_dropout_layer:</span>
-</span><span id="line-725"><span class="c1">#     dropout_rate = trial.params[&#39;dropout_rate&#39;]</span>
-</span><span id="line-726"><span class="c1"># num_layers=  trial.params[&#39;num_layers&#39;]</span>
-</span><span id="line-727"><span class="c1"># class StellarModel(nn.Module):</span>
-</span><span id="line-728"><span class="c1">#     @nn.compact</span>
-</span><span id="line-729"><span class="c1">#     def __call__(self, x, training : bool):</span>
-</span><span id="line-730"><span class="c1">#         for i in range(num_layers):</span>
-</span><span id="line-731"><span class="c1">#             layer_size = trial.params[f&#39;layer_{i}_size&#39;]</span>
-</span><span id="line-732"><span class="c1">#             x = nn.Dense(layer_size)(x)</span>
-</span><span id="line-733"><span class="c1">#             layer_type = trial.params[f&#39;layer_{i}_type&#39;]</span>
-</span><span id="line-734"><span class="c1">#             match layer_type:</span>
-</span><span id="line-735"><span class="c1">#                 case &#39;relu&#39;:</span>
-</span><span id="line-736"><span class="c1">#                     x = nn.relu(x)</span>
-</span><span id="line-737"><span class="c1">#                 case &#39;sigmoid&#39;:</span>
-</span><span id="line-738"><span class="c1">#                     x = nn.sigmoid(x)</span>
-</span><span id="line-739"><span class="c1">#                 case &#39;tanh&#39;:</span>
-</span><span id="line-740"><span class="c1">#                     x = nn.tanh(x)</span>
-</span><span id="line-741"><span class="c1">#             if use_dropout_layer:</span>
-</span><span id="line-742"><span class="c1">#                 x = nn.Dropout(rate=dropout_rate)(x, deterministic=not training)</span>
-</span><span id="line-743">
-</span><span id="line-744"><span class="c1">#         x = nn.Dense(y_train.shape[1])(x)</span>
-</span><span id="line-745"><span class="c1">#         return x</span>
-</span><span id="line-746"><span class="c1"># model = StellarModel()</span>
-</span><span id="line-747"><span class="c1"># TODO: put these in a more relevant file</span>
-</span><span id="line-748">
+</span><span id="line-746"><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">to_df</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+</span><span id="line-747"><span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Predicts the parameters :math:`H,\, P,\, \tau,` and </span>
+</span><span id="line-748"><span class="sd">    :math:`\alpha` for red giant stars using a pre-trained neural network.</span>
 </span><span id="line-749">
+</span><span id="line-750"><span class="sd">    :param X: A pandas DataFrame with columns &#39;M&#39;, &#39;R&#39;, &#39;Teff&#39;, &#39;FeH&#39;, </span>
+</span><span id="line-751"><span class="sd">        &#39;KepMag&#39;, and &#39;phase&#39;. </span>
+</span><span id="line-752"><span class="sd">        - &#39;M&#39;: Mass of the star in solar masses.</span>
+</span><span id="line-753"><span class="sd">        - &#39;R&#39;: Radius of the star in solar radii.</span>
+</span><span id="line-754"><span class="sd">        - &#39;Teff&#39;: Effective temperature of the star in Kelvin.</span>
+</span><span id="line-755"><span class="sd">        - &#39;FeH&#39;: Metallicity of the star.</span>
+</span><span id="line-756"><span class="sd">        - &#39;KepMag&#39;: Apparent magnitude of the star in the Kepler band.</span>
+</span><span id="line-757"><span class="sd">        - &#39;phase&#39;: Phase of the star.</span>
+</span><span id="line-758"><span class="sd">    :type X: pandas.DataFrame</span>
+</span><span id="line-759"><span class="sd">    :param to_df: If True, returns the predictions as a pandas DataFrame. </span>
+</span><span id="line-760"><span class="sd">        Otherwise, returns a NumPy array.</span>
+</span><span id="line-761"><span class="sd">    :type to_df: bool</span>
+</span><span id="line-762"><span class="sd">    :return: Predicted values for :math:`H,\, P,\, \tau,\,` and :math:`\alpha`.</span>
+</span><span id="line-763"><span class="sd">        If `to_df` is True, the result is a pandas DataFrame with columns </span>
+</span><span id="line-764"><span class="sd">        [&#39;H&#39;, &#39;P&#39;, &#39;tau&#39;, &#39;alpha&#39;]. Otherwise, it is a NumPy array.</span>
+</span><span id="line-765"><span class="sd">    :rtype: pandas.DataFrame or numpy.ndarray</span>
+</span><span id="line-766"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="line-767">    <span class="c1"># TODO: MAKE SURE THIS IS WHAT KEPMAG IS???</span>
+</span><span id="line-768">    <span class="n">predictor</span> <span class="o">=</span> <span class="n">NNPredictor</span><span class="o">.</span><span class="n">get_default_predictor</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="line-769">    <span class="k">return</span> <span class="n">predictor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">to_df</span><span class="p">)</span></div>
+
+</span><span id="line-770">
+</span><span id="line-771"><span class="c1"># # Alternate version that uses trial.params instead. I don&#39;t think we need it, but it&#39;s here just in case.</span>
+</span><span id="line-772"><span class="c1"># use_dropout_layer = trial.params[&#39;use_dropout_rate&#39;]</span>
+</span><span id="line-773"><span class="c1"># if use_dropout_layer:</span>
+</span><span id="line-774"><span class="c1">#     dropout_rate = trial.params[&#39;dropout_rate&#39;]</span>
+</span><span id="line-775"><span class="c1"># num_layers=  trial.params[&#39;num_layers&#39;]</span>
+</span><span id="line-776"><span class="c1"># class StellarModel(nn.Module):</span>
+</span><span id="line-777"><span class="c1">#     @nn.compact</span>
+</span><span id="line-778"><span class="c1">#     def __call__(self, x, training : bool):</span>
+</span><span id="line-779"><span class="c1">#         for i in range(num_layers):</span>
+</span><span id="line-780"><span class="c1">#             layer_size = trial.params[f&#39;layer_{i}_size&#39;]</span>
+</span><span id="line-781"><span class="c1">#             x = nn.Dense(layer_size)(x)</span>
+</span><span id="line-782"><span class="c1">#             layer_type = trial.params[f&#39;layer_{i}_type&#39;]</span>
+</span><span id="line-783"><span class="c1">#             match layer_type:</span>
+</span><span id="line-784"><span class="c1">#                 case &#39;relu&#39;:</span>
+</span><span id="line-785"><span class="c1">#                     x = nn.relu(x)</span>
+</span><span id="line-786"><span class="c1">#                 case &#39;sigmoid&#39;:</span>
+</span><span id="line-787"><span class="c1">#                     x = nn.sigmoid(x)</span>
+</span><span id="line-788"><span class="c1">#                 case &#39;tanh&#39;:</span>
+</span><span id="line-789"><span class="c1">#                     x = nn.tanh(x)</span>
+</span><span id="line-790"><span class="c1">#             if use_dropout_layer:</span>
+</span><span id="line-791"><span class="c1">#                 x = nn.Dropout(rate=dropout_rate)(x, deterministic=not training)</span>
+</span><span id="line-792">
+</span><span id="line-793"><span class="c1">#         x = nn.Dense(y_train.shape[1])(x)</span>
+</span><span id="line-794"><span class="c1">#         return x</span>
+</span><span id="line-795"><span class="c1"># model = StellarModel()</span>
+</span><span id="line-796"><span class="c1"># TODO: put these in a more relevant file</span>
+</span><span id="line-797">
+</span><span id="line-798">
 </span></code></pre></div>
     </div></div>
         </main>

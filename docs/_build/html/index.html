@@ -70,21 +70,17 @@
 </a>
 <div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
 <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="usage.html">Usage<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="preliminaries.html">Preliminaries</a></li>
-</ul>
-</li>
-<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="modules.html">grannules<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l2"><a class="reference internal" href="grannules.html">grannules package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 </ul>
 </nav>
 </div>
@@ -104,14 +100,9 @@
 <a href="https://pypi.python.org/pypi/grannules">
 <img alt="PyPI version" src="https://img.shields.io/pypi/v/grannules.svg"/>
 </a>
-<a href="https://grannules.readthedocs.io/en/latest/?version=latest">
-<img alt="Documentation Status" src="https://readthedocs.org/projects/grannules/badge/?version=latest"/>
-</a>
-<a href="https://github.com/earlbellinger/grannules/blob/main/LICENSE">
-<img alt="MIT License" src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat"/>
-</a>
+
 </div><p>A package for predicting granulation light variability parameters of red giant stars.</p>
-<p>Red giant power spectra generally look like Figure 1 of Samadi et al. 2016 <a class="footnote-reference brackets" href="#id6" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>:</p>
+<p>Red giant power spectra generally look like Figure 1 of Samadi et al. 2016 <a class="footnote-reference brackets" href="#id5" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>:</p>
 <a class="reference internal image-reference" href="_images/deassisgraph.png"><img alt="Red giant power spectrum with model components overplotted." src="_images/deassisgraph.png" style="width: 400px;"/>
 </a>
 <p>The blue curve represents the component of the spectrum originating from the granulation of the star. In other words, the light variability caused by the appearance and disappearance of “granules,” or convection cells on the star’s photosphere. The red curve represents the component of the spectrum originating from stellar oscillations.</p>
@@ -125,19 +116,19 @@
 <p>where <span class="math notranslate nohighlight">\(\tau\)</span> is the timescale of granulation, and <span class="math notranslate nohighlight">\(\delta \nu_\mathrm{env}\)</span> is the FWHM of the gaussian, which we take to be <span class="math notranslate nohighlight">\(\delta \nu_\mathrm{env} = 0.66 \nu_\mathrm{max}^{0.88}\)</span> <a class="footnote-reference brackets" href="#id6" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, <a class="footnote-reference brackets" href="#id7" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>. <span class="math notranslate nohighlight">\(H,\, P,\, \tau,\,\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span> are usually fitted parameters. There exist scaling relations for these values, but they are nowhere near accurate enough for practical use <a class="footnote-reference brackets" href="#id6" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
 <p>This is where <code class="docutils literal notranslate"><span class="pre">grannules</span></code> comes in. This Python package is essentially a wrapper around a neural network that, given a star’s mass, radius, temperature, luminosity, and evolutionary phase, can predict that star’s background parameters much more accurately than the existing scaling relations.</p>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#stable-release">Stable release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#from-sources">From sources</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="preliminaries.html">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.NNPredictor"><code class="docutils literal notranslate"><span class="pre">NNPredictor</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">grannules</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="grannules.html">grannules package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="preliminaries.html">Preliminaries</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -157,20 +148,16 @@
 <li class="toctree-l2"><a class="reference internal" href="history.html#id1">0.1.0 (2025-03-01)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#grannules.NNPredictor"><code class="docutils literal notranslate"><span class="pre">NNPredictor</span></code></a></li>
-</ul>
-</li>
 </ul>
 </div>
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="id5" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a href="#id1" role="doc-backlink">1</a><span class="fn-bracket">]</span></span>
 <p>Samadi, R., et al. 2016 idk how to do this</p>
 </aside>
 <aside class="footnote brackets" id="id6" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a href="#id1" role="doc-backlink">1</a>,<a href="#id2" role="doc-backlink">2</a>,<a href="#id4" role="doc-backlink">3</a>)</span>
+<span class="backrefs">(<a href="#id2" role="doc-backlink">1</a>,<a href="#id4" role="doc-backlink">2</a>)</span>
 <p>de Assis Peralta, R., et al. 2018</p>
 </aside>
 <aside class="footnote brackets" id="id7" role="doc-footnote">

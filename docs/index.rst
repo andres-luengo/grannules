@@ -1,5 +1,5 @@
 grannules
-========
+=========
 
 .. raw:: html
 
@@ -16,7 +16,7 @@ grannules
 
 A package for predicting granulation light variability parameters of red giant stars.
 
-Red giant power spectra generally look like Figure 1 of Samadi et al. 2016 [2]_:
+Red giant power spectra generally look like Figure 1 of Samadi et al. 2016 [1]_:
 
 .. image:: ../images/deassisgraph.png
    :width: 400
@@ -52,7 +52,6 @@ This is where ``grannules`` comes in. This Python package is essentially a wrapp
    contributing
    authors
    history
-   .. modules
 
 .. [1] Samadi, R., et al. 2016 idk how to do this   
 

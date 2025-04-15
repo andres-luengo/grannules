@@ -1,4 +1,5 @@
 from .utils.datatransform import DefaultXTransformer, DefaultyTransformer
+from .utils.model import model_from_params, model_from_trial
 
 import numpy as np
 import pandas as pd
@@ -62,62 +63,6 @@ def _split_data(df, random_state = None):
 
     return df_train, df_test
 
-def model_from_trial(trial, n_outputs):
-        """Returns a StellarModel with the architecture defined by `trial`."""
-        num_layers = trial.suggest_int('num_layers', 1, 5)
-
-        use_dropout_layer = trial.suggest_categorical('use_dropout_rate', [True, False])
-        if use_dropout_layer:
-            dropout_rate = trial.suggest_float('dropout_rate', 0.001, 0.25, log=True)
-        class StellarModel(nn.Module):
-            @nn.compact
-            def __call__(self, x, training : bool):
-                for i in range(num_layers):
-                    layer_size = trial.suggest_int(f'layer_{i}_size', 16, 512, log=False)
-                    x = nn.Dense(layer_size)(x)
-                    layer_type = trial.suggest_categorical(f'layer_{i}_type', ['relu', 'sigmoid', 'tanh'])
-                    match layer_type:
-                        case 'relu':
-                            x = nn.relu(x)
-                        case 'sigmoid':
-                            x = nn.sigmoid(x)
-                        case 'tanh':
-                            x = nn.tanh(x)
-                    if use_dropout_layer:
-                        x = nn.Dropout(rate=dropout_rate)(x, deterministic=not training)
-
-                x = nn.Dense(n_outputs)(x)
-                return x
-        return StellarModel()
-
-def _model_from_params(params, n_outputs):
-        """Returns a StellarModel with the architecture defined by `params`."""
-        num_layers = params['num_layers']
-
-        use_dropout_layer = params['use_dropout_rate']
-        if use_dropout_layer:
-            dropout_rate = params['dropout_rate']
-        class StellarModel(nn.Module):
-            @nn.compact
-            def __call__(self, x, training : bool):
-                for i in range(num_layers):
-                    layer_size = params[f'layer_{i}_size']
-                    x = nn.Dense(layer_size)(x)
-                    layer_type = params[f'layer_{i}_type']
-                    match layer_type:
-                        case 'relu':
-                            x = nn.relu(x)
-                        case 'sigmoid':
-                            x = nn.sigmoid(x)
-                        case 'tanh':
-                            x = nn.tanh(x)
-                    if use_dropout_layer:
-                        x = nn.Dropout(rate=dropout_rate)(x, deterministic=not training)
-
-                x = nn.Dense(n_outputs)(x)
-                return x
-        return StellarModel()
-
 # TODO: function that makes a net "from scratch" since right now you need to pass in a study
 # i.e. implement optuna.ipynb
 class NNPredictor():    
@@ -130,10 +75,10 @@ class NNPredictor():
 
     :param train_data: The training data to train the model on in `_train_net`.
         Defaults to ``None``.
-    :type train_data: pd.DataFrame, optional
+    :type train_data: pandas.DataFrame, optional
     :param test_data: The testing data to train the model on in `_train_net`.
         Defaults to ``None``.
-    :type test_data: pd.DataFrame, optional
+    :type test_data: pandas.DataFrame, optional
     :param features: The features to train the model on. 
         Defaults to :attr:`NNPredictor.DEFAULT_FEATURES`.
     :type features: list[str], optional
@@ -372,13 +317,13 @@ class NNPredictor():
         :type study_or_path: optuna.study.Study | str
         :param data: The complete dataset to be split into training and testing
             sets. If provided, `train_data` and `test_data` will be ignored.
-        :type data: pd.DataFrame | None
+        :type data: pandas.DataFrame | None
         :param train_data: Pre-split training data. Used if `data` is not 
             provided.
-        :type train_data: pd.DataFrame | None
+        :type train_data: pandas.DataFrame | None
         :param test_data: Pre-split testing data. Used if `data` is not
             provided.
-        :type test_data: pd.DataFrame | None
+        :type test_data: pandas.DataFrame | None
         :param study_name: Name of the Optuna study. Required if creating a new
             study.
         :type study_name: str | None
@@ -405,7 +350,7 @@ class NNPredictor():
         :type kwargs: dict
         :returns: A tuple containing the trained neural network predictor and
             the Optuna study.
-        :rtype: tuple['NNPredictor', optuna.study.Study]
+        :rtype: tuple[NNPredictor, optuna.study.Study]
         """
         if isinstance(study_or_path, str):
             study = optuna.create_study(
@@ -454,12 +399,12 @@ class NNPredictor():
         :param study_or_path: Union[optuna.study.Study, str]
             An Optuna study or a path to an Optuna database.
             If a path is provided, the study is loaded from the database, and `study_name` must be specified.
-        :param data: Optional[pd.DataFrame]
+        :param data: Optional[pandas.DataFrame]
             The complete dataset to train the model. It will be split using `neural_net.split_data()`.
             Required if `train_data` and `test_data` are not provided.
-        :param train_data: Optional[pd.DataFrame]
+        :param train_data: Optional[pandas.DataFrame]
             The training dataset. Required if `data` is not provided.
-        :param test_data: Optional[pd.DataFrame]
+        :param test_data: Optional[pandas.DataFrame]
             The testing dataset. Required if `data` is not provided.
         :param study_name: Optional[str]
             The name of the study to load from the database. This is required if `study_or_path` is a path.
@@ -582,6 +527,28 @@ class NNPredictor():
     #         pickle.dump(predictor, f, **kwargs)
     
     def predict(self, X : pd.DataFrame, to_df = False) -> np.ndarray:
+        r"""Predicts the parameters :math:`H,\, P,\, \tau,` and 
+        :math:`\alpha` for red giant stars using a pre-trained neural network.
+
+        :param X: A pandas DataFrame with columns 'M', 'R', 'Teff', 'FeH', 
+            'KepMag', and 'phase'. 
+
+            * 'M': Mass of the star in solar masses.
+            * 'R': Radius of the star in solar radii.
+            * 'Teff': Effective temperature of the star in Kelvin.
+            * 'FeH': Metallicity of the star.
+            * 'KepMag': Apparent magnitude of the star in the Kepler band.
+            * 'phase': Phase of the star.
+
+        :type X: pandas.DataFrame
+        :param to_df: If True, returns the predictions as a pandas DataFrame. 
+            Otherwise, returns a NumPy array.
+        :type to_df: bool
+        :return: Predicted values for :math:`H,\, P,\, \tau,\,` and :math:`\alpha`.
+            If `to_df` is True, the result is a pandas DataFrame with columns 
+            ['H', 'P', 'tau', 'alpha']. Otherwise, it is a NumPy array.
+        :rtype: pandas.DataFrame or numpy.ndarray
+        """
         X_ = self.X_transformer.transform(X)
         y_ = self.state.apply_fn(self.state.params, X_, training=False)
         y = self.y_transformer.inverse_transform(y_)
@@ -589,6 +556,27 @@ class NNPredictor():
         return y_df if to_df else y
 
     def serialize(self, path: str | Path = None, overwrite: bool = False):
+        """
+        Serialize the neural network model, its parameters, and data transformations 
+        to the specified directory.
+        
+        This method saves the model's parameters, state, and data transformation 
+        details into a directory for later use. If the directory already exists, 
+        it can optionally overwrite it.
+
+        :param path: The directory path where the model will be serialized. 
+                     Defaults to the current working directory with the name 
+                     "grannules-predictor".
+        :type path: str | pathlib.Path, optional
+        :param overwrite: Whether to overwrite the directory if it already exists. 
+                          Defaults to False.
+        :type overwrite: bool
+        :raises RuntimeError: If attempting to overwrite the current working 
+                              directory, root, or home.
+        :raises FileExistsError: If the directory already exists and `overwrite` 
+                                 is set to False.
+        """
+        
         if path is None: path = Path.cwd() / "grannules-predictor"
         path = Path(path) # convert to Path if not already
         if path.exists():
@@ -628,18 +616,21 @@ class NNPredictor():
     @classmethod
     def deserialize(cls, path: str | Path = None):
         """
-        Deserialize a neural network model, its state, and associated 
-        transformers from a directory. 
+        Deserialize a neural network from a directory. 
+
+        This method reads in the same format as :meth:`NNPredictor.serialize`
 
         :param path: Path to the directory containing the serialized model files. 
                  The directory should include:
-                 * "params.json": JSON file with model parameters.
-                 * "state.pkl": Pickle file with the model's state dictionary.
-                 * "transform.npy": Numpy file with transformation parameters 
-                 for input and output scaling.
+
+                 * params.json: JSON file with model parameters.
+                 * state.pkl: Pickle file with the model's state dictionary.
+                 * transform.npy: Numpy file with transformation parameters 
+                   for input and output scaling.
+
         :type path: str or Path
         :return: An instance of `NNPredictor` initialized with the deserialized 
-        model, state, and transformers.
+            model, state, and transformers.
         :rtype: NNPredictor
         """
         if path is None: path = Path.cwd() / "grannules-predictor"
@@ -651,7 +642,7 @@ class NNPredictor():
 
         with open(params_path, "r") as f:
             params = json.load(f)
-        model = _model_from_params(params, len(NNPredictor.DEFAULT_TARGETS))
+        model = model_from_params(params, len(NNPredictor.DEFAULT_TARGETS))
         blank_state = train_state.TrainState.create(
             apply_fn=model.apply,
             params=model.init(
@@ -681,14 +672,18 @@ class NNPredictor():
     @classmethod
     def _default_from_serialize(
             cls,
-            path = files(__name__)
+            path = files(__name__) / "../data/default-serialized"
     ):
         return cls.deserialize(path)
 
     _default_predictor = None
     @classmethod
     def get_default_predictor(cls, *args, **kwargs):
-        """Gets pre-trained NNPredictor"""
+        """Loads a pre-trained NNPredictor singleton.
+
+        :return: A pre-trained NNPredictor
+        :rtype: NNPredictor
+        """
         if cls._default_predictor is None:
             cls._default_predictor = cls._default_from_serialize(*args, **kwargs)
 
@@ -706,14 +701,14 @@ def predict(X: pd.DataFrame, to_df: bool, *args, **kwargs) -> np.ndarray:
         - 'FeH': Metallicity of the star.
         - 'KepMag': Apparent magnitude of the star in the Kepler band.
         - 'phase': Phase of the star.
-    :type X: pd.DataFrame
+    :type X: pandas.DataFrame
     :param to_df: If True, returns the predictions as a pandas DataFrame. 
         Otherwise, returns a NumPy array.
     :type to_df: bool
     :return: Predicted values for :math:`H,\, P,\, \tau,\,` and :math:`\alpha`.
         If `to_df` is True, the result is a pandas DataFrame with columns 
         ['H', 'P', 'tau', 'alpha']. Otherwise, it is a NumPy array.
-    :rtype: pd.DataFrame or np.ndarray
+    :rtype: pandas.DataFrame or numpy.ndarray
     """
     # TODO: MAKE SURE THIS IS WHAT KEPMAG IS???
     predictor = NNPredictor.get_default_predictor(*args, **kwargs)

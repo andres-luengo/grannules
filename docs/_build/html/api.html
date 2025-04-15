@@ -17,7 +17,8 @@
 <link href="_static/favicon.png" rel="icon"/>
 <link href="search.html" rel="search" title="Search"/>
 <link href="genindex.html" rel="index" title="Index"/>
-<link href="history.html" rel="prev" title="History"/>
+<link href="usage.html" rel="next" title="Usage"/>
+<link href="installation.html" rel="prev" title="Installation"/>
 <script>
     <!-- Prevent Flash of wrong theme -->
       const userPreference = localStorage.getItem('darkMode');
@@ -70,21 +71,17 @@
 </a>
 <div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
 <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a></li>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="usage.html">Usage<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="preliminaries.html">Preliminaries</a></li>
-</ul>
-</li>
-<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="modules.html">grannules<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l2"><a class="reference internal" href="grannules.html">grannules package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a></li>
 </ul>
 </nav>
 </div>
@@ -121,9 +118,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>train_data</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em>) – The training data to train the model on in <cite>_train_net</cite>.
+<li><p><strong>train_data</strong> (<em>pandas.DataFrame</em><em>, </em><em>optional</em>) – The training data to train the model on in <cite>_train_net</cite>.
 Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
-<li><p><strong>test_data</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em>) – The testing data to train the model on in <cite>_train_net</cite>.
+<li><p><strong>test_data</strong> (<em>pandas.DataFrame</em><em>, </em><em>optional</em>) – The testing data to train the model on in <cite>_train_net</cite>.
 Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 <li><p><strong>features</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The features to train the model on. 
 Defaults to <code class="xref py py-attr docutils literal notranslate"><span class="pre">NNPredictor.DEFAULT_FEATURES</span></code>.</p></li>
@@ -154,19 +151,24 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">None</s
 transformers from a directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> or </em><em>Path</em>) – Path to the directory containing the serialized model files. 
-The directory should include:
-* “params.json”: JSON file with model parameters.
-* “state.pkl”: Pickle file with the model’s state dictionary.
-* “transform.npy”: Numpy file with transformation parameters 
-for input and output scaling.</p>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> or </em><em>Path</em>) – <p>Path to the directory containing the serialized model files. 
+The directory should include:</p>
+<ul class="simple">
+<li><p>”params.json”: JSON file with model parameters.</p></li>
+<li><p>”state.pkl”: Pickle file with the model’s state dictionary.</p></li>
+<li><p>”transform.npy”: Numpy file with transformation parameters</p></li>
+</ul>
+<p>for input and output scaling.</p>
+</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>NNPredictor</cite> initialized with the deserialized</p>
+<dd class="field-even"><p>An instance of <cite>NNPredictor</cite> initialized with the deserialized 
+model, state, and transformers.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#grannules.NNPredictor" title="grannules.NNPredictor">NNPredictor</a></p>
 </dd>
 </dl>
-<p>model, state, and transformers.
-:rtype: NNPredictor</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="grannules.NNPredictor.from_study">
@@ -178,12 +180,12 @@ for input and output scaling.</p>
 <li><p><strong>study_or_path</strong> – Union[optuna.study.Study, str]
 An Optuna study or a path to an Optuna database.
 If a path is provided, the study is loaded from the database, and <cite>study_name</cite> must be specified.</p></li>
-<li><p><strong>data</strong> – Optional[pd.DataFrame]
+<li><p><strong>data</strong> – Optional[pandas.DataFrame]
 The complete dataset to train the model. It will be split using <cite>neural_net.split_data()</cite>.
 Required if <cite>train_data</cite> and <cite>test_data</cite> are not provided.</p></li>
-<li><p><strong>train_data</strong> – Optional[pd.DataFrame]
+<li><p><strong>train_data</strong> – Optional[pandas.DataFrame]
 The training dataset. Required if <cite>data</cite> is not provided.</p></li>
-<li><p><strong>test_data</strong> – Optional[pd.DataFrame]
+<li><p><strong>test_data</strong> – Optional[pandas.DataFrame]
 The testing dataset. Required if <cite>data</cite> is not provided.</p></li>
 <li><p><strong>study_name</strong> – Optional[str]
 The name of the study to load from the database. This is required if <cite>study_or_path</cite> is a path.
@@ -202,7 +204,76 @@ An instance of <cite>NNPredictor</cite> initialized with the best trial from the
 <dl class="py method">
 <dt class="sig sig-object py" id="grannules.NNPredictor.get_default_predictor">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default_predictor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grannules/neural_net.html#NNPredictor.get_default_predictor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.NNPredictor.get_default_predictor" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.NNPredictor.get_default_predictor'"><span>#</span></a></dt>
-<dd><p>Gets pre-trained NNPredictor</p>
+<dd><p>Loads a pre-trained NNPredictor singleton.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A pre-trained NNPredictor</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#grannules.NNPredictor" title="grannules.NNPredictor">NNPredictor</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="grannules.NNPredictor.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/grannules/neural_net.html#NNPredictor.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.NNPredictor.predict" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.NNPredictor.predict'"><span>#</span></a></dt>
+<dd><p>Predicts the parameters <span class="math notranslate nohighlight">\(H,\, P,\, \tau,\)</span> and 
+<span class="math notranslate nohighlight">\(\alpha\)</span> for red giant stars using a pre-trained neural network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pandas.DataFrame</em>) – <p>A pandas DataFrame with columns ‘M’, ‘R’, ‘Teff’, ‘FeH’, 
+‘KepMag’, and ‘phase’.</p>
+<ul>
+<li><p>’M’: Mass of the star in solar masses.</p></li>
+<li><p>’R’: Radius of the star in solar radii.</p></li>
+<li><p>’Teff’: Effective temperature of the star in Kelvin.</p></li>
+<li><p>’FeH’: Metallicity of the star.</p></li>
+<li><p>’KepMag’: Apparent magnitude of the star in the Kepler band.</p></li>
+<li><p>’phase’: Phase of the star.</p></li>
+</ul>
+</p></li>
+<li><p><strong>to_df</strong> (<em>bool</em>) – If True, returns the predictions as a pandas DataFrame. 
+Otherwise, returns a NumPy array.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predicted values for <span class="math notranslate nohighlight">\(H,\, P,\, \tau,\,\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span>.
+If <cite>to_df</cite> is True, the result is a pandas DataFrame with columns 
+[‘H’, ‘P’, ‘tau’, ‘alpha’]. Otherwise, it is a NumPy array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame or numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="grannules.NNPredictor.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grannules/neural_net.html#NNPredictor.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grannules.NNPredictor.serialize" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#grannules.NNPredictor.serialize'"><span>#</span></a></dt>
+<dd><p>Serialize the neural network model, its parameters, and data transformations 
+to the specified directory.</p>
+<p>This method saves the model’s parameters, state, and data transformation 
+details into a directory for later use. If the directory already exists, 
+it can optionally overwrite it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em><em> | </em><em>pathlib.Path</em><em>, </em><em>optional</em>) – The directory path where the model will be serialized. 
+Defaults to the current working directory with the name 
+“grannules-predictor”.</p></li>
+<li><p><strong>overwrite</strong> (<em>bool</em>) – Whether to overwrite the directory if it already exists. 
+Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>RuntimeError</strong> – If attempting to overwrite the current working 
+directory, root, or home.</p></li>
+<li><p><strong>FileExistsError</strong> – If the directory already exists and <cite>overwrite</cite> 
+is set to False.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="grannules.NNPredictor.train_new">
@@ -217,11 +288,11 @@ the model’s hyperparameters through Optuna’s study framework.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study_or_path</strong> (<em>optuna.study.Study</em><em> | </em><em>str</em>) – Either an Optuna study object or a string path to
 the study’s storage.</p></li>
-<li><p><strong>data</strong> (<em>pd.DataFrame</em><em> | </em><em>None</em>) – The complete dataset to be split into training and testing
+<li><p><strong>data</strong> (<em>pandas.DataFrame</em><em> | </em><em>None</em>) – The complete dataset to be split into training and testing
 sets. If provided, <cite>train_data</cite> and <cite>test_data</cite> will be ignored.</p></li>
-<li><p><strong>train_data</strong> (<em>pd.DataFrame</em><em> | </em><em>None</em>) – Pre-split training data. Used if <cite>data</cite> is not 
+<li><p><strong>train_data</strong> (<em>pandas.DataFrame</em><em> | </em><em>None</em>) – Pre-split training data. Used if <cite>data</cite> is not 
 provided.</p></li>
-<li><p><strong>test_data</strong> (<em>pd.DataFrame</em><em> | </em><em>None</em>) – Pre-split testing data. Used if <cite>data</cite> is not
+<li><p><strong>test_data</strong> (<em>pandas.DataFrame</em><em> | </em><em>None</em>) – Pre-split testing data. Used if <cite>data</cite> is not
 provided.</p></li>
 <li><p><strong>study_name</strong> (<em>str</em><em> | </em><em>None</em>) – Name of the Optuna study. Required if creating a new
 study.</p></li>
@@ -259,6 +330,8 @@ the Optuna study.</p>
 <li><a :data-current="activeSection === '#grannules.NNPredictor.deserialize'" class="reference internal" href="#grannules.NNPredictor.deserialize"><code class="docutils literal notranslate"><span class="pre">NNPredictor.deserialize()</span></code></a></li>
 <li><a :data-current="activeSection === '#grannules.NNPredictor.from_study'" class="reference internal" href="#grannules.NNPredictor.from_study"><code class="docutils literal notranslate"><span class="pre">NNPredictor.from_study()</span></code></a></li>
 <li><a :data-current="activeSection === '#grannules.NNPredictor.get_default_predictor'" class="reference internal" href="#grannules.NNPredictor.get_default_predictor"><code class="docutils literal notranslate"><span class="pre">NNPredictor.get_default_predictor()</span></code></a></li>
+<li><a :data-current="activeSection === '#grannules.NNPredictor.predict'" class="reference internal" href="#grannules.NNPredictor.predict"><code class="docutils literal notranslate"><span class="pre">NNPredictor.predict()</span></code></a></li>
+<li><a :data-current="activeSection === '#grannules.NNPredictor.serialize'" class="reference internal" href="#grannules.NNPredictor.serialize"><code class="docutils literal notranslate"><span class="pre">NNPredictor.serialize()</span></code></a></li>
 <li><a :data-current="activeSection === '#grannules.NNPredictor.train_new'" class="reference internal" href="#grannules.NNPredictor.train_new"><code class="docutils literal notranslate"><span class="pre">NNPredictor.train_new()</span></code></a></li>
 </ul>
 </li>
@@ -279,5 +352,6 @@ the Optuna study.</p>
 <script src="_static/doctools.js?v=9bcbadda"></script>
 <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
 <script defer="defer" src="_static/theme.js?v=073f68d9"></script>
+<script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </body>
 </html>
