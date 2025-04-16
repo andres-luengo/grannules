@@ -6,7 +6,7 @@ giant stars.
 Red giant power spectra generally look like Figure 1 of Samadi et al.
 2016[^1]:
 
-![Red giant power spectrum with model components overplotted.](../images/deassisgraph.png){width="400px"}
+![Red giant power spectrum with model components overplotted.](images/deassisgraph.png){width="400px"}
 
 The blue curve represents the component of the spectrum originating from
 the granulation of the star. In other words, the light variability
@@ -32,7 +32,7 @@ $$O(\nu) = H \exp \left[ \frac{- (\nu - \nu_\mathrm{max})^2}{\delta \nu_\mathrm{
 where $\tau$ is the timescale of granulation, and
 $\delta \nu_\mathrm{env}$ is the FWHM of the gaussian, which we take to
 be $\delta \nu_\mathrm{env} = 0.66 \nu_\mathrm{max}^{0.88}$[^2],[^3].
-$H,\, P,\, \tau,\,$ and $\alpha$ are usually fitted parameters. There
+$H, P, \tau,$ and $\alpha$ are usually fitted parameters. There
 exist scaling relations for these values, but they are nowhere near
 accurate enough for practical use[^4].
 
