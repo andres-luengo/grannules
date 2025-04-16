@@ -9,3 +9,4 @@ optax>=0.2.4
 optuna>=3.6.1
 pandas>=2.2.3
 scikit-learn>=1.6.1
+myst-nb>=1.2.0
