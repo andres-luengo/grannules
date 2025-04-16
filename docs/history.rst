@@ -2,7 +2,7 @@
 History
 =======
 
-0.1.0 (2025-03-01)
+0.0.1 (2025-04-15)
 ------------------
 
-* First push on github.
+* ``grannules`` goes public.
