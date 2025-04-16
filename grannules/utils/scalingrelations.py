@@ -111,7 +111,7 @@ class SRPredictor():
         nu_max_rows = nu_max.reshape((-1, 1))
         if index is None:
             index = np.arange(len(nu_max_rows))
-        pred = pd.DataFrame(index=index, columns=self._params)
+        pred = pd.DataFrame(index=index, columns=self._params, dtype=float)
         if self.use_phase:
             for phase in range(3):
                 pred.loc[phases == phase, :] = \
@@ -263,7 +263,7 @@ def compare_psd(
     sr_predictor = SRPredictor()
     sr_y_pred = sr_predictor.predict(nu_max_val, phase)
     sr_y_pred.values
-    sr_psd = PSD(dpd["frequency"], nu_max_val, *(sr_y_pred.values[0]))
+    sr_psd = PSD(dpd["frequency"], nu_max_val, *(sr_y_pred.values[0]))[0]
     plots.append(
         hv.Curve(
             (dpd["frequency"], sr_psd),
@@ -281,7 +281,7 @@ def compare_psd(
     # nn_y_pred = y_transform.inverse_transform(nn_y_pred)
     nn_predictor = NNPredictor.get_default_predictor()
     nn_y_pred = nn_predictor.predict(X)
-    nn_psd = PSD(dpd["frequency"], nu_max_val, *nn_y_pred[0])
+    nn_psd = PSD(dpd["frequency"], nu_max_val, *nn_y_pred[0])[0]
     plots.append(
         hv.Curve(
             (dpd["frequency"], nn_psd),
