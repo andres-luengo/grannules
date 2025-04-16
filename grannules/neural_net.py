@@ -17,38 +17,15 @@ import jax.numpy as jnp
 import optuna
 
 import functools
-# import copy
 from pathlib import Path
 from shutil import rmtree
 
-# since the architecture is a class generated per trial i'll use dill instead of pickle
-import dill
 import pickle
 import json
 
 from typing import Callable
 
 from importlib_resources import files
-
-quiet = False
-
-# # TODO: maybe possibly reconsider this?
-# def augment_data(df, num_extra, features, e_features, targets, e_targets):
-#     unaugmented_data = df.copy()
-#     for i in range(num_extra):
-#         extra_data = pd.DataFrame(columns=unaugmented_data.columns)
-#         extra_data.index.name = "KIC"
-#         for feature, e_feature in zip(features, e_features):
-#             feature_noise = np.random.normal(0, unaugmented_data[e_feature])
-#             extra_data[feature] = unaugmented_data[feature] + feature_noise
-#             extra_data[e_feature] = unaugmented_data[e_feature]
-#         for target, e_target in zip(targets, e_targets):
-#             target_noise = np.random.normal(0, unaugmented_data[e_target])
-#             extra_data[target] = unaugmented_data[target] + target_noise
-#             extra_data[e_target] = unaugmented_data[e_target]
-#         extra_data.index = unaugmented_data.index + i*100000000
-#         df = pd.concat([df, extra_data])
-
 
 def _split_data(df, random_state = None):
     # preprocessing
@@ -170,7 +147,7 @@ class NNPredictor():
 
         return cls._default_predictor
 
-    def _train_net(self, trial):
+    def _train_net(self, trial, quiet = False):
         X_train = self.X_transformer.fit_transform(self.train_data[self.features])
         X_test = self.X_transformer.transform(self.test_data[self.features])
         y_train = self.y_transformer.fit_transform(self.train_data[self.targets])
@@ -455,92 +432,6 @@ class NNPredictor():
 
         return predictor
 
-    # @staticmethod
-    # def from_pickle(path, **kwargs) -> 'NNPredictor':
-    #     with open(path, 'rb') as f:
-    #         predictor : NNPredictor = dill.load(f, **kwargs)
-    #     state_dict = from_state_dict(train_state.TrainState, predictor._state_dict)
-    #     predictor.state = train_state.TrainState.create(
-    #         apply_fn=_model_from_trial(predictor.trial, predictor.n_outputs).apply,
-    #         params=state_dict["params"],
-    #         tx=optax.adam(1e-3) # probably shouldn't train it, but...
-    #     )
-    #     return predictor
-
-    # @staticmethod
-    # def from_pickle2(path, **kwargs) -> 'NNPredictor':
-    #     import pickle
-    #     with open(path, 'rb') as f:
-    #         predictor : NNPredictor = pickle.load(f, **kwargs)
-    #     state_dict = from_state_dict(train_state.TrainState, predictor._state_dict)
-    #     predictor.state = train_state.TrainState.create(
-    #         apply_fn=_model_from_trial(predictor.trial, predictor.n_outputs).apply,
-    #         params=state_dict["params"],
-    #         tx=optax.adam(1e-3) # probably shouldn't train it, but...
-    #     )
-    #     return predictor
-    
-    # # i don't think i can do this without some big rewriting???
-    # @classmethod
-    # def from_orbax(cls, directory : str, n_outputs : int = None, **kwargs):
-    #     checkpoint = from_state_dict(PyTreeCheckpointer().restore(directory))
-    #     if n_outputs is None:
-    #         n_outputs = len(self.DEFAULT_TARGETS)
-
-    #     state = train_state.TrainState.create(
-    #         apply_fn = _model_from_trial(checkpoint['trial'], n_outputs),
-    #         params = checkpoint["state"]["params"],
-    #         tx = optax.adam(1e-3) # idk that's what i did over the summer
-    #     )
-    #     predictor = cls(
-    #         state = state,
-    #         trial = checkpoint['trial'],
-    #         **kwargs
-    #     )
-    
-    # def to_orbax(self, directory : str):
-    #     """Stores self.state into directory using an orbax PyTreeCheckpointer
-
-    #     Args:
-    #         directory (str): Directory passed to checkpointer.
-    #     """
-    #     checkpoint = {
-    #         "state" : self.state,
-    #         "trial" : self.trial # saves hyperparams
-    #     }
-    #     PyTreeCheckpointer().save(directory, checkpoint)
-    
-    # def to_pickle(self, path, keep_train_data = False, **kwargs):
-    #     predictor = copy.deepcopy(self)
-
-    #     if not keep_train_data:
-    #         del predictor.train_data
-    #         del predictor.test_data
-
-    #     predictor._state_dict = to_state_dict(predictor.state)
-    #     del predictor.state
-
-    #     print(vars(predictor).keys())
-
-    #     with open(path, 'wb') as f:
-    #         dill.dump(predictor, f, **kwargs)
-    
-    # def to_pickle2(self, path, keep_train_data = False, **kwargs):
-    #     import pickle
-    #     predictor = copy.deepcopy(self)
-
-    #     if not keep_train_data:
-    #         if hasattr(predictor, "train_data"): del predictor.train_data
-    #         if hasattr(predictor, "test_data"): del predictor.test_data
-
-    #     predictor._state_dict = to_state_dict(predictor.state)
-    #     del predictor.state
-
-    #     print(vars(predictor).keys())
-
-    #     with open(path, 'wb') as f:
-    #         pickle.dump(predictor, f, **kwargs)
-    
     def predict(self, X : pd.DataFrame, to_df = False) -> np.ndarray:
         r"""Predicts the parameters :math:`H,\, P,\, \tau,` and 
         :math:`\alpha` for red giant stars using a pre-trained neural network.
@@ -715,35 +606,5 @@ def predict(
         ['H', 'P', 'tau', 'alpha']. Otherwise, it is a NumPy array.
     :rtype: numpy.ndarray | pandas.DataFrame
     """
-    # TODO: MAKE SURE THIS IS WHAT KEPMAG IS???
     predictor = NNPredictor.get_default_predictor(*args, **kwargs)
     return predictor.predict(X, to_df)
-
-# # Alternate version that uses trial.params instead. I don't think we need it, but it's here just in case.
-# use_dropout_layer = trial.params['use_dropout_rate']
-# if use_dropout_layer:
-#     dropout_rate = trial.params['dropout_rate']
-# num_layers=  trial.params['num_layers']
-# class StellarModel(nn.Module):
-#     @nn.compact
-#     def __call__(self, x, training : bool):
-#         for i in range(num_layers):
-#             layer_size = trial.params[f'layer_{i}_size']
-#             x = nn.Dense(layer_size)(x)
-#             layer_type = trial.params[f'layer_{i}_type']
-#             match layer_type:
-#                 case 'relu':
-#                     x = nn.relu(x)
-#                 case 'sigmoid':
-#                     x = nn.sigmoid(x)
-#                 case 'tanh':
-#                     x = nn.tanh(x)
-#             if use_dropout_layer:
-#                 x = nn.Dropout(rate=dropout_rate)(x, deterministic=not training)
-
-#         x = nn.Dense(y_train.shape[1])(x)
-#         return x
-# model = StellarModel()
-# TODO: put these in a more relevant file
-
-
