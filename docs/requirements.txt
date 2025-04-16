@@ -10,3 +10,4 @@ optuna>=3.6.1
 pandas>=2.2.3
 scikit-learn>=1.6.1
 myst-nb>=1.2.0
+sphinxawesome-theme>=5.3.2
