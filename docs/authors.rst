@@ -9,7 +9,7 @@ Computing in Astrophysics at Yale University.
   `Email <mailto:andres.luengo@yale.edu>`_ 
   `Github <https://github.com/andres-luengo>`_
 * **Project Collaborator:** Irmak Akdogan
-  `Email <mailto:irmak.akdogan@yale.edu>`
+  `Email <mailto:irmak.akdogan@yale.edu>`_
 * **PI:** Earl Patrick Bellinger 
   `Email <mailto:earl.bellinger@yale.edu>`_ 
   `Github <https://github.com/earlbellinger>`_
