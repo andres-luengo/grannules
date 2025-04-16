@@ -687,7 +687,7 @@ class NNPredictor():
     @classmethod
     def _default_from_serialize(
             cls,
-            path = files(__name__) / "../data/default-serialized"
+            path = files(__name__) / "data/default-serialized"
     ):
         return cls.deserialize(path)
 
