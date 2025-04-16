@@ -1,7 +1,4 @@
 r"""
-Neural Network Models
-*********************
-
 Implements factories for the neural network architectures 
 (:type:`flax.nn.module` objects) used in the main module of this package.
 """

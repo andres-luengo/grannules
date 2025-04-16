@@ -1,7 +1,4 @@
 r"""
-Scaling Relations Predictor
-***************************
-
 Provides the :class:`SRPredictor` class, which allows the user to predict
 :math:`H,\,P,\,` and :math:`\tau` using the :math:`\nu_\mathrm{max}`
 scaling relations in `de Assis Peralta et al. 2018`_, complemented with my own
@@ -16,6 +13,8 @@ import pandas as pd
 from ..neural_net import NNPredictor
 from .psd import PSD, nu_max
 
+# i might have made this a sibling of NNPredictor, but i don't think it's 
+# important enough to add that much complexity
 class SRPredictor():
     r"""
     Uses :math:`\nu_\mathrm{max}` scaling relations to predict red giant 
@@ -213,7 +212,7 @@ def compare_psd(
         print("Downloading...")
         lc = search_result.download_all()
         print("Processing lightcurve...")
-        lc = lc.stitch(lambda x : x.normalize('ppm')) # WHY
+        lc = lc.stitch(lambda x : x.normalize('ppm'))
         psd = lc.to_periodogram(normalization='psd')
         _pd_cache[KIC] = psd
     

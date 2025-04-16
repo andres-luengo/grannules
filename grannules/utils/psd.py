@@ -1,7 +1,4 @@
 r"""
-Red Giant Power Spectrum Utilities
-**********************************
-
 Implements helper methods to generate synthetic power spectrum envelopes without
 white noise or activity similar to `de Assis Peralta et al. 2018`_ Equation
 (9).
