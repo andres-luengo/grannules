@@ -29,7 +29,7 @@ spikes) by a Gaussian function of the following form
 $$O(\nu) = H \exp \left[ \frac{- (\nu - \nu_\mathrm{max})^2}{\delta \nu_\mathrm{env}^2 / 4 \ln 2} \right]$$
 
 where $H$ is the height of the gaussian envelope, $P$ is the height of the 
-granulation evelope, $\tau$ is the timescale of granulation $\alpha$ is the
+granulation evelope, $\tau$ is the timescale of granulation, $\alpha$ is the
 slope of the granulation envelope, and $\delta \nu_\mathrm{env}$ is the FWHM of
 the gaussian, which we take to be
 $\delta \nu_\mathrm{env} = 0.66 \nu_\mathrm{max}^{0.88}$[^1],[^2].
