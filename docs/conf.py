@@ -56,8 +56,8 @@ source_suffix = {
 }
 
 #jupyter_execute_notebooks = "auto"
-jupyter_execute_notebooks = "cache"
-jupyter_cache = "_build/.jupyter_cache"
+nb_execution_mode = "cache"
+nb_execution_cache_path = "_build/.jupyter_cache"
 
 
 # The master toctree document.
