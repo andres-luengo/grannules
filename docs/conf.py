@@ -178,7 +178,7 @@ texinfo_documents = [
      'grannules Documentation',
      author,
      'grannules',
-     'An open-science package for stellar phenomenology',
+     'A simple wrapper around a neural network for predicting red giant granulation parameters.',
      'Miscellaneous'),
 ]
 
