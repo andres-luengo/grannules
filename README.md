@@ -40,7 +40,7 @@ practical use[^1].
 This is where `grannules` comes in. This Python package is essentially a
 wrapper around a neural network that, given a star\'s mass, radius,
 temperature, luminosity, and evolutionary phase, can predict that
-star\'s background parameters much more accurately than the existing
+star\'s background parameters more accurately than the existing
 scaling relations.
 
 [^1]: [de Assis Peralta, R., et al. 2018](https://doi.org/10.48550/arXiv.1805.04296)
