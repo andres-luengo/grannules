@@ -9,12 +9,12 @@ Red giant power spectra generally look like Figure 4 of de Assis Peralta et al. 
 
 The blue curve represents the component of the spectrum originating from
 the granulation of the star. In other words, the light variability
-caused by the appearance and disappearance of \"granules,\" or
+caused by the appearance and disappearance of \"granules,\"
 convection cells on the star\'s photosphere. The red curve represents
 the component of the spectrum originating from stellar oscillations.
 
 Red giant asteroseismologists usually focus on the signal received from
-the star, (i.e. the spikes of the red curve) whose properties have tight
+the star, (the spikes of the red curve) whose properties have tight
 relations with the physical properties of the star. However,
 understanding the background components of these power spectra could
 also prove useful.
@@ -34,8 +34,8 @@ slope of the granulation envelope, and $\delta \nu_\mathrm{env}$ is the FWHM of
 the gaussian, which we take to be
 $\delta \nu_\mathrm{env} = 0.66 \nu_\mathrm{max}^{0.88}$[^1],[^2].
 $H, P, \tau,$ and $\alpha$ are usually fitted parameters. There exist scaling
-relations for these values, but they are nowhere near accurate enough for
-practical use[^1].
+relations for these values, but they are not accurate enough for practical 
+use[^1].
 
 This is where `grannules` comes in. This Python package is essentially a
 wrapper around a neural network that, given a star\'s mass, radius,
