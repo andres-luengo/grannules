@@ -567,7 +567,7 @@ class NNPredictor():
         X_ = self.X_transformer.transform(X)
         y_ = self.state.apply_fn(self.state.params, X_, training=False)
         y = self.y_transformer.inverse_transform(y_)
-        y_df = pd.DataFrame(y, columns = self.DEFAULT_TARGETS)
+        y_df = pd.DataFrame(y, columns = self.DEFAULT_TARGETS, dtype=float)
         return y_df if to_df else y
 
     def serialize(self, path: str | Path = None, overwrite: bool = False):
