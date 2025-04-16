@@ -1,7 +1,4 @@
 r"""
-Data Transformers
-*****************
-
 Provides :class:`DataTransformer`, an abstract base class for defining custom
 data transformers for data pre-processing, as well as 
 :class:`DefaultXTransformer` and :class:`DefaultyTransformer`, the transformers
