@@ -97,16 +97,20 @@ class SRPredictor():
             self._params = relations_dict.keys()
     
 
-    def predict(self, nu_max, phases = None) -> pd.DataFrame:
+    def predict(self, nu_max, phases = 0) -> pd.DataFrame:
+        print(nu_max, phases)
         index = None
 
         if type(nu_max) is pd.Series:
             index = nu_max.index
             nu_max = nu_max.values
         
-        if not nu_max is np.ndarray:
+        if isinstance(phases, int):
+            phases = np.ones_like(nu_max) * phases
+        
+        if not isinstance(nu_max, np.ndarray):
             nu_max = np.array(nu_max).reshape((-1))
-        if (not phases is np.ndarray) and (not phases is None):
+        if (not isinstance(phases, np.ndarray)) and (not phases is None):
             phases = np.array(phases).reshape((-1))
         nu_max_rows = nu_max.reshape((-1, 1))
         if index is None:
@@ -259,14 +263,15 @@ def compare_psd(
     # )
 
     # scaling relations
+    frequency = np.logspace(np.log10(5), np.log10(300))
     nu_max_val = nu_max(M, R, Teff)
     sr_predictor = SRPredictor()
     sr_y_pred = sr_predictor.predict(nu_max_val, phase)
     sr_y_pred.values
-    sr_psd = PSD(dpd["frequency"], nu_max_val, *(sr_y_pred.values[0]))[0]
+    sr_psd = PSD(frequency, nu_max_val, *(sr_y_pred.values[0]))[0]
     plots.append(
         hv.Curve(
-            (dpd["frequency"], sr_psd),
+            (frequency, sr_psd),
             label="Scaling Relations"
         ).opts(
             line_width=1.5,
@@ -281,10 +286,10 @@ def compare_psd(
     # nn_y_pred = y_transform.inverse_transform(nn_y_pred)
     nn_predictor = NNPredictor.get_default_predictor()
     nn_y_pred = nn_predictor.predict(X)
-    nn_psd = PSD(dpd["frequency"], nu_max_val, *nn_y_pred[0])[0]
+    nn_psd = PSD(frequency, nu_max_val, *nn_y_pred[0])[0]
     plots.append(
         hv.Curve(
-            (dpd["frequency"], nn_psd),
+            (frequency, nn_psd),
             label="Neural Net"
         ).opts(
             line_width=1.5,
@@ -293,7 +298,7 @@ def compare_psd(
     )
     
     plots.append(hv.VLine(nu_max_val).opts(color='black', line_dash='dashed', line_width=1.5))
-    print(sr_y_pred["P"])
+    # print(sr_y_pred["P"])
 
     p = hv.Overlay(plots).opts(
         logx=True, logy=True,
