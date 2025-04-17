@@ -12,6 +12,7 @@ import pandas as pd
 
 from ..neural_net import NNPredictor
 from .psd import PSD, nu_max
+from bokeh.plotting import figure
 
 # i might have made this a sibling of NNPredictor, but i don't think it's 
 # important enough to add that much complexity
@@ -98,7 +99,6 @@ class SRPredictor():
     
 
     def predict(self, nu_max, phases = 0) -> pd.DataFrame:
-        print(nu_max, phases)
         index = None
 
         if type(nu_max) is pd.Series:
@@ -296,7 +296,7 @@ def compare_psd(
             color='green'
         )
     )
-    
+
     plots.append(hv.VLine(nu_max_val).opts(color='black', line_dash='dashed', line_width=1.5))
     # print(sr_y_pred["P"])
 
@@ -309,3 +309,130 @@ def compare_psd(
         legend_position="bottom_left"
     )
     return p
+
+def compare_psd_bokeh(
+                M: float | None = None,
+                R: float | None = None,
+                Teff: float | None = None,
+                FeH: float | None = None,
+                phase: float | None = None,
+                KepMag: float | None = None,
+                KIC = None,
+                *,
+                x: pd.Series | None = None
+):
+    """
+    Compare the power spectral density (PSD) of a red giant derived from the
+    default NNPredictor model and the scaling relations, returning a Bokeh figure.
+
+    :param M: Stellar mass in solar units. Default is None.
+    :type M: float, optional
+    :param R: Stellar radius in solar units. Default is None.
+    :type R: float, optional
+    :param Teff: Effective temperature of the star in Kelvin. Default is None.
+    :type Teff: float, optional
+    :param FeH: Metallicity of the star ([Fe/H]). Default is None.
+    :type FeH: float, optional
+    :param phase: Evolutionary phase of the star. Default is None.
+    :type phase: float, optional
+    :param KepMag: Kepler magnitude of the star. Default is None.
+    :type KepMag: float, optional
+    :param KIC: Kepler Input Catalog (KIC) identifier for the star. Default is
+        None.
+    :type KIC: int, optional
+    :param x: A pandas Series containing the stellar parameters (M, R, Teff,
+        FeH, phase, KepMag). If provided, individual parameters should not be
+        passed. Default is None.
+    :type x: pd.Series, optional
+
+    :return: A Bokeh figure containing the PSD plots for the star, including:
+        * PSD predicted using scaling relations.
+        * PSD predicted using a neural network.
+        * The true PSD (if KIC is provided).
+        * A vertical line indicating the predicted nu_max value.
+    :rtype: bokeh.plotting.figure
+    """
+    series_given = x is not None
+    values_given = None not in {M, R, Teff, FeH, phase, KepMag}
+    if not series_given:
+        x = pd.Series(
+            data = [M, R, Teff, FeH, phase, KepMag],
+            index = ["M", "R", "Teff", "FeH", "phase", "KepMag"]
+        )
+    elif not values_given:
+        raise ValueError(
+            "Must provide stellar parameters with either series (x = ) or "
+            "individual parameters."
+        )
+
+    # Frequency range
+    frequency = np.logspace(np.log10(5), np.log10(300))
+
+    # Scaling relations prediction
+    nu_max_val = nu_max(M, R, Teff)
+    sr_predictor = SRPredictor()
+    sr_y_pred = sr_predictor.predict(nu_max_val, phase)
+    sr_psd = PSD(frequency, nu_max_val, *(sr_y_pred.values[0]))[0]
+
+    # Neural network prediction
+    X = pd.DataFrame([x])
+    nn_predictor = NNPredictor.get_default_predictor()
+    nn_y_pred = nn_predictor.predict(X)
+    nn_psd = PSD(frequency, nu_max_val, *nn_y_pred[0])[0]
+
+    # Create Bokeh figure
+    bokeh_fig = figure(
+        title="Power Spectrum",
+        x_axis_label="Frequency (μHz)",
+        y_axis_label="Power (ppm²/μHz)",
+        x_axis_type="log",
+        y_axis_type="log",
+        x_range = (1, 300),
+        width=800,
+        height=800,
+    )
+
+    # KIC lookup functionality
+    if KIC is not None:
+        import lightkurve as lk
+        if KIC in _pd_cache:
+            psd = _pd_cache[KIC]
+        else:
+            search_result = lk.search_lightcurve(f"KIC {KIC}")
+            lc = search_result.download_all().stitch(lambda x: x.normalize('ppm'))
+            psd = lc.to_periodogram(normalization='psd')
+            _pd_cache[KIC] = psd
+
+        dpd = psd.to_table().to_pandas()
+        bokeh_fig.line(
+            dpd["frequency"], dpd["power"], legend_label="True PSD",
+            line_width=2, color="gray"
+        )
+
+        # Add binned PSD
+        elements_per_bin = 50
+        spd = psd.bin(elements_per_bin).to_table().to_pandas()
+        bokeh_fig.line(
+            spd["frequency"], spd["power"], legend_label="True PSD (Binned)",
+            line_width=2, color="black"
+        )
+
+    # Add scaling relations plot
+    bokeh_fig.line(
+        frequency, sr_psd, legend_label="Scaling Relations",
+        line_width=2, color="blue"
+    )
+
+    # Add neural network plot
+    bokeh_fig.line(
+        frequency, nn_psd, legend_label="Neural Net",
+        line_width=2, color="green"
+    )
+
+    # Add vertical line for nu_max
+    bokeh_fig.line(
+        [nu_max_val, nu_max_val], [min(sr_psd.min(), nn_psd.min()), max(sr_psd.max(), nn_psd.max())],
+        legend_label="nu_max", line_width=2, color="red", line_dash="dashed"
+    )
+
+    return bokeh_fig

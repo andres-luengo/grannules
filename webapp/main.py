@@ -1,57 +1,31 @@
 import streamlit as st
-import pandas as pd
 from streamlit_bokeh import streamlit_bokeh
-from bokeh.plotting import figure
-
-from grannules.utils.psd import nu_max
-from grannules.utils.scalingrelations import compare_psd
+from grannules.utils.scalingrelations import compare_psd_bokeh
 
 # Streamlit app title
+st.set_page_config(page_title = "RG PSD Viewer", page_icon="./favicon.png", layout = "wide")
 st.title("Red Giant Power Spectrum Viewer")
 
 # Sidebar sliders for user input
 st.sidebar.header("Star Parameters")
-mass = st.sidebar.slider("Mass (M)", min_value=0.5, max_value=5.0, value=1.0, step=0.1)
-radius = st.sidebar.slider("Radius (R☉)", min_value=1.0, max_value=100.0, value=10.0, step=1.0)
-temperature = st.sidebar.slider("Temperature (K)", min_value=3000, max_value=8000, value=5000, step=100)
-metallicity = st.sidebar.slider("Metallicity [Fe/H]", min_value=-2.5, max_value=0.5, value=0.0, step=0.1)
+mass = st.sidebar.slider("Mass ($$\\mathrm{M}_\\odot$$)", min_value=0.5, max_value=5.0, value=1.55, step=0.01)
+radius = st.sidebar.slider("Radius ($$\\mathrm{R}_\\odot$$)", min_value=5.0, max_value=20.0, value=13.26, step=0.01)
+temperature = st.sidebar.slider("Temperature ($$\\mathrm{K}$$)", min_value=4200, max_value=5400, value=4751, step=100)
+metallicity = st.sidebar.slider("Metallicity ($$\\left[ \\mathrm{Fe}/\\mathrm{H} \\right]$$)", min_value=-2.0, max_value=1.0, value=-0.08, step=0.01)
+magnitude = st.sidebar.slider("Magnitude (Kepler Band)", min_value=7.0, max_value=15.0, value=9.196, step=0.001)
+phase = st.sidebar.slider("Phase", min_value=0, max_value=2, value=2, step=1)
+st.sidebar.text("(0 = Any | 1 = Red Giant Branch | 2 = Helium Burning)")
 
-# Calculate nu_max
-nu_max_val = nu_max(mass, radius, temperature)
+# User input for KIC number
+kic_number_input = st.sidebar.text_input("Enter KIC Number (optional)", value="757137")
+try:
+    kic_number = int(kic_number_input)
+except ValueError:
+    kic_number = None
 
-# Generate and display the power spectrum using compare_psd
+# Generate and display the power spectrum using compare_psd_bokeh
 st.header("Power Spectrum")
-psd_plot = compare_psd(
-    M=mass, R=radius, Teff=temperature, FeH=metallicity, KepMag=12, phase=0
+bokeh_fig = compare_psd_bokeh(
+    M=mass, R=radius, Teff=temperature, FeH=metallicity, KepMag=magnitude, phase=phase, KIC=kic_number
 )
-
-# Convert Holoviews Overlay to Bokeh figure
-bokeh_fig = figure(
-    title="Power Spectrum",
-    x_axis_label="Frequency (μHz)",
-    y_axis_label="Power (ppm²/μHz)",
-    x_axis_type="log",
-    y_axis_type="log",
-    width=800,
-    height=600,
-)
-for element in psd_plot:
-    if hasattr(element, "dframe"):  # Use dframe() to extract data
-        data = element.dframe()
-        bokeh_fig.line(
-            data.iloc[:, 0],  # x values
-            data.iloc[:, 1],  # y values
-            legend_label=element.label,
-            line_width=2,
-            color=element.opts.get("color", "black")  # Default to black if no color
-        )
-
-# Embed the Bokeh figure in Streamlit using streamlit_bokeh
 streamlit_bokeh(bokeh_fig)
-
-# Display the selected parameters
-st.sidebar.subheader("Selected Parameters")
-st.sidebar.write(f"Mass: $${mass} \\mathrm{{M}}_\\odot$$")
-st.sidebar.write(f"Radius: $${radius} \\mathrm{{R}}_\\odot$$")
-st.sidebar.write(f"Temperature: $${temperature} \\mathrm{{K}}$$")
-st.sidebar.write(f"Metallicity: $${metallicity} \\left[ \\mathrm{{Fe}}/ \\mathrm{{H}} \\right]$$")
