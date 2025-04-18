@@ -54,7 +54,7 @@ except LightkurveError as e:
 
 info_column, banner_column = st.sidebar.columns([1, 2], vertical_alignment = "center")
 
-info_column.write("[What is this?](https://grannules.readthedocs.io/en/latest/#id4)")
-info_column.write("[Github Repo](https://grannules.readthedocs.io/en/latest/#id4)")
+info_column.write("[What is this?](https://grannules.readthedocs.io/en/latest)")
+info_column.write("[Github Repo](https://github.com/andres-luengo/grannules)")
 
 banner_column.image("webapp/grannules banner resized.png")
