@@ -319,7 +319,8 @@ def compare_psd_bokeh(
                 KepMag: float | None = None,
                 KIC = None,
                 *,
-                x: pd.Series | None = None
+                x: pd.Series | None = None,
+                cache = _pd_cache
 ):
     """
     Compare the power spectral density (PSD) of a red giant derived from the
@@ -395,13 +396,13 @@ def compare_psd_bokeh(
     # KIC lookup functionality
     if KIC is not None:
         import lightkurve as lk
-        if KIC in _pd_cache:
-            psd = _pd_cache[KIC]
+        if KIC in cache:
+            psd = cache[KIC]
         else:
             search_result = lk.search_lightcurve(f"KIC {KIC}")
             lc = search_result.download_all().stitch(lambda x: x.normalize('ppm'))
             psd = lc.to_periodogram(normalization='psd')
-            _pd_cache[KIC] = psd
+            cache[KIC] = psd
 
         dpd = psd.to_table().to_pandas()
         bokeh_fig.line(

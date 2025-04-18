@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_bokeh import streamlit_bokeh
 import sys
 sys.path.append("../grannules")
-from grannules.utils.scalingrelations import compare_psd_bokeh
+from grannules.utils.scalingrelations import compare_psd_bokeh, _pd_cache
 
 # Streamlit app title
 st.set_page_config(page_title = "RG PSD Viewer", page_icon="./webapp/favicon.png", layout = "wide")
@@ -34,6 +34,6 @@ except ValueError:
 # Generate and display the power spectrum using compare_psd_bokeh
 st.header("Power Spectrum")
 bokeh_fig = compare_psd_bokeh(
-    M=mass, R=radius, Teff=temperature, FeH=metallicity, KepMag=magnitude, phase=phase, KIC=kic_number
+    M=mass, R=radius, Teff=temperature, FeH=metallicity, KepMag=magnitude, phase=phase, KIC=kic_number, cache = st.session_state
 )
 streamlit_bokeh(bokeh_fig)
