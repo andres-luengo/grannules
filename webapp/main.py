@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_bokeh import streamlit_bokeh
 import sys
-sys.path.append("..")
+sys.path.append("../grannules")
 from grannules.utils.scalingrelations import compare_psd_bokeh
 
 # Streamlit app title
