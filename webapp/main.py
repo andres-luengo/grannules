@@ -21,9 +21,6 @@ st.sidebar.text("(0 = Any | 1 = Red Giant Branch | 2 = Helium Burning)")
 
 st.sidebar.divider()
 
-st.sidebar.write("[What is this?](https://grannules.readthedocs.io/en/latest/#id4)")
-st.sidebar.write("[Github Repo](https://grannules.readthedocs.io/en/latest/#id4)")
-
 # User input for KIC number
 kic_number_input = st.sidebar.text_input("Enter KIC Number (optional)", value="757137")
 try:
@@ -37,3 +34,7 @@ bokeh_fig = compare_psd_bokeh(
     M=mass, R=radius, Teff=temperature, FeH=metallicity, KepMag=magnitude, phase=phase, KIC=kic_number, cache = st.session_state
 )
 streamlit_bokeh(bokeh_fig)
+
+
+st.sidebar.write("[What is this?](https://grannules.readthedocs.io/en/latest/#id4)")
+st.sidebar.write("[Github Repo](https://grannules.readthedocs.io/en/latest/#id4)")
