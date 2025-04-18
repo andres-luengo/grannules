@@ -5,7 +5,7 @@ sys.path.append("../grannules")
 from grannules.utils.scalingrelations import compare_psd_bokeh
 
 # Streamlit app title
-st.set_page_config(page_title = "RG PSD Viewer", page_icon="./favicon.png", layout = "wide")
+st.set_page_config(page_title = "RG PSD Viewer", page_icon="./webapp/favicon.png", layout = "wide")
 st.title("Red Giant Power Spectrum Viewer")
 
 
@@ -21,8 +21,8 @@ st.sidebar.text("(0 = Any | 1 = Red Giant Branch | 2 = Helium Burning)")
 
 st.sidebar.divider()
 
-st.write("[What is this?](https://grannules.readthedocs.io/en/latest/#id4)")
-st.write("[Github Repo](https://grannules.readthedocs.io/en/latest/#id4)")
+st.sidebar.write("[What is this?](https://grannules.readthedocs.io/en/latest/#id4)")
+st.sidebar.write("[Github Repo](https://grannules.readthedocs.io/en/latest/#id4)")
 
 # User input for KIC number
 kic_number_input = st.sidebar.text_input("Enter KIC Number (optional)", value="757137")
