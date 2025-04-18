@@ -6,6 +6,7 @@ from grannules.utils.scalingrelations import compare_psd_bokeh
 st.set_page_config(page_title = "RG PSD Viewer", page_icon="./favicon.png", layout = "wide")
 st.title("Red Giant Power Spectrum Viewer")
 
+
 # Sidebar sliders for user input
 st.sidebar.header("Star Parameters")
 mass = st.sidebar.slider("Mass ($$\\mathrm{M}_\\odot$$)", min_value=0.5, max_value=5.0, value=1.55, step=0.01)
@@ -15,6 +16,11 @@ metallicity = st.sidebar.slider("Metallicity ($$\\left[ \\mathrm{Fe}/\\mathrm{H}
 magnitude = st.sidebar.slider("Magnitude (Kepler Band)", min_value=7.0, max_value=15.0, value=9.196, step=0.001)
 phase = st.sidebar.slider("Phase", min_value=0, max_value=2, value=2, step=1)
 st.sidebar.text("(0 = Any | 1 = Red Giant Branch | 2 = Helium Burning)")
+
+st.sidebar.divider()
+
+st.write("[What is this?](https://grannules.readthedocs.io/en/latest/#id4)")
+st.write("[Github Repo](https://grannules.readthedocs.io/en/latest/#id4)")
 
 # User input for KIC number
 kic_number_input = st.sidebar.text_input("Enter KIC Number (optional)", value="757137")
