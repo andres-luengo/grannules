@@ -40,7 +40,7 @@ except ValueError:
     kic_number = None
 
 # Generate and display the power spectrum using compare_psd_bokeh
-st.header("Power Spectrum")
+# st.header("Power Spectrum")
 try:
     bokeh_fig = compare_psd_bokeh(
         M=mass, R=radius, Teff=temperature, FeH=metallicity, KepMag=magnitude, phase=phase_num, KIC=kic_number, cache = st.session_state
