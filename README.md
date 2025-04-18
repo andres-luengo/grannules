@@ -43,6 +43,23 @@ temperature, luminosity, and evolutionary phase, can predict that
 star\'s background parameters more accurately than the existing
 scaling relations.
 
+## How to install
+
+To install from a local copy,
+
+    $ git clone https://github.com/andres-luengo/grannules
+    $ cd grannules
+    $ pip install .
+
+## Streamlit Web App
+
+[Check out the Streamlit App based on this code!](https://grannules.streamlit.app)
+
+To run this app locally,
+
+    $ cd /path/to/grannules
+    $ streamlit run webapp/main.py # must be run from root of grannules directory for images to work
+
 [^1]: [de Assis Peralta, R., et al. 2018](https://doi.org/10.48550/arXiv.1805.04296)
 
 [^2]: [Mosser et al. 2012](https://doi.org/10.1051/0004-6361/201117352)
