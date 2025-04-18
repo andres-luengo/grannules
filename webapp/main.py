@@ -5,7 +5,7 @@ sys.path.append("../grannules")
 from grannules.utils.scalingrelations import compare_psd_bokeh, _pd_cache
 
 # Streamlit app title
-st.set_page_config(page_title = "RG PSD Viewer", page_icon="./webapp/favicon.png", layout = "wide")
+st.set_page_config(page_title = "RG PSD Viewer", page_icon="webapp/favicon.png", layout = "wide")
 st.title("Red Giant Power Spectrum Viewer")
 
 
@@ -35,6 +35,9 @@ bokeh_fig = compare_psd_bokeh(
 )
 streamlit_bokeh(bokeh_fig)
 
+info_column, banner_column = st.sidebar.columns([1, 3], vertical_alignment = "center")
 
-st.sidebar.write("[What is this?](https://grannules.readthedocs.io/en/latest/#id4)")
-st.sidebar.write("[Github Repo](https://grannules.readthedocs.io/en/latest/#id4)")
+info_column.write("[What is this?](https://grannules.readthedocs.io/en/latest/#id4)")
+info_column.write("[Github Repo](https://grannules.readthedocs.io/en/latest/#id4)")
+
+banner_column.image("webapp/grannules banner resized.png")
