@@ -35,7 +35,7 @@ bokeh_fig = compare_psd_bokeh(
 )
 streamlit_bokeh(bokeh_fig)
 
-info_column, banner_column = st.sidebar.columns([1, 3], vertical_alignment = "center")
+info_column, banner_column = st.sidebar.columns([1, 2], vertical_alignment = "center")
 
 info_column.write("[What is this?](https://grannules.readthedocs.io/en/latest/#id4)")
 info_column.write("[Github Repo](https://grannules.readthedocs.io/en/latest/#id4)")
