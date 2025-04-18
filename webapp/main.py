@@ -17,7 +17,7 @@ mass = st.sidebar.slider("Mass ($$\\mathrm{M}_\\odot$$)", min_value=0.5, max_val
 radius = st.sidebar.slider("Radius ($$\\mathrm{R}_\\odot$$)", min_value=5.0, max_value=20.0, value=13.26, step=0.01)
 temperature = st.sidebar.slider("Temperature ($$\\mathrm{K}$$)", min_value=4200, max_value=5400, value=4751, step=100)
 metallicity = st.sidebar.slider("Metallicity ($$\\left[ \\mathrm{Fe}/\\mathrm{H} \\right]$$)", min_value=-2.0, max_value=1.0, value=-0.08, step=0.01)
-magnitude = st.sidebar.slider("Apparent Magnitude (Kepler Band)", min_value=7.0, max_value=15.0, value=9.196, step=0.001, help = "I should probably turn this into distance instead...")
+magnitude = st.sidebar.slider("Apparent Magnitude (Kepler Band)", min_value=7.0, max_value=15.0, value=9.196, step=0.001)
 phase = st.sidebar.selectbox(
     "Phase", 
     ["Unclassified", "Red Giant Branch", "Helium Burning"],
