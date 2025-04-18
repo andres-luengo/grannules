@@ -400,10 +400,15 @@ def compare_psd_bokeh(
             psd = cache[KIC]
         else:
             search_result = lk.search_lightcurve(f"KIC {KIC}")
-            lc = search_result.download_all().stitch(lambda x: x.normalize('ppm'))
-            psd = lc.to_periodogram(normalization='psd')
-            cache[KIC] = psd
+            download = search_result.download_all()
+            if download is not None:
+                lc = download.stitch(lambda x: x.normalize('ppm'))
+                psd = lc.to_periodogram(normalization='psd')
+                cache[KIC] = psd
+            else:
+                psd = None
 
+    if psd is not None:
         dpd = psd.to_table().to_pandas()
         bokeh_fig.line(
             dpd["frequency"], dpd["power"], legend_label="True PSD",
