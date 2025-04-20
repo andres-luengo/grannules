@@ -48,8 +48,7 @@ try:
     streamlit_bokeh(bokeh_fig)
 except LightkurveError as lkerror:
     # scary
-    try:
-        shutil.rmtree("~/.lightkurve", )
+    try: shutil.rmtree("~/.lightkurve")
     except FileNotFoundError: pass
     st.button("Rerun")
     st.write(":red[Something with the lightkurve cache went wrong. Please press the rerun button.]")
