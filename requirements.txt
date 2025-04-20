@@ -10,4 +10,3 @@ optuna>=3.6.1
 pandas>=2.2.3
 scikit-learn>=1.6.1
 streamlit-bokeh==3.7.1
-python>=3.12
