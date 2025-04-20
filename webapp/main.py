@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_bokeh import streamlit_bokeh
 import sys
 sys.path.append("../grannules")
-from grannules.utils.scalingrelations import compare_psd_bokeh, _pd_cache
+from grannules.utils.scalingrelations import compare_psd_bokeh
 from lightkurve import LightkurveError
 import shutil
 
@@ -46,9 +46,11 @@ try:
         M=mass, R=radius, Teff=temperature, FeH=metallicity, KepMag=magnitude, phase=phase_num, KIC=kic_number, cache = st.session_state
     )
     streamlit_bokeh(bokeh_fig)
-except LightkurveError as e:
+except LightkurveError as lkerror:
     # scary
-    shutil.rmtree("~/.lightkurve")
+    try:
+        shutil.rmtree("~/.lightkurve", )
+    except FileNotFoundError: pass
     st.button("Rerun")
     st.write(":red[Something with the lightkurve cache went wrong. Please press the rerun button.]")
 
