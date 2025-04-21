@@ -40,7 +40,6 @@ def _split_data(df, random_state = None):
 
     return df_train, df_test
 
-# TODO: function that makes a net "from scratch" since right now you need to pass in a study
 # i.e. implement optuna.ipynb
 class NNPredictor():    
     """
