@@ -45,7 +45,12 @@ scaling relations.
 
 ## How to install
 
-To install from a local copy,
+To install from a local copy, you first might want to create a fresh environment
+using whatever environment manager you prefer.
+
+    $ conda create -n grannules
+
+Then,
 
     $ git clone https://github.com/andres-luengo/grannules
     $ cd grannules
