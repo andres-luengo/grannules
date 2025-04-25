@@ -32,7 +32,6 @@ This submodule also implements simple scaling relations for
 """
 
 import numpy as np
-import pandas as pd
 
 NYQUIST = 283.2114
 
