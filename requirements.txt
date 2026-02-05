@@ -2,7 +2,7 @@ dill>=0.3.8
 flax==0.8.3
 holoviews>=1.20.2
 importlib_resources>=6.4.0
-jax>=0.4.27
+jax==0.4.27
 lightkurve>=2.5.0
 numpy>=1.26.4
 optax>=0.2.4
