@@ -4,14 +4,14 @@ grannules
 .. raw:: html
 
    <div style="display: inline-block;">
+      <!--
       <a href="https://pypi.python.org/pypi/grannules">
          <img src="https://img.shields.io/pypi/v/grannules.svg" alt="PyPI version" />
       </a>
-      <!--
+      -->
       <a href="https://github.com/andres-luengo/grannules/blob/main/LICENSE">
          <img src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat" alt="MIT License" />
       </a> 
-      -->
    </div>
 
 A package for predicting granulation light variability parameters of red giant
